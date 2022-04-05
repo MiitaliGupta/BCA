@@ -1,0 +1,209 @@
+mysql> notee
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.04 sec)
+
+mysql> create database abb;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| abb                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.02 sec)
+
+mysql> drop abb;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'abb' at line 1
+mysql> drop database abb;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use world
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
++-----------------+
+3 rows in set (0.03 sec)
+
+mysql> show /*SHOW TABLES OF WORLD DB*/ tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> create table new as select * from city
+    -> ;
+Query OK, 4079 rows affected (0.26 sec)
+Records: 4079  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
+| new             |
++-----------------+
+4 rows in set (0.02 sec)
+
+mysql> truncate new
+    -> ;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
+| new             |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql> truncate table new;
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
+| new             |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from new;
+Empty set (0.04 sec)
+
+mysql> create table new1 as select * from city;
+Query OK, 4079 rows affected (0.18 sec)
+Records: 4079  Duplicates: 0  Warnings: 0
+
+mysql> select * from new1 limit 10;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  1 | Kabul          | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
+|  6 | Rotterdam      | NLD         | Zuid-Holland  |     593321 |
+|  7 | Haag           | NLD         | Zuid-Holland  |     440900 |
+|  8 | Utrecht        | NLD         | Utrecht       |     234323 |
+|  9 | Eindhoven      | NLD         | Noord-Brabant |     201843 |
+| 10 | Tilburg        | NLD         | Noord-Brabant |     193238 |
++----+----------------+-------------+---------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> truncate table new1;
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> select * from new1 limit 10;
+Empty set (0.00 sec)
+
+mysql> show tables;\
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
+| new             |
+| new1            |
++-----------------+
+5 rows in set (0.00 sec)
+
+mysql> drop new1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'new1' at line 1
+mysql> drop table new1;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
+| new             |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql> create table new1 as select * from city;
+Query OK, 4079 rows affected (0.21 sec)
+Records: 4079  Duplicates: 0  Warnings: 0
+
+mysql> delete from new1;
+Query OK, 4079 rows affected (0.04 sec)
+
+mysql> select * from new1 limit 10;
+Empty set (0.00 sec)
+
+mysql> drop table new1;
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> CREATE Table NEW1( Attribute1 int, attribute2 varchar(100) );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
+| new             |
+| new1            |
++-----------------+
+5 rows in set (0.01 sec)
+
+mysql> select * from new1;
+Empty set (0.04 sec)
+
+mysql> notee;
+
+
+   
