@@ -1,0 +1,1950 @@
+mysql> #DATE AND TIME FUNTIONS
+mysql> desc employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| ZooId       | int         | YES  | MUL | NULL    |       |
+| EmpID       | int         | NO   | PRI | NULL    |       |
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Designation | varchar(50) | YES  |     | NULL    |       |
+| Hire_Date   | date        | YES  |     | NULL    |       |
+| Salary      | int         | YES  |     | NULL    |       |
+| Status      | varchar(40) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+15 rows in set (0.04 sec)
+
+mysql> INSERT INTO EMPLOYEE
+    -> VALUES(3,5465,'Rebecca','Curator of Exhibits',CURDATE(),45000,'On Duty');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from employee;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+16 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEE
+    -> VALUES(3,3243,'Dan','Zookeeper',CURRRENT_DATE(),30000,'On Duty');
+ERROR 1305 (42000): FUNCTION zoo.CURRRENT_DATE does not exist
+mysql> INSERT INTO EMPLOYEE
+    -> VALUES(3,3243,'Dan','Zookeeper',CURRENT_DATE(),30000,'On Duty'),
+    -> VALUES(3,4387,'Ron','Aquarist',MAKEDATE(2010,287),130000,'On Duty'),
+    -> VALUES(3,9743,'Maddison','Veterinarian',MAKEDATE(2012,143),90000,'On Duty');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES(3,4387,'Ron','Aquarist',MAKEDATE(2010,287),130000,'On Duty'),
+VALUES(3,97' at line 3
+mysql> INSERT INTO EMPLOYEE
+    -> VALUES(3,3243,'Dan','Zookeeper',CURRRENT_DATE(),30000,'On Duty';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> INSERT INTO EMPLOYEE
+    -> VALUES(3,3243,'Dan','Zookeeper',CURRENT_DATE(),30000,'On Duty'),
+    -> VALUES(3,4387,'Ron','Aquarist',MAKEDATE(2010,287),130000,'On Duty'),
+    -> VALUES(3,5465,'Rebecca','Curator of Exhibits',CURDATE(),45000,'On Duty');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES(3,4387,'Ron','Aquarist',MAKEDATE(2010,287),130000,'On Duty'),
+VALUES(3,54' at line 3
+mysql> INSERT INTO EMPLOYEE
+    -> VALUES(3,3243,'Dan','Zookeeper',CURRENT_DATE(),30000,'On Duty'),
+    -> VALUES(3,4387,'Ron','Aquarist',MAKEDATE(2010,287),130000,'On Duty'),
+    -> VALUES(3,5466,'Rebecca','Curator of Exhibits',CURDATE(),45000,'On Duty');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES(3,4387,'Ron','Aquarist',MAKEDATE(2010,287),130000,'On Duty'),
+VALUES(3,54' at line 3
+mysql> INSERT INTO EMPLOYEE
+    -> VALUES(3,3243,'Dan','Zookeeper',CURRENT_DATE(),30000,'On Duty'),
+    -> VALUES(3,4387,'Ron','Aquarist',MAKEDATE(2010, 280),130000,'On Duty'),
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES(3,4387,'Ron','Aquarist',MAKEDATE(2010, 280),130000,'On Duty'),' at line 3
+mysql> INSERT INTO EMPLOYEE
+    -> VALUES(3,3243,'Dan','Zookeeper',CURRENT_DATE(),30000,'On Duty'),
+    -> (3,4387,'Ron','Aquarist',MAKEDATE(2010,287),130000,'On Duty'),
+    -> (3,9743,'Maddison','Veterinarian',MAKEDATE(2012,143),90000,'On Duty');
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+19 rows in set (0.00 sec)
+
+mysql> ALTER TABLE EMPLOYEE ADD DaysWorked int,ADD MonthsWorked int;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| ZooId        | int         | YES  | MUL | NULL    |       |
+| EmpID        | int         | NO   | PRI | NULL    |       |
+| Name         | varchar(50) | YES  |     | NULL    |       |
+| Designation  | varchar(50) | YES  |     | NULL    |       |
+| Hire_Date    | date        | YES  |     | NULL    |       |
+| Salary       | int         | YES  |     | NULL    |       |
+| Status       | varchar(40) | YES  |     | NULL    |       |
+| DaysWorked   | int         | YES  |     | NULL    |       |
+| MonthsWorked | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+9 rows in set (0.04 sec)
+
+mysql> SELECT * FROM Employee;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |       NULL |         NULL |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       NULL |         NULL |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |       NULL |         NULL |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       NULL |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       NULL |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |       NULL |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       NULL |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       NULL |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       NULL |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |       NULL |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       NULL |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       NULL |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       NULL |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       NULL |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |       NULL |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       NULL |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       NULL |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       NULL |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       NULL |         NULL |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+19 rows in set (0.03 sec)
+
+mysql> UPDATE DaysWorked=DATEDIFF(CURDATE(), Hire_Date);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=DATEDIFF(CURDATE(), Hire_Date)' at line 1
+mysql> UPDATE DaysWorked=DATEDIFF(CURDATE(), '2020-04-01') WHERE Name='Alex';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=DATEDIFF(CURDATE(), '2020-04-01') WHERE Name='Alex'' at line 1
+mysql> UPDATE Table EMployee SET DaysWorked=DATEDIFF(CURDATE(), Hire_Date);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Table EMployee SET DaysWorked=DATEDIFF(CURDATE(), Hire_Date)' at line 1
+mysql> UPDATE TABLE Employee SET DaysWorked=DATEDIFF(CURDATE(), '2020-04-01') WHERE Name='Alex';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TABLE Employee SET DaysWorked=DATEDIFF(CURDATE(), '2020-04-01') WHERE Name='Alex' at line 1
+mysql> UPDATE TABLE Employee SET DaysWorked=DATEDIFF(CURDATE(), Hire_Date) WHERE Name='Alex';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TABLE Employee SET DaysWorked=DATEDIFF(CURDATE(), Hire_Date) WHERE Name='Alex'' at line 1
+mysql> UPDATE TABLE Employee SET DaysWorked=DATEDIFF('2021-09-07', '2020-04-01') WHERE Name='Alex';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TABLE Employee SET DaysWorked=DATEDIFF('2021-09-07', '2020-04-01') WHERE Name='A' at line 1
+mysql> UPDATE TABLE Employee SET DaysWorked=DATEDIFF('20210907', '20200401') WHERE Name='Alex';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TABLE Employee SET DaysWorked=DATEDIFF('20210907', '20200401') WHERE Name='Alex'' at line 1
+mysql> UPDATE TABLE Employee SET DaysWorked = DATEDIFF('2021-09-07', '2020-04-01') WHERE Name='Alex';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TABLE Employee SET DaysWorked = DATEDIFF('2021-09-07', '2020-04-01') WHERE Name=' at line 1
+mysql> UPDATE TABLE Employee SET DaysWorked=DATEDIFF('2021-09-07','2020-04-01') WHERE Name='Alex';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TABLE Employee SET DaysWorked=DATEDIFF('2021-09-07','2020-04-01') WHERE Name='Al' at line 1
+mysql> UPDATE TABLE Employee SET DaysWorked=DATEDIFF("2021-09-07","2020-04-01") WHERE Name='Alex';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TABLE Employee SET DaysWorked=DATEDIFF("2021-09-07","2020-04-01") WHERE Name='Al' at line 1
+mysql> UPDATE Employee SET DaysWorked=DATEDIFF("2021-09-07","2020-04-01") WHERE Name='Alex';
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMployee SET DaysWorked=DATEDIFF(CURDATE(), Hire_Date);
+Query OK, 18 rows affected (0.05 sec)
+Rows matched: 19  Changed: 18  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |         NULL |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |         NULL |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |         NULL |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+19 rows in set (0.00 sec)
+
+mysql> UPDATE EMployee SET MonthsWorked=PERIODDIFF(CURDATE(), Hire_Date);
+ERROR 1305 (42000): FUNCTION zoo.PERIODDIFF does not exist
+mysql> UPDATE EMployee SET MonthsWorked=PERIOD_DIFF(CURDATE(), Hire_Date);
+ERROR 1210 (HY000): Incorrect arguments to period_diff
+mysql> UPDATE EMployee SET MonthsWorked=PERIOD_DIFF(DATE_FORMAT(CURDATE(),%Y%b), Hire_Date);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%Y%b), Hire_Date)' at line 1
+mysql> UPDATE EMployee SET MonthsWorked=PERIOD_DIFF(DATE_FORMAT(CURDATE(),%Y %b), Hire_Date);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%Y %b), Hire_Date)' at line 1
+mysql> UPDATE EMployee SET MonthsWorked=PERIOD_DIFF(DATE_FORMAT(CURDATE(),%Y %b), DATE_FORMAT(Hire_date,%Y %b));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%Y %b), DATE_FORMAT(Hire_date,%Y %b))' at line 1
+mysql> UPDATE EMployee SET MonthsWorked=PERIOD_DIFF(DATE_FORMAT(CURDATE(),"%Y %b"), DATE_FORMAT(Hire_date,"%Y %b"));
+ERROR 1210 (HY000): Incorrect arguments to period_diff
+mysql> UPDATE EMployee SET MonthsWorked=PERIOD_DIFF(CURDATE(), Hire_Date);
+ERROR 1210 (HY000): Incorrect arguments to period_diff
+mysql> UPDATE EMployee SET MonthsWorked=PERIOD_DIFF(202109,202004) WHERE Name='Alex';
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMployee SET MonthsWorked=PERIOD_DIFF(202109,201110) WHERE Name='Aiden';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMployee SET MonthsWorked=PERIOD_DIFF(202109,202109) WHERE Name='Dan';
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+19 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE LIMIT 3;
++-------+-------+-------+--------------+------------+--------+---------+------------+--------------+
+| ZooId | EmpID | Name  | Designation  | Hire_Date  | Salary | Status  | DaysWorked | MonthsWorked |
++-------+-------+-------+--------------+------------+--------+---------+------------+--------------+
+|     1 |  1001 | Alex  | Veterinarian | 2020-04-01 |  85000 | On Duty |        524 |           17 |
+|     2 |  3242 | Aiden | Zookeeper    | 2011-10-13 |  25000 | On Duty |       3617 |          119 |
+|     3 |  3243 | Dan   | Zookeeper    | 2021-09-07 |  30000 | On Duty |          0 |            0 |
++-------+-------+-------+--------------+------------+--------+---------+------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> #NUMERIC FUNCTIONS
+mysql> Desc Visitors;
+ERROR 1146 (42S02): Table 'zoo.visitors' doesn't exist
+mysql> Desc Visitor;
++-----------+-------------+------+-----+----------+----------------+
+| Field     | Type        | Null | Key | Default  | Extra          |
++-----------+-------------+------+-----+----------+----------------+
+| ZooId     | int         | NO   | PRI | NULL     |                |
+| TicketNo  | int         | NO   | UNI | NULL     | auto_increment |
+| Name      | varchar(50) | YES  |     | NULL     |                |
+| VisitDate | date        | YES  |     | NULL     |                |
+| EntryTime | time        | YES  |     | 09:00:00 |                |
++-----------+-------------+------+-----+----------+----------------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT * FROM VISITOR;
+Empty set (0.01 sec)
+
+mysql> INSERT INTO VISITOR VALUES
+    -> (;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> ALTER TABLE VISITOR ADD ExitTime time CHECK(ExitTime <= 06:00:00) DEFAULT  06:00:00;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':00:00) DEFAULT  06:00:00' at line 1
+mysql> ALTER TABLE VISITOR ADD ExitTime time CHECK(ExitTime <= '06:00:00') DEFAULT  06:00:00;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':00:00' at line 1
+mysql> ALTER TABLE VISITOR ADD ExitTime time CHECK(ExitTime <= '06:00:00') DEFAULT  '06:00:00';
+Query OK, 0 rows affected (0.24 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE VISITOR ADD TimeSpent Time;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Desc Visitor;
++-----------+-------------+------+-----+----------+----------------+
+| Field     | Type        | Null | Key | Default  | Extra          |
++-----------+-------------+------+-----+----------+----------------+
+| ZooId     | int         | NO   | PRI | NULL     |                |
+| TicketNo  | int         | NO   | UNI | NULL     | auto_increment |
+| Name      | varchar(50) | YES  |     | NULL     |                |
+| VisitDate | date        | YES  |     | NULL     |                |
+| EntryTime | time        | YES  |     | 09:00:00 |                |
+| ExitTime  | time        | YES  |     | 06:00:00 |                |
+| TimeSpent | time        | YES  |     | NULL     |                |
++-----------+-------------+------+-----+----------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> INSERT INTO VISITOR(ZooId,TicketNo,Name,VisitDate,EntryTime,ExitTime) Values
+    -> (1,1001,'Chris','2006-06-03','9:30','3:30');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from visitor
+    -> ;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-06-03 | 09:30:00  | 03:30:00 | NULL      |
++-------+----------+-------+------------+-----------+----------+-----------+
+1 row in set (0.02 sec)
+
+mysql> ALTER TABLE VISITOR DROP CHECK CONSTRAINT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CONSTRAINT' at line 1
+mysql> select create table visitor;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'create table visitor' at line 1
+mysql> select create from visitor;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'create from visitor' at line 1
+mysql> select create table from visitor;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'create table from visitor' at line 1
+mysql> show create table from visitor;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from visitor' at line 1
+mysql> show create table visitor;
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| visitor | CREATE TABLE `visitor` (
+  `ZooId` int NOT NULL,
+  `TicketNo` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) DEFAULT NULL,
+  `VisitDate` date DEFAULT NULL,
+  `EntryTime` time DEFAULT '09:00:00',
+  `ExitTime` time DEFAULT '06:00:00',
+  `TimeSpent` time DEFAULT NULL,
+  PRIMARY KEY (`ZooId`),
+  UNIQUE KEY `TicketNo` (`TicketNo`),
+  CONSTRAINT `visitor_ibfk_1` FOREIGN KEY (`ZooId`) REFERENCES `zoo` (`ZooId`),
+  CONSTRAINT `visitor_chk_1` CHECK ((`ExitTime` <= '06:00:00'))
+) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> ALTER TABLE VISITOR DROP CHECK visitor_chk_1;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO VISITOR(ZooId,Name,VisitDate,EntryTime,ExitTime) Values
+    -> (1,'Cami','2006-08-16','9:40','2:45'),
+    -> (1,'Janet',CURDATE(),CURTIME(),'4:45'),
+    -> (1,'Zayn',CURDATE(),MAKETIME(9,23,0),MAKETIME(5,43,46));
+ERROR 1062 (23000): Duplicate entry '1' for key 'visitor.PRIMARY'
+mysql> ALTER TABLE VISITOR DROP PRIMARY KEY;
+ERROR 1553 (HY000): Cannot drop index 'PRIMARY': needed in a foreign key constraint
+mysql> INSERT INTO VISITOR(ZooId,Name,VisitDate,EntryTime,ExitTime) Values
+    -> (2,'Cami','2006-08-16','9:40','2:45'),
+    -> (3,'Janet',CURDATE(),CURTIME(),'4:45'),
+    -> (4,'Zayn',CURDATE(),MAKETIME(9,23,0),MAKETIME(5,43,46));
+Query OK, 3 rows affected (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-06-03 | 09:30:00  | 03:30:00 | NULL      |
+|     2 |     1005 | Cami  | 2006-08-16 | 09:40:00  | 02:45:00 | NULL      |
+|     3 |     1006 | Janet | 2021-09-08 | 02:11:33  | 04:45:00 | NULL      |
+|     4 |     1007 | Zayn  | 2021-09-08 | 09:23:00  | 05:43:46 | NULL      |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE VISITOR SET VisitDate=ADDDATE(VisitDate,+15);
+Query OK, 4 rows affected (0.01 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-06-18 | 09:30:00  | 03:30:00 | NULL      |
+|     2 |     1005 | Cami  | 2006-08-31 | 09:40:00  | 02:45:00 | NULL      |
+|     3 |     1006 | Janet | 2021-09-23 | 02:11:33  | 04:45:00 | NULL      |
+|     4 |     1007 | Zayn  | 2021-09-23 | 09:23:00  | 05:43:46 | NULL      |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.03 sec)
+
+mysql> UPDATE VISITOR SET VisitDate=ADDDATE(VisitDate,+1);
+Query OK, 4 rows affected (0.06 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-06-19 | 09:30:00  | 03:30:00 | NULL      |
+|     2 |     1005 | Cami  | 2006-09-01 | 09:40:00  | 02:45:00 | NULL      |
+|     3 |     1006 | Janet | 2021-09-24 | 02:11:33  | 04:45:00 | NULL      |
+|     4 |     1007 | Zayn  | 2021-09-24 | 09:23:00  | 05:43:46 | NULL      |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE VISITOR SET EntryTime=ADDTIME(EntryTime,'00:30:17');
+Query OK, 4 rows affected (0.04 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-06-19 | 10:00:17  | 03:30:00 | NULL      |
+|     2 |     1005 | Cami  | 2006-09-01 | 10:10:17  | 02:45:00 | NULL      |
+|     3 |     1006 | Janet | 2021-09-24 | 02:41:50  | 04:45:00 | NULL      |
+|     4 |     1007 | Zayn  | 2021-09-24 | 09:53:17  | 05:43:46 | NULL      |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.03 sec)
+
+mysql> UPDATE VISITOR SET VisitDate=SUBDATE(VisitDate,40);
+Query OK, 4 rows affected (0.03 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-05-10 | 10:00:17  | 03:30:00 | NULL      |
+|     2 |     1005 | Cami  | 2006-07-23 | 10:10:17  | 02:45:00 | NULL      |
+|     3 |     1006 | Janet | 2021-08-15 | 02:41:50  | 04:45:00 | NULL      |
+|     4 |     1007 | Zayn  | 2021-08-15 | 09:53:17  | 05:43:46 | NULL      |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE VISITOR SET ExitTime=SUBTIME(ExitTime,'00:15:17');
+Query OK, 4 rows affected (0.04 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-05-10 | 10:00:17  | 03:14:43 | NULL      |
+|     2 |     1005 | Cami  | 2006-07-23 | 10:10:17  | 02:29:43 | NULL      |
+|     3 |     1006 | Janet | 2021-08-15 | 02:41:50  | 04:29:43 | NULL      |
+|     4 |     1007 | Zayn  | 2021-08-15 | 09:53:17  | 05:28:29 | NULL      |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE VISITOR SET TimeSpent=TIMEDIFF(EXITTIME,ENTRYTIME);
+Query OK, 4 rows affected (0.03 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-05-10 | 10:00:17  | 03:14:43 | -06:45:34 |
+|     2 |     1005 | Cami  | 2006-07-23 | 10:10:17  | 02:29:43 | -07:40:34 |
+|     3 |     1006 | Janet | 2021-08-15 | 02:41:50  | 04:29:43 | 01:47:53  |
+|     4 |     1007 | Zayn  | 2021-08-15 | 09:53:17  | 05:28:29 | -04:24:48 |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.03 sec)
+
+mysql> UPDATE VISITOR SET EntryTime=ADDTIME(EntryTime,'12:00:00');
+Query OK, 4 rows affected (0.01 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-05-10 | 22:00:17  | 03:14:43 | -06:45:34 |
+|     2 |     1005 | Cami  | 2006-07-23 | 22:10:17  | 02:29:43 | -07:40:34 |
+|     3 |     1006 | Janet | 2021-08-15 | 14:41:50  | 04:29:43 | 01:47:53  |
+|     4 |     1007 | Zayn  | 2021-08-15 | 21:53:17  | 05:28:29 | -04:24:48 |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE VISITOR SET Entrytime=SUBTIME(Entrytime,'12:00:00');
+Query OK, 4 rows affected (0.03 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> UPDATE VISITOR SET exitTime=ADDTIME(ExitTime,'12:00:00');
+Query OK, 4 rows affected (0.04 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-05-10 | 10:00:17  | 15:14:43 | -06:45:34 |
+|     2 |     1005 | Cami  | 2006-07-23 | 10:10:17  | 14:29:43 | -07:40:34 |
+|     3 |     1006 | Janet | 2021-08-15 | 02:41:50  | 16:29:43 | 01:47:53  |
+|     4 |     1007 | Zayn  | 2021-08-15 | 09:53:17  | 17:28:29 | -04:24:48 |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE VISITOR SET TimeSpent=TIMEDIFF(EXITTIME,ENTRYTIME);
+Query OK, 4 rows affected (0.03 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select * from visitor;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-05-10 | 10:00:17  | 15:14:43 | 05:14:26  |
+|     2 |     1005 | Cami  | 2006-07-23 | 10:10:17  | 14:29:43 | 04:19:26  |
+|     3 |     1006 | Janet | 2021-08-15 | 02:41:50  | 16:29:43 | 13:47:53  |
+|     4 |     1007 | Zayn  | 2021-08-15 | 09:53:17  | 17:28:29 | 07:35:12  |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select Name,DATE_FORMAT(visitdate, "%d %b %y"),TIME_FORMAT(EntryTime,"%h:%i %p),TIME_FORMAT(ExitTime,"%h:%i %p) from visitor;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':%i %p) from visitor' at line 1
+mysql> select Name,DATE_FORMAT(visitdate, "%d %b %y"),TIME_FORMAT(EntryTime,"%h:%i %p"),TIME_FORMAT(ExitTime,"%h:%i %p") from visitor;
++-------+------------------------------------+-----------------------------------+----------------------------------+
+| Name  | DATE_FORMAT(visitdate, "%d %b %y") | TIME_FORMAT(EntryTime,"%h:%i %p") | TIME_FORMAT(ExitTime,"%h:%i %p") |
++-------+------------------------------------+-----------------------------------+----------------------------------+
+| Chris | 10 May 06                          | 10:00 AM                          | 03:14 PM                         |
+| Cami  | 23 Jul 06                          | 10:10 AM                          | 02:29 PM                         |
+| Janet | 15 Aug 21                          | 02:41 AM                          | 04:29 PM                         |
+| Zayn  | 15 Aug 21                          | 09:53 AM                          | 05:28 PM                         |
++-------+------------------------------------+-----------------------------------+----------------------------------+
+4 rows in set (0.04 sec)
+
+mysql> #NUMERIC FUNCTIONS
+mysql> DESC ZOO;
++-------------------+-------------+------+-----+---------+----------------+
+| Field             | Type        | Null | Key | Default | Extra          |
++-------------------+-------------+------+-----+---------+----------------+
+| ZooId             | int         | NO   | PRI | NULL    | auto_increment |
+| Name              | varchar(50) | NO   | UNI | NULL    |                |
+| State             | varchar(50) | YES  |     | NULL    |                |
+| City              | varchar(50) | YES  |     | NULL    |                |
+| Contact_No        | bigint      | YES  |     | NULL    |                |
+| Animal_Population | int         | YES  |     | NULL    |                |
+| Visitors_per_Year | int         | YES  |     | NULL    |                |
++-------------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.02 sec)
+
+mysql> SELECT * FROM Zoo;
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+| ZooId | Name                                    | State       | City         | Contact_No | Animal_Population | Visitors_per_Year |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens              | West Bengal | Kolkata      | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park                 | Tamil Nadu  | Vellore      | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park            | Tamil Nadu  | Chennai      | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Assam       | Guwahati     | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park              | Karnataka   | Bengaluru    | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                         | Jharkhand   | Ranchi       | 6512480948 |              1450 |            800000 |
+|     8 | Bondla Wildlife Sanctuary               | Goa         | Ponda        | 8923561278 |              3213 |            100000 |
+|     9 | Pipli Mini Zoo                          | Haryana     | Pipli        | 4677569871 |               345 |             25000 |
+|    10 | Chhatbir Zoo                            | Punjab      | Zirakpur     | 5312674284 |              1432 |            125000 |
+|    11 | Chennai Snake Park Trust                | Tamil Nadu  | Chennai      |       NULL |              NULL |              NULL |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana     | Bahal        |       NULL |              NULL |              NULL |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Haryana     | Bhaur Saidan |       NULL |              NULL |              NULL |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+12 rows in set (0.04 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No, MOD(Animal_Population, MIN(Animal_Population)),MOD(Visitors_per_Year,MIN(Visitors_per_Year)) FROM ZOo; 
++-------+----------------------------+-------------+---------+------------+------------------------------------------------+-----------------------------------------------+
+| ZooId | Name                       | State       | City    | Contact_No | MOD(Animal_Population, MIN(Animal_Population)) | MOD(Visitors_per_Year,MIN(Visitors_per_Year)) |
++-------+----------------------------+-------------+---------+------------+------------------------------------------------+-----------------------------------------------+
+|     1 | Alipore Zoological Gardens | West Bengal | Kolkata | 3324791150 |                                             48 |                                             0 |
++-------+----------------------------+-------------+---------+------------+------------------------------------------------+-----------------------------------------------+
+1 row in set (0.03 sec)
+
+mysql> 
+mysql> SELECT ZooId,Name,State,City,Contact_No, MOD(Animal_Population, MIN(Animal_Population)),MOD(Visitors_per_Year,MIN(Visitors_per_Year)) FROM ZOO WHERE Contact_No NOT NULL; 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL' at line 1
+mysql> SELECT ZooId,Name,State,City,Contact_No, MOD(Animal_Population, MIN(Animal_Population)),MOD(Visitors_per_Year,MIN(Visitors_per_Year)) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+----------------------------+-------------+---------+------------+------------------------------------------------+-----------------------------------------------+
+| ZooId | Name                       | State       | City    | Contact_No | MOD(Animal_Population, MIN(Animal_Population)) | MOD(Visitors_per_Year,MIN(Visitors_per_Year)) |
++-------+----------------------------+-------------+---------+------------+------------------------------------------------+-----------------------------------------------+
+|     1 | Alipore Zoological Gardens | West Bengal | Kolkata | 3324791150 |                                             48 |                                             0 |
++-------+----------------------------+-------------+---------+------------+------------------------------------------------+-----------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No, Animal_Population MOD MIN(Animal_Population),Visitors_per_Year MOD MIN(Visitors_per_Year) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+----------------------------+-------------+---------+------------+----------------------------------------------+----------------------------------------------+
+| ZooId | Name                       | State       | City    | Contact_No | Animal_Population MOD MIN(Animal_Population) | Visitors_per_Year MOD MIN(Visitors_per_Year) |
++-------+----------------------------+-------------+---------+------------+----------------------------------------------+----------------------------------------------+
+|     1 | Alipore Zoological Gardens | West Bengal | Kolkata | 3324791150 |                                           48 |                                            0 |
++-------+----------------------------+-------------+---------+------------+----------------------------------------------+----------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select  MIN(Animal_Population) from zoo;
++------------------------+
+| MIN(Animal_Population) |
++------------------------+
+|                    174 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> select  MIN(Visitors_per_Year) from zoo;
++------------------------+
+| MIN(Visitors_per_Year) |
++------------------------+
+|                  25000 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No, MOD(Animal_Population, 174),MOD(Visitors_per_Year,25000) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+--------------------------------------+-------------+-----------+------------+-----------------------------+------------------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | MOD(Animal_Population, 174) | MOD(Visitors_per_Year,25000) |
++-------+--------------------------------------+-------------+-----------+------------+-----------------------------+------------------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |                          48 |                            0 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |                           0 |                         6619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |                          34 |                        15000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |                          25 |                            0 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |                          82 |                        16130 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |                          58 |                            0 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 |                          81 |                            0 |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 |                         171 |                            0 |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 |                          40 |                            0 |
++-------+--------------------------------------+-------------+-----------+------------+-----------------------------+------------------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No, Animal_Population/174,Visitors_per_Year/25000 FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+--------------------------------------+-------------+-----------+------------+-----------------------+-------------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | Animal_Population/174 | Visitors_per_Year/25000 |
++-------+--------------------------------------+-------------+-----------+------------+-----------------------+-------------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |                7.2759 |                120.0000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |                1.0000 |                  5.2648 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |               15.1954 |                 81.6000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |                5.1437 |                 18.0000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |                7.4713 |                 64.6452 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |                8.3333 |                 32.0000 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 |               18.4655 |                  4.0000 |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 |                1.9828 |                  1.0000 |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 |                8.2299 |                  5.0000 |
++-------+--------------------------------------+-------------+-----------+------------+-----------------------+-------------------------+
+9 rows in set (0.04 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No,ROUND( Animal_Population/174),ROUND(Visitors_per_Year/25000) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+--------------------------------------+-------------+-----------+------------+-------------------------------+--------------------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | ROUND( Animal_Population/174) | ROUND(Visitors_per_Year/25000) |
++-------+--------------------------------------+-------------+-----------+------------+-------------------------------+--------------------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |                             7 |                            120 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |                             1 |                              5 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |                            15 |                             82 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |                             5 |                             18 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |                             7 |                             65 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |                             8 |                             32 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 |                            18 |                              4 |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 |                             2 |                              1 |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 |                             8 |                              5 |
++-------+--------------------------------------+-------------+-----------+------------+-------------------------------+--------------------------------+
+9 rows in set (0.04 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No,FORMAT( Animal_Population/174,2),FORMAT(Visitors_per_Year/25000,2) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+--------------------------------------+-------------+-----------+------------+----------------------------------+-----------------------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | FORMAT( Animal_Population/174,2) | FORMAT(Visitors_per_Year/25000,2) |
++-------+--------------------------------------+-------------+-----------+------------+----------------------------------+-----------------------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 | 7.28                             | 120.00                            |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 | 1.00                             | 5.26                              |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 | 15.20                            | 81.60                             |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 | 5.14                             | 18.00                             |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 | 7.47                             | 64.65                             |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 | 8.33                             | 32.00                             |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 | 18.47                            | 4.00                              |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 | 1.98                             | 1.00                              |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 | 8.23                             | 5.00                              |
++-------+--------------------------------------+-------------+-----------+------------+----------------------------------+-----------------------------------+
+9 rows in set (0.02 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No,TRUNCATE( Animal_Population/174,2),TRUNCATE(Visitors_per_Year/25000,2) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+--------------------------------------+-------------+-----------+------------+------------------------------------+-------------------------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | TRUNCATE( Animal_Population/174,2) | TRUNCATE(Visitors_per_Year/25000,2) |
++-------+--------------------------------------+-------------+-----------+------------+------------------------------------+-------------------------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |                               7.27 |                              120.00 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |                               1.00 |                                5.26 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |                              15.19 |                               81.60 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |                               5.14 |                               18.00 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |                               7.47 |                               64.64 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |                               8.33 |                               32.00 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 |                              18.46 |                                4.00 |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 |                               1.98 |                                1.00 |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 |                               8.22 |                                5.00 |
++-------+--------------------------------------+-------------+-----------+------------+------------------------------------+-------------------------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No,GREATEST( Animal_Population,Visitors_per_Year) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+--------------------------------------+-------------+-----------+------------+------------------------------------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | GREATEST( Animal_Population,Visitors_per_Year) |
++-------+--------------------------------------+-------------+-----------+------------+------------------------------------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |                                        3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |                                         131619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |                                        2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |                                         450000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |                                        1616130 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |                                         800000 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 |                                         100000 |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 |                                          25000 |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 |                                         125000 |
++-------+--------------------------------------+-------------+-----------+------------+------------------------------------------------+
+9 rows in set (0.03 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No,GREATEST( Animal_Population),GREATEST(Visitors_per_Year) FROM ZOO WHERE Contact_No IS NOT NULL; 
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'GREATEST'
+mysql> SELECT ZooId,Name,State,City,Contact_No,LEAST( Animal_Population,Visitors_per_Year) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+--------------------------------------+-------------+-----------+------------+---------------------------------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | LEAST( Animal_Population,Visitors_per_Year) |
++-------+--------------------------------------+-------------+-----------+------------+---------------------------------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |                                        1266 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |                                         174 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |                                        2644 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |                                         895 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |                                        1300 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |                                        1450 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 |                                        3213 |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 |                                         345 |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 |                                        1432 |
++-------+--------------------------------------+-------------+-----------+------------+---------------------------------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No,FLOOR( Animal_Population/174),FLOOR(Visitors_per_Year/25000) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+--------------------------------------+-------------+-----------+------------+-------------------------------+--------------------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | FLOOR( Animal_Population/174) | FLOOR(Visitors_per_Year/25000) |
++-------+--------------------------------------+-------------+-----------+------------+-------------------------------+--------------------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |                             7 |                            120 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |                             1 |                              5 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |                            15 |                             81 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |                             5 |                             18 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |                             7 |                             64 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |                             8 |                             32 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 |                            18 |                              4 |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 |                             1 |                              1 |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 |                             8 |                              5 |
++-------+--------------------------------------+-------------+-----------+------------+-------------------------------+--------------------------------+
+9 rows in set (0.05 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No,CEILING( Animal_Population/174),CEIL(Visitors_per_Year/25000) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+--------------------------------------+-------------+-----------+------------+---------------------------------+-------------------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | CEILING( Animal_Population/174) | CEIL(Visitors_per_Year/25000) |
++-------+--------------------------------------+-------------+-----------+------------+---------------------------------+-------------------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |                               8 |                           120 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |                               1 |                             6 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |                              16 |                            82 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |                               6 |                            18 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |                               8 |                            65 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |                               9 |                            32 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 |                              19 |                             4 |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 |                               2 |                             1 |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 |                               9 |                             5 |
++-------+--------------------------------------+-------------+-----------+------------+---------------------------------+-------------------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,Name,State,City,Contact_No,STD( Animal_Population),STD(Visitors_per_Year) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------+----------------------------+-------------+---------+------------+-------------------------+------------------------+
+| ZooId | Name                       | State       | City    | Contact_No | STD( Animal_Population) | STD(Visitors_per_Year) |
++-------+----------------------------+-------------+---------+------------+-------------------------+------------------------+
+|     1 | Alipore Zoological Gardens | West Bengal | Kolkata | 3324791150 |       927.0944789176053 |     1001536.8693591754 |
++-------+----------------------------+-------------+---------+------------+-------------------------+------------------------+
+1 row in set (0.04 sec)
+
+mysql> SELECT STD( Animal_Population),STD(Visitors_per_Year) FROM ZOO WHERE Contact_No IS NOT NULL; 
++-------------------------+------------------------+
+| STD( Animal_Population) | STD(Visitors_per_Year) |
++-------------------------+------------------------+
+|       927.0944789176053 |     1001536.8693591754 |
++-------------------------+------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT STD( Animal_Population),STD(Visitors_per_Year) FROM ZOo; 
++-------------------------+------------------------+
+| STD( Animal_Population) | STD(Visitors_per_Year) |
++-------------------------+------------------------+
+|       927.0944789176053 |     1001536.8693591754 |
++-------------------------+------------------------+
+1 row in set (0.00 sec)
+
+mysql> #STRING FUNCTIONS
+mysql> SELECT NAME,CHAR_LENGTH(Name)FROM Zoo;
++-----------------------------------------+-------------------+
+| NAME                                    | CHAR_LENGTH(Name) |
++-----------------------------------------+-------------------+
+| Alipore Zoological Gardens              |                26 |
+| Amirthi Zoological Park                 |                23 |
+| Arignar Anna Zoological Park            |                28 |
+| Assam State Zoo-cum-Botanical Garden    |                36 |
+| Bannerghatta National Park              |                26 |
+| Birsa Deer Park                         |                16 |
+| Bondla Wildlife Sanctuary               |                25 |
+| Chennai Snake Park Trust                |                24 |
+| Chhatbir Zoo                            |                12 |
+| Chinkara Breeding Centre Kairu, Bhiwani |                39 |
+| Crocodile Breeding Centre, Kurukshetra  |                38 |
+| Pipli Mini Zoo                          |                14 |
++-----------------------------------------+-------------------+
+12 rows in set (0.04 sec)
+
+mysql> SELECT ZOOID,NAME,CONCAT_WS(', ',City,State) as PLACE FROM Zoo;
++-------+-----------------------------------------+-----------------------+
+| ZOOID | NAME                                    | PLACE                 |
++-------+-----------------------------------------+-----------------------+
+|     1 | Alipore Zoological Gardens              | Kolkata, West Bengal  |
+|     2 | Amirthi Zoological Park                 | Vellore, Tamil Nadu   |
+|     3 | Arignar Anna Zoological Park            | Chennai, Tamil Nadu   |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Guwahati, Assam       |
+|     5 | Bannerghatta National Park              | Bengaluru, Karnataka  |
+|     7 | Birsa Deer Park                         | Ranchi, Jharkhand     |
+|     8 | Bondla Wildlife Sanctuary               | Ponda, Goa            |
+|     9 | Pipli Mini Zoo                          | Pipli, Haryana        |
+|    10 | Chhatbir Zoo                            | Zirakpur, Punjab      |
+|    11 | Chennai Snake Park Trust                | Chennai, Tamil Nadu   |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Bahal, Haryana        |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Bhaur Saidan, Haryana |
++-------+-----------------------------------------+-----------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,FIELD('PLACE1',City,State) as PLACE2 FROM Zoo;
++-------+-----------------------------------------+--------+
+| ZOOID | NAME                                    | PLACE2 |
++-------+-----------------------------------------+--------+
+|     1 | Alipore Zoological Gardens              |      0 |
+|     2 | Amirthi Zoological Park                 |      0 |
+|     3 | Arignar Anna Zoological Park            |      0 |
+|     4 | Assam State Zoo-cum-Botanical Garden    |      0 |
+|     5 | Bannerghatta National Park              |      0 |
+|     7 | Birsa Deer Park                         |      0 |
+|     8 | Bondla Wildlife Sanctuary               |      0 |
+|     9 | Pipli Mini Zoo                          |      0 |
+|    10 | Chhatbir Zoo                            |      0 |
+|    11 | Chennai Snake Park Trust                |      0 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |      0 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |      0 |
++-------+-----------------------------------------+--------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,FIELD('Tamil Nadu',City,State) as PLACE FROM Zoo;
++-------+-----------------------------------------+-------+
+| ZOOID | NAME                                    | PLACE |
++-------+-----------------------------------------+-------+
+|     1 | Alipore Zoological Gardens              |     0 |
+|     2 | Amirthi Zoological Park                 |     2 |
+|     3 | Arignar Anna Zoological Park            |     2 |
+|     4 | Assam State Zoo-cum-Botanical Garden    |     0 |
+|     5 | Bannerghatta National Park              |     0 |
+|     7 | Birsa Deer Park                         |     0 |
+|     8 | Bondla Wildlife Sanctuary               |     0 |
+|     9 | Pipli Mini Zoo                          |     0 |
+|    10 | Chhatbir Zoo                            |     0 |
+|    11 | Chennai Snake Park Trust                |     2 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |     0 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |     0 |
++-------+-----------------------------------------+-------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,FIND_IN_SET('Tamil Nadu',City,State) as PLACE FROM Zoo;
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'FIND_IN_SET'
+mysql> SELECT ZOOID,NAME,FIND_IN_SET('Tamil Nadu',State) as PLACE FROM Zoo;
++-------+-----------------------------------------+-------+
+| ZOOID | NAME                                    | PLACE |
++-------+-----------------------------------------+-------+
+|     1 | Alipore Zoological Gardens              |     0 |
+|     2 | Amirthi Zoological Park                 |     1 |
+|     3 | Arignar Anna Zoological Park            |     1 |
+|     4 | Assam State Zoo-cum-Botanical Garden    |     0 |
+|     5 | Bannerghatta National Park              |     0 |
+|     7 | Birsa Deer Park                         |     0 |
+|     8 | Bondla Wildlife Sanctuary               |     0 |
+|     9 | Pipli Mini Zoo                          |     0 |
+|    10 | Chhatbir Zoo                            |     0 |
+|    11 | Chennai Snake Park Trust                |     1 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |     0 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |     0 |
++-------+-----------------------------------------+-------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,City,LOCATE('a',City) AS A Positition in City FROM Zoo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Positition in City FROM Zoo' at line 1
+mysql> SELECT ZOOID,NAME,City,LOCATE('a',City,start) AS A Positition in City FROM Zoo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Positition in City FROM Zoo' at line 1
+mysql> SELECT ZOOID,NAME,City,LOCATE('a',City) AS 'A Positition in City' FROM Zoo;
++-------+-----------------------------------------+--------------+----------------------+
+| ZOOID | NAME                                    | City         | A Positition in City |
++-------+-----------------------------------------+--------------+----------------------+
+|     1 | Alipore Zoological Gardens              | Kolkata      |                    5 |
+|     2 | Amirthi Zoological Park                 | Vellore      |                    0 |
+|     3 | Arignar Anna Zoological Park            | Chennai      |                    6 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Guwahati     |                    4 |
+|     5 | Bannerghatta National Park              | Bengaluru    |                    5 |
+|     7 | Birsa Deer Park                         | Ranchi       |                    2 |
+|     8 | Bondla Wildlife Sanctuary               | Ponda        |                    5 |
+|     9 | Pipli Mini Zoo                          | Pipli        |                    0 |
+|    10 | Chhatbir Zoo                            | Zirakpur     |                    4 |
+|    11 | Chennai Snake Park Trust                | Chennai      |                    6 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Bahal        |                    2 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Bhaur Saidan |                    3 |
++-------+-----------------------------------------+--------------+----------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,City,LOCATE('a',Cit,start) AS 'A Positition in Beginning' FROM Zoo;
+ERROR 1054 (42S22): Unknown column 'Cit' in 'field list'
+mysql> SELECT ZOOID,NAME,City,LOCATE('a',City,start) AS 'A Positition in Beginning' FROM Zoo;
+ERROR 1054 (42S22): Unknown column 'start' in 'field list'
+mysql> SELECT ZOOID,NAME,City,LOCATE('a',City,State) AS 'A Positition in Beginning' FROM Zoo;
++-------+-----------------------------------------+--------------+---------------------------+
+| ZOOID | NAME                                    | City         | A Positition in Beginning |
++-------+-----------------------------------------+--------------+---------------------------+
+|     1 | Alipore Zoological Gardens              | Kolkata      |                         0 |
+|     2 | Amirthi Zoological Park                 | Vellore      |                         0 |
+|     3 | Arignar Anna Zoological Park            | Chennai      |                         0 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Guwahati     |                         0 |
+|     5 | Bannerghatta National Park              | Bengaluru    |                         0 |
+|     7 | Birsa Deer Park                         | Ranchi       |                         0 |
+|     8 | Bondla Wildlife Sanctuary               | Ponda        |                         0 |
+|     9 | Pipli Mini Zoo                          | Pipli        |                         0 |
+|    10 | Chhatbir Zoo                            | Zirakpur     |                         0 |
+|    11 | Chennai Snake Park Trust                | Chennai      |                         0 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Bahal        |                         0 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Bhaur Saidan |                         0 |
++-------+-----------------------------------------+--------------+---------------------------+
+12 rows in set, 12 warnings (0.04 sec)
+
+mysql> SELECT ZOOID,NAME,INSERT(City,0,0,"CITY : ") AS ' FROM Zoo;
+    '> ;
+    '> l
+    '> o
+    '> SELECT ZOOID,NAME,INSERT(City,0,0,"CITY : ") AS 'Place' FROM Zoo;
+    '> ;
+    '> z
+    '> ^C
+mysql> SELECT ZOOID,NAME,INSERT(City,0,0,"CITY : ") AS 'Place' FROM Zoo;
++-------+-----------------------------------------+--------------+
+| ZOOID | NAME                                    | Place        |
++-------+-----------------------------------------+--------------+
+|     1 | Alipore Zoological Gardens              | Kolkata      |
+|     2 | Amirthi Zoological Park                 | Vellore      |
+|     3 | Arignar Anna Zoological Park            | Chennai      |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Guwahati     |
+|     5 | Bannerghatta National Park              | Bengaluru    |
+|     7 | Birsa Deer Park                         | Ranchi       |
+|     8 | Bondla Wildlife Sanctuary               | Ponda        |
+|     9 | Pipli Mini Zoo                          | Pipli        |
+|    10 | Chhatbir Zoo                            | Zirakpur     |
+|    11 | Chennai Snake Park Trust                | Chennai      |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Bahal        |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Bhaur Saidan |
++-------+-----------------------------------------+--------------+
+12 rows in set (0.01 sec)
+
+mysql> SELECT ZOOID,NAME,INSERT(LPAD(City,10,' '),0,7,"CITY : ") AS 'Place' FROM Zoo;
++-------+-----------------------------------------+------------+
+| ZOOID | NAME                                    | Place      |
++-------+-----------------------------------------+------------+
+|     1 | Alipore Zoological Gardens              |    Kolkata |
+|     2 | Amirthi Zoological Park                 |    Vellore |
+|     3 | Arignar Anna Zoological Park            |    Chennai |
+|     4 | Assam State Zoo-cum-Botanical Garden    |   Guwahati |
+|     5 | Bannerghatta National Park              |  Bengaluru |
+|     7 | Birsa Deer Park                         |     Ranchi |
+|     8 | Bondla Wildlife Sanctuary               |      Ponda |
+|     9 | Pipli Mini Zoo                          |      Pipli |
+|    10 | Chhatbir Zoo                            |   Zirakpur |
+|    11 | Chennai Snake Park Trust                |    Chennai |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |      Bahal |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Bhaur Said |
++-------+-----------------------------------------+------------+
+12 rows in set (0.04 sec)
+
+mysql> SELECT ZOOID,NAME,INSERT(City,2,3,"Z") AS 'Place' FROM Zoo;
++-------+-----------------------------------------+------------+
+| ZOOID | NAME                                    | Place      |
++-------+-----------------------------------------+------------+
+|     1 | Alipore Zoological Gardens              | KZata      |
+|     2 | Amirthi Zoological Park                 | VZore      |
+|     3 | Arignar Anna Zoological Park            | CZnai      |
+|     4 | Assam State Zoo-cum-Botanical Garden    | GZhati     |
+|     5 | Bannerghatta National Park              | BZaluru    |
+|     7 | Birsa Deer Park                         | RZhi       |
+|     8 | Bondla Wildlife Sanctuary               | PZa        |
+|     9 | Pipli Mini Zoo                          | PZi        |
+|    10 | Chhatbir Zoo                            | ZZkpur     |
+|    11 | Chennai Snake Park Trust                | CZnai      |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | BZl        |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | BZr Saidan |
++-------+-----------------------------------------+------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,INSERT(LPAD(City,10,' '),1,7,"CITY : ") AS 'Place' FROM Zoo;
++-------+-----------------------------------------+------------+
+| ZOOID | NAME                                    | Place      |
++-------+-----------------------------------------+------------+
+|     1 | Alipore Zoological Gardens              | CITY : ata |
+|     2 | Amirthi Zoological Park                 | CITY : ore |
+|     3 | Arignar Anna Zoological Park            | CITY : nai |
+|     4 | Assam State Zoo-cum-Botanical Garden    | CITY : ati |
+|     5 | Bannerghatta National Park              | CITY : uru |
+|     7 | Birsa Deer Park                         | CITY : chi |
+|     8 | Bondla Wildlife Sanctuary               | CITY : nda |
+|     9 | Pipli Mini Zoo                          | CITY : pli |
+|    10 | Chhatbir Zoo                            | CITY : pur |
+|    11 | Chennai Snake Park Trust                | CITY : nai |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | CITY : hal |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | CITY : aid |
++-------+-----------------------------------------+------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,INSERT(City,1,1,"CITY : ") AS 'Place' FROM Zoo;
++-------+-----------------------------------------+--------------------+
+| ZOOID | NAME                                    | Place              |
++-------+-----------------------------------------+--------------------+
+|     1 | Alipore Zoological Gardens              | CITY : olkata      |
+|     2 | Amirthi Zoological Park                 | CITY : ellore      |
+|     3 | Arignar Anna Zoological Park            | CITY : hennai      |
+|     4 | Assam State Zoo-cum-Botanical Garden    | CITY : uwahati     |
+|     5 | Bannerghatta National Park              | CITY : engaluru    |
+|     7 | Birsa Deer Park                         | CITY : anchi       |
+|     8 | Bondla Wildlife Sanctuary               | CITY : onda        |
+|     9 | Pipli Mini Zoo                          | CITY : ipli        |
+|    10 | Chhatbir Zoo                            | CITY : irakpur     |
+|    11 | Chennai Snake Park Trust                | CITY : hennai      |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | CITY : ahal        |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | CITY : haur Saidan |
++-------+-----------------------------------------+--------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,INSERT(City,1,0,"CITY : ") AS 'Place' FROM Zoo;
++-------+-----------------------------------------+---------------------+
+| ZOOID | NAME                                    | Place               |
++-------+-----------------------------------------+---------------------+
+|     1 | Alipore Zoological Gardens              | CITY : Kolkata      |
+|     2 | Amirthi Zoological Park                 | CITY : Vellore      |
+|     3 | Arignar Anna Zoological Park            | CITY : Chennai      |
+|     4 | Assam State Zoo-cum-Botanical Garden    | CITY : Guwahati     |
+|     5 | Bannerghatta National Park              | CITY : Bengaluru    |
+|     7 | Birsa Deer Park                         | CITY : Ranchi       |
+|     8 | Bondla Wildlife Sanctuary               | CITY : Ponda        |
+|     9 | Pipli Mini Zoo                          | CITY : Pipli        |
+|    10 | Chhatbir Zoo                            | CITY : Zirakpur     |
+|    11 | Chennai Snake Park Trust                | CITY : Chennai      |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | CITY : Bahal        |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | CITY : Bhaur Saidan |
++-------+-----------------------------------------+---------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LCASE(NAME) FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | LCASE(NAME)                             |
++-------+-----------------------------------------+
+|     1 | alipore zoological gardens              |
+|     2 | amirthi zoological park                 |
+|     3 | arignar anna zoological park            |
+|     4 | assam state zoo-cum-botanical garden    |
+|     5 | bannerghatta national park              |
+|     7 | birsa deer park                         |
+|     8 | bondla wildlife sanctuary               |
+|    11 | chennai snake park trust                |
+|    10 | chhatbir zoo                            |
+|    12 | chinkara breeding centre kairu, bhiwani |
+|    13 | crocodile breeding centre, kurukshetra  |
+|     9 | pipli mini zoo                          |
++-------+-----------------------------------------+
+12 rows in set (0.04 sec)
+
+mysql> SELECT ZOOID,LOWER(NAME) FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | LOWER(NAME)                             |
++-------+-----------------------------------------+
+|     1 | alipore zoological gardens              |
+|     2 | amirthi zoological park                 |
+|     3 | arignar anna zoological park            |
+|     4 | assam state zoo-cum-botanical garden    |
+|     5 | bannerghatta national park              |
+|     7 | birsa deer park                         |
+|     8 | bondla wildlife sanctuary               |
+|    11 | chennai snake park trust                |
+|    10 | chhatbir zoo                            |
+|    12 | chinkara breeding centre kairu, bhiwani |
+|    13 | crocodile breeding centre, kurukshetra  |
+|     9 | pipli mini zoo                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,UPPER(NAME) FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | UPPER(NAME)                             |
++-------+-----------------------------------------+
+|     1 | ALIPORE ZOOLOGICAL GARDENS              |
+|     2 | AMIRTHI ZOOLOGICAL PARK                 |
+|     3 | ARIGNAR ANNA ZOOLOGICAL PARK            |
+|     4 | ASSAM STATE ZOO-CUM-BOTANICAL GARDEN    |
+|     5 | BANNERGHATTA NATIONAL PARK              |
+|     7 | BIRSA DEER PARK                         |
+|     8 | BONDLA WILDLIFE SANCTUARY               |
+|    11 | CHENNAI SNAKE PARK TRUST                |
+|    10 | CHHATBIR ZOO                            |
+|    12 | CHINKARA BREEDING CENTRE KAIRU, BHIWANI |
+|    13 | CROCODILE BREEDING CENTRE, KURUKSHETRA  |
+|     9 | PIPLI MINI ZOO                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,UCASE(NAME) FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | UCASE(NAME)                             |
++-------+-----------------------------------------+
+|     1 | ALIPORE ZOOLOGICAL GARDENS              |
+|     2 | AMIRTHI ZOOLOGICAL PARK                 |
+|     3 | ARIGNAR ANNA ZOOLOGICAL PARK            |
+|     4 | ASSAM STATE ZOO-CUM-BOTANICAL GARDEN    |
+|     5 | BANNERGHATTA NATIONAL PARK              |
+|     7 | BIRSA DEER PARK                         |
+|     8 | BONDLA WILDLIFE SANCTUARY               |
+|    11 | CHENNAI SNAKE PARK TRUST                |
+|    10 | CHHATBIR ZOO                            |
+|    12 | CHINKARA BREEDING CENTRE KAIRU, BHIWANI |
+|    13 | CROCODILE BREEDING CENTRE, KURUKSHETRA  |
+|     9 | PIPLI MINI ZOO                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LEFT(NAME,6) FROM Zoo;
++-------+--------------+
+| ZOOID | LEFT(NAME,6) |
++-------+--------------+
+|     1 | Alipor       |
+|     2 | Amirth       |
+|     3 | Arigna       |
+|     4 | Assam        |
+|     5 | Banner       |
+|     7 | Birsa        |
+|     8 | Bondla       |
+|    11 | Chenna       |
+|    10 | Chhatb       |
+|    12 | Chinka       |
+|    13 | Crocod       |
+|     9 | Pipli        |
++-------+--------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,RIGHT(NAME,6) FROM Zoo;
++-------+---------------+
+| ZOOID | RIGHT(NAME,6) |
++-------+---------------+
+|     1 | ardens        |
+|     2 | l Park        |
+|     3 | l Park        |
+|     4 | Garden        |
+|     5 | l Park        |
+|     7 |  Park         |
+|     8 | ctuary        |
+|    11 |  Trust        |
+|    10 | ir Zoo        |
+|    12 | hiwani        |
+|    13 | shetra        |
+|     9 | ni Zoo        |
++-------+---------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LPAD(NAME,10,'<>') FROM Zoo;
++-------+--------------------+
+| ZOOID | LPAD(NAME,10,'<>') |
++-------+--------------------+
+|     1 | Alipore Zo         |
+|     2 | Amirthi Zo         |
+|     3 | Arignar An         |
+|     4 | Assam Stat         |
+|     5 | Bannerghat         |
+|     7 | Birsa Deer         |
+|     8 | Bondla Wil         |
+|    11 | Chennai Sn         |
+|    10 | Chhatbir Z         |
+|    12 | Chinkara B         |
+|    13 | Crocodile          |
+|     9 | Pipli Mini         |
++-------+--------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LPAD(NAME,40,'<>') FROM Zoo;
++-------+------------------------------------------+
+| ZOOID | LPAD(NAME,40,'<>')                       |
++-------+------------------------------------------+
+|     1 | <><><><><><><>Alipore Zoological Gardens |
+|     2 | <><><><><><><><><Amirthi Zoological Park |
+|     3 | <><><><><><>Arignar Anna Zoological Park |
+|     4 | <><>Assam State Zoo-cum-Botanical Garden |
+|     5 | <><><><><><><>Bannerghatta National Park |
+|     7 | <><><><><><><><><><><><>Birsa Deer Park  |
+|     8 | <><><><><><><><Bondla Wildlife Sanctuary |
+|    11 | <><><><><><><><>Chennai Snake Park Trust |
+|    10 | <><><><><><><><><><><><><><>Chhatbir Zoo |
+|    12 | <Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 | <>Crocodile Breeding Centre, Kurukshetra |
+|     9 | <><><><><><><><><><><><><>Pipli Mini Zoo |
++-------+------------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LPAD(NAME,40,':') FROM Zoo;
++-------+------------------------------------------+
+| ZOOID | LPAD(NAME,40,':')                        |
++-------+------------------------------------------+
+|     1 | ::::::::::::::Alipore Zoological Gardens |
+|     2 | :::::::::::::::::Amirthi Zoological Park |
+|     3 | ::::::::::::Arignar Anna Zoological Park |
+|     4 | ::::Assam State Zoo-cum-Botanical Garden |
+|     5 | ::::::::::::::Bannerghatta National Park |
+|     7 | ::::::::::::::::::::::::Birsa Deer Park  |
+|     8 | :::::::::::::::Bondla Wildlife Sanctuary |
+|    11 | ::::::::::::::::Chennai Snake Park Trust |
+|    10 | ::::::::::::::::::::::::::::Chhatbir Zoo |
+|    12 | :Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 | ::Crocodile Breeding Centre, Kurukshetra |
+|     9 | ::::::::::::::::::::::::::Pipli Mini Zoo |
++-------+------------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,RPAD(NAME,40,':') FROM Zoo;
++-------+------------------------------------------+
+| ZOOID | RPAD(NAME,40,':')                        |
++-------+------------------------------------------+
+|     1 | Alipore Zoological Gardens:::::::::::::: |
+|     2 | Amirthi Zoological Park::::::::::::::::: |
+|     3 | Arignar Anna Zoological Park:::::::::::: |
+|     4 | Assam State Zoo-cum-Botanical Garden:::: |
+|     5 | Bannerghatta National Park:::::::::::::: |
+|     7 | Birsa Deer Park :::::::::::::::::::::::: |
+|     8 | Bondla Wildlife Sanctuary::::::::::::::: |
+|    11 | Chennai Snake Park Trust:::::::::::::::: |
+|    10 | Chhatbir Zoo:::::::::::::::::::::::::::: |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani: |
+|    13 | Crocodile Breeding Centre, Kurukshetra:: |
+|     9 | Pipli Mini Zoo:::::::::::::::::::::::::: |
++-------+------------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LTRIM(NAME) FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | LTRIM(NAME)                             |
++-------+-----------------------------------------+
+|     1 | Alipore Zoological Gardens              |
+|     2 | Amirthi Zoological Park                 |
+|     3 | Arignar Anna Zoological Park            |
+|     4 | Assam State Zoo-cum-Botanical Garden    |
+|     5 | Bannerghatta National Park              |
+|     7 | Birsa Deer Park                         |
+|     8 | Bondla Wildlife Sanctuary               |
+|    11 | Chennai Snake Park Trust                |
+|    10 | Chhatbir Zoo                            |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |
+|     9 | Pipli Mini Zoo                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LTRIM(LPAD(NAME,40,'	')) FROM Zoo
+    -> ^C
+mysql> SELECT ZOOID,LPAD(NAME,40,'	') FROM Zoo;
++-------+------------------------------------------+
+| ZOOID | LPAD(NAME,40,'	')                        |
++-------+------------------------------------------+
+|     1 | 														Alipore Zoological Gardens |
+|     2 | 																	Amirthi Zoological Park |
+|     3 | 												Arignar Anna Zoological Park |
+|     4 | 				Assam State Zoo-cum-Botanical Garden |
+|     5 | 														Bannerghatta National Park |
+|     7 | 																								Birsa Deer Park  |
+|     8 | 															Bondla Wildlife Sanctuary |
+|    11 | 																Chennai Snake Park Trust |
+|    10 | 																												Chhatbir Zoo |
+|    12 | 	Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 | 		Crocodile Breeding Centre, Kurukshetra |
+|     9 | 																										Pipli Mini Zoo |
++-------+------------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LPAD(NAME,20,'	') FROM Zoo;
++-------+----------------------+
+| ZOOID | LPAD(NAME,20,'	')    |
++-------+----------------------+
+|     1 | Alipore Zoological G |
+|     2 | Amirthi Zoological P |
+|     3 | Arignar Anna Zoologi |
+|     4 | Assam State Zoo-cum- |
+|     5 | Bannerghatta Nationa |
+|     7 | 				Birsa Deer Park  |
+|     8 | Bondla Wildlife Sanc |
+|    11 | Chennai Snake Park T |
+|    10 | 								Chhatbir Zoo |
+|    12 | Chinkara Breeding Ce |
+|    13 | Crocodile Breeding C |
+|     9 | 						Pipli Mini Zoo |
++-------+----------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LPAD(NAME,40,' ') FROM Zoo;
++-------+------------------------------------------+
+| ZOOID | LPAD(NAME,40,' ')                        |
++-------+------------------------------------------+
+|     1 |               Alipore Zoological Gardens |
+|     2 |                  Amirthi Zoological Park |
+|     3 |             Arignar Anna Zoological Park |
+|     4 |     Assam State Zoo-cum-Botanical Garden |
+|     5 |               Bannerghatta National Park |
+|     7 |                         Birsa Deer Park  |
+|     8 |                Bondla Wildlife Sanctuary |
+|    11 |                 Chennai Snake Park Trust |
+|    10 |                             Chhatbir Zoo |
+|    12 |  Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 |   Crocodile Breeding Centre, Kurukshetra |
+|     9 |                           Pipli Mini Zoo |
++-------+------------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,LTRIM(LPAD(NAME,40,' ')) FROM Zoo
+    -> ;
++-------+-----------------------------------------+
+| ZOOID | LTRIM(LPAD(NAME,40,' '))                |
++-------+-----------------------------------------+
+|     1 | Alipore Zoological Gardens              |
+|     2 | Amirthi Zoological Park                 |
+|     3 | Arignar Anna Zoological Park            |
+|     4 | Assam State Zoo-cum-Botanical Garden    |
+|     5 | Bannerghatta National Park              |
+|     7 | Birsa Deer Park                         |
+|     8 | Bondla Wildlife Sanctuary               |
+|    11 | Chennai Snake Park Trust                |
+|    10 | Chhatbir Zoo                            |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |
+|     9 | Pipli Mini Zoo                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,RPAD(NAME,40,' ') FROM Zoo;
++-------+------------------------------------------+
+| ZOOID | RPAD(NAME,40,' ')                        |
++-------+------------------------------------------+
+|     1 | Alipore Zoological Gardens               |
+|     2 | Amirthi Zoological Park                  |
+|     3 | Arignar Anna Zoological Park             |
+|     4 | Assam State Zoo-cum-Botanical Garden     |
+|     5 | Bannerghatta National Park               |
+|     7 | Birsa Deer Park                          |
+|     8 | Bondla Wildlife Sanctuary                |
+|    11 | Chennai Snake Park Trust                 |
+|    10 | Chhatbir Zoo                             |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani  |
+|    13 | Crocodile Breeding Centre, Kurukshetra   |
+|     9 | Pipli Mini Zoo                           |
++-------+------------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,RPAD(NAME,60,' ') FROM Zoo;
++-------+--------------------------------------------------------------+
+| ZOOID | RPAD(NAME,60,' ')                                            |
++-------+--------------------------------------------------------------+
+|     1 | Alipore Zoological Gardens                                   |
+|     2 | Amirthi Zoological Park                                      |
+|     3 | Arignar Anna Zoological Park                                 |
+|     4 | Assam State Zoo-cum-Botanical Garden                         |
+|     5 | Bannerghatta National Park                                   |
+|     7 | Birsa Deer Park                                              |
+|     8 | Bondla Wildlife Sanctuary                                    |
+|    11 | Chennai Snake Park Trust                                     |
+|    10 | Chhatbir Zoo                                                 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani                      |
+|    13 | Crocodile Breeding Centre, Kurukshetra                       |
+|     9 | Pipli Mini Zoo                                               |
++-------+--------------------------------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,RTRIM(RPAD(NAME,60,' ')) FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | RTRIM(RPAD(NAME,60,' '))                |
++-------+-----------------------------------------+
+|     1 | Alipore Zoological Gardens              |
+|     2 | Amirthi Zoological Park                 |
+|     3 | Arignar Anna Zoological Park            |
+|     4 | Assam State Zoo-cum-Botanical Garden    |
+|     5 | Bannerghatta National Park              |
+|     7 | Birsa Deer Park                         |
+|     8 | Bondla Wildlife Sanctuary               |
+|    11 | Chennai Snake Park Trust                |
+|    10 | Chhatbir Zoo                            |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |
+|     9 | Pipli Mini Zoo                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,MID(NAME,10,5) FROM Zoo;
++-------+----------------+
+| ZOOID | MID(NAME,10,5) |
++-------+----------------+
+|     1 | oolog          |
+|     2 | oolog          |
+|     3 | nna Z          |
+|     4 | te Zo          |
+|     5 | tta N          |
+|     7 | r Par          |
+|     8 | ldlif          |
+|    11 | nake           |
+|    10 | Zoo            |
+|    12 | Breed          |
+|    13 |  Bree          |
+|     9 | i Zoo          |
++-------+----------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,SUBTRING(NAME,10,5) FROM Zoo;
+ERROR 1305 (42000): FUNCTION zoo.SUBTRING does not exist
+mysql> SELECT ZOOID,SUBSTRING(NAME,10,5) FROM Zoo;
++-------+----------------------+
+| ZOOID | SUBSTRING(NAME,10,5) |
++-------+----------------------+
+|     1 | oolog                |
+|     2 | oolog                |
+|     3 | nna Z                |
+|     4 | te Zo                |
+|     5 | tta N                |
+|     7 | r Par                |
+|     8 | ldlif                |
+|    11 | nake                 |
+|    10 | Zoo                  |
+|    12 | Breed                |
+|    13 |  Bree                |
+|     9 | i Zoo                |
++-------+----------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,SUBSTRING(NAME FROM 10 FOR 5) FROM Zoo;
++-------+-------------------------------+
+| ZOOID | SUBSTRING(NAME FROM 10 FOR 5) |
++-------+-------------------------------+
+|     1 | oolog                         |
+|     2 | oolog                         |
+|     3 | nna Z                         |
+|     4 | te Zo                         |
+|     5 | tta N                         |
+|     7 | r Par                         |
+|     8 | ldlif                         |
+|    11 | nake                          |
+|    10 | Zoo                           |
+|    12 | Breed                         |
+|    13 |  Bree                         |
+|     9 | i Zoo                         |
++-------+-------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,POSITION('PARK' in NAME) FROM Zoo;
++-------+-----------------------------------------+--------------------------+
+| ZOOID | NAME                                    | POSITION('PARK' in NAME) |
++-------+-----------------------------------------+--------------------------+
+|     1 | Alipore Zoological Gardens              |                        0 |
+|     2 | Amirthi Zoological Park                 |                       20 |
+|     3 | Arignar Anna Zoological Park            |                       25 |
+|     4 | Assam State Zoo-cum-Botanical Garden    |                        0 |
+|     5 | Bannerghatta National Park              |                       23 |
+|     7 | Birsa Deer Park                         |                       12 |
+|     8 | Bondla Wildlife Sanctuary               |                        0 |
+|    11 | Chennai Snake Park Trust                |                       15 |
+|    10 | Chhatbir Zoo                            |                        0 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |                        0 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |                        0 |
+|     9 | Pipli Mini Zoo                          |                        0 |
++-------+-----------------------------------------+--------------------------+
+12 rows in set (0.03 sec)
+
+mysql> SELECT ZOOID,NAME,POSITION('GARDEN' in NAME) FROM Zoo;
++-------+-----------------------------------------+----------------------------+
+| ZOOID | NAME                                    | POSITION('GARDEN' in NAME) |
++-------+-----------------------------------------+----------------------------+
+|     1 | Alipore Zoological Gardens              |                         20 |
+|     2 | Amirthi Zoological Park                 |                          0 |
+|     3 | Arignar Anna Zoological Park            |                          0 |
+|     4 | Assam State Zoo-cum-Botanical Garden    |                         31 |
+|     5 | Bannerghatta National Park              |                          0 |
+|     7 | Birsa Deer Park                         |                          0 |
+|     8 | Bondla Wildlife Sanctuary               |                          0 |
+|    11 | Chennai Snake Park Trust                |                          0 |
+|    10 | Chhatbir Zoo                            |                          0 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |                          0 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |                          0 |
+|     9 | Pipli Mini Zoo                          |                          0 |
++-------+-----------------------------------------+----------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,NAME,REPEAT(CITY,5) FROM Zoo;
++-------+-----------------------------------------+--------------------------------------------------------------+
+| ZOOID | NAME                                    | REPEAT(CITY,5)                                               |
++-------+-----------------------------------------+--------------------------------------------------------------+
+|     1 | Alipore Zoological Gardens              | KolkataKolkataKolkataKolkataKolkata                          |
+|     2 | Amirthi Zoological Park                 | VelloreVelloreVelloreVelloreVellore                          |
+|     3 | Arignar Anna Zoological Park            | ChennaiChennaiChennaiChennaiChennai                          |
+|     4 | Assam State Zoo-cum-Botanical Garden    | GuwahatiGuwahatiGuwahatiGuwahatiGuwahati                     |
+|     5 | Bannerghatta National Park              | BengaluruBengaluruBengaluruBengaluruBengaluru                |
+|     7 | Birsa Deer Park                         | RanchiRanchiRanchiRanchiRanchi                               |
+|     8 | Bondla Wildlife Sanctuary               | PondaPondaPondaPondaPonda                                    |
+|     9 | Pipli Mini Zoo                          | PipliPipliPipliPipliPipli                                    |
+|    10 | Chhatbir Zoo                            | ZirakpurZirakpurZirakpurZirakpurZirakpur                     |
+|    11 | Chennai Snake Park Trust                | ChennaiChennaiChennaiChennaiChennai                          |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | BahalBahalBahalBahalBahal                                    |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Bhaur SaidanBhaur SaidanBhaur SaidanBhaur SaidanBhaur Saidan |
++-------+-----------------------------------------+--------------------------------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,REPLACE(NAME,'A','X') FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | REPLACE(NAME,'A','X')                   |
++-------+-----------------------------------------+
+|     1 | Xlipore Zoological Gardens              |
+|     2 | Xmirthi Zoological Park                 |
+|     3 | Xrignar Xnna Zoological Park            |
+|     4 | Xssam State Zoo-cum-Botanical Garden    |
+|     5 | Bannerghatta National Park              |
+|     7 | Birsa Deer Park                         |
+|     8 | Bondla Wildlife Sanctuary               |
+|    11 | Chennai Snake Park Trust                |
+|    10 | Chhatbir Zoo                            |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |
+|     9 | Pipli Mini Zoo                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,REPLACE(NAME,'A','X') FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | REPLACE(NAME,'A','X')                   |
++-------+-----------------------------------------+
+|     1 | Xlipore Zoological Gardens              |
+|     2 | Xmirthi Zoological Park                 |
+|     3 | Xrignar Xnna Zoological Park            |
+|     4 | Xssam State Zoo-cum-Botanical Garden    |
+|     5 | Bannerghatta National Park              |
+|     7 | Birsa Deer Park                         |
+|     8 | Bondla Wildlife Sanctuary               |
+|    11 | Chennai Snake Park Trust                |
+|    10 | Chhatbir Zoo                            |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |
+|     9 | Pipli Mini Zoo                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,REPLACE(NAME,'a','X') FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | REPLACE(NAME,'a','X')                   |
++-------+-----------------------------------------+
+|     1 | Alipore ZoologicXl GXrdens              |
+|     2 | Amirthi ZoologicXl PXrk                 |
+|     3 | ArignXr AnnX ZoologicXl PXrk            |
+|     4 | AssXm StXte Zoo-cum-BotXnicXl GXrden    |
+|     5 | BXnnerghXttX NXtionXl PXrk              |
+|     7 | BirsX Deer PXrk                         |
+|     8 | BondlX Wildlife SXnctuXry               |
+|    11 | ChennXi SnXke PXrk Trust                |
+|    10 | ChhXtbir Zoo                            |
+|    12 | ChinkXrX Breeding Centre KXiru, BhiwXni |
+|    13 | Crocodile Breeding Centre, KurukshetrX  |
+|     9 | Pipli Mini Zoo                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,REPLACE(NAME,'Garden','Park') FROM Zoo WHERE FIND_IN_SET('GARDEN',NAME)>0;
+Empty set (0.00 sec)
+
+mysql> SELECT ZOOID,REPLACE(NAME,'Garden','Park') FROM Zoo WHERE (FIND_IN_SET('GARDEN',NAME))>0;
+Empty set (0.00 sec)
+
+mysql> SELECT ZOOID,REPLACE(NAME,'Garden','Park') FROM Zoo WHERE (FIND_IN_SET('Garden',NAME))>0;
+Empty set (0.00 sec)
+
+mysql> SELECT ZOOID,REPLACE(NAME,'Garden','Park') FROM Zoo WHERE (locate('Garden',NAME))>0;
++-------+------------------------------------+
+| ZOOID | REPLACE(NAME,'Garden','Park')      |
++-------+------------------------------------+
+|     1 | Alipore Zoological Parks           |
+|     4 | Assam State Zoo-cum-Botanical Park |
++-------+------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,REVERSE(NAME) FROM Zoo;
++-------+-----------------------------------------+
+| ZOOID | REVERSE(NAME)                           |
++-------+-----------------------------------------+
+|     1 | snedraG lacigolooZ eropilA              |
+|     2 | kraP lacigolooZ ihtrimA                 |
+|     3 | kraP lacigolooZ annA rangirA            |
+|     4 | nedraG lacinatoB-muc-ooZ etatS massA    |
+|     5 | kraP lanoitaN attahgrennaB              |
+|     7 |  kraP reeD asriB                        |
+|     8 | yrautcnaS efildliW aldnoB               |
+|    11 | tsurT kraP ekanS iannehC                |
+|    10 | ooZ ribtahhC                            |
+|    12 | inawihB ,uriaK ertneC gnideerB araknihC |
+|    13 | artehskuruK ,ertneC gnideerB elidocorC  |
+|     9 | ooZ iniM ilpiP                          |
++-------+-----------------------------------------+
+12 rows in set (0.02 sec)
+
+mysql> SELECT ZOOID,SPACE(NAME,7) FROM Zoo;
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'SPACE'
+mysql> SELECT ZOOID,SPACE(7) FROM Zoo;
++-------+----------+
+| ZOOID | SPACE(7) |
++-------+----------+
+|     1 |          |
+|     2 |          |
+|     3 |          |
+|     4 |          |
+|     5 |          |
+|     7 |          |
+|     8 |          |
+|    11 |          |
+|    10 |          |
+|    12 |          |
+|    13 |          |
+|     9 |          |
++-------+----------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Zoo;
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+| ZooId | Name                                    | State       | City         | Contact_No | Animal_Population | Visitors_per_Year |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens              | West Bengal | Kolkata      | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park                 | Tamil Nadu  | Vellore      | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park            | Tamil Nadu  | Chennai      | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Assam       | Guwahati     | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park              | Karnataka   | Bengaluru    | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                         | Jharkhand   | Ranchi       | 6512480948 |              1450 |            800000 |
+|     8 | Bondla Wildlife Sanctuary               | Goa         | Ponda        | 8923561278 |              3213 |            100000 |
+|     9 | Pipli Mini Zoo                          | Haryana     | Pipli        | 4677569871 |               345 |             25000 |
+|    10 | Chhatbir Zoo                            | Punjab      | Zirakpur     | 5312674284 |              1432 |            125000 |
+|    11 | Chennai Snake Park Trust                | Tamil Nadu  | Chennai      |       NULL |              NULL |              NULL |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana     | Bahal        |       NULL |              NULL |              NULL |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Haryana     | Bhaur Saidan |       NULL |              NULL |              NULL |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT STRCMP(STATE,STATE) FROM Zoo WHERE ZOOID>11;
++---------------------+
+| STRCMP(STATE,STATE) |
++---------------------+
+|                   0 |
+|                   0 |
++---------------------+
+2 rows in set (0.04 sec)
+
+mysql> SELECT STRCMP(STATE,CITY) FROM Zoo WHERE ZOOID>11;
++--------------------+
+| STRCMP(STATE,CITY) |
++--------------------+
+|                  1 |
+|                  1 |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT STRCMP(CITY,STATE) FROM Zoo WHERE ZOOID>11;
++--------------------+
+| STRCMP(CITY,STATE) |
++--------------------+
+|                 -1 |
+|                 -1 |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,TRIM(LPAD(NAME,40,' ')) FROM Zoo
+    -> ;
++-------+-----------------------------------------+
+| ZOOID | TRIM(LPAD(NAME,40,' '))                 |
++-------+-----------------------------------------+
+|     1 | Alipore Zoological Gardens              |
+|     2 | Amirthi Zoological Park                 |
+|     3 | Arignar Anna Zoological Park            |
+|     4 | Assam State Zoo-cum-Botanical Garden    |
+|     5 | Bannerghatta National Park              |
+|     7 | Birsa Deer Park                         |
+|     8 | Bondla Wildlife Sanctuary               |
+|    11 | Chennai Snake Park Trust                |
+|    10 | Chhatbir Zoo                            |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |
+|    13 | Crocodile Breeding Centre, Kurukshetra  |
+|     9 | Pipli Mini Zoo                          |
++-------+-----------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,TRIM(LEADING ' ' FROM LPAD(NAME,40,' ')) FROM Zoo;
++-------+------------------------------------------+
+| ZOOID | TRIM(LEADING ' ' FROM LPAD(NAME,40,' ')) |
++-------+------------------------------------------+
+|     1 | Alipore Zoological Gardens               |
+|     2 | Amirthi Zoological Park                  |
+|     3 | Arignar Anna Zoological Park             |
+|     4 | Assam State Zoo-cum-Botanical Garden     |
+|     5 | Bannerghatta National Park               |
+|     7 | Birsa Deer Park                          |
+|     8 | Bondla Wildlife Sanctuary                |
+|    11 | Chennai Snake Park Trust                 |
+|    10 | Chhatbir Zoo                             |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani  |
+|    13 | Crocodile Breeding Centre, Kurukshetra   |
+|     9 | Pipli Mini Zoo                           |
++-------+------------------------------------------+
+12 rows in set (0.03 sec)
+
+mysql> SELECT ZOOID,TRIM(TRAILING ' ' FROM RPAD(NAME,40,' ')) FROM Zoo;
++-------+-------------------------------------------+
+| ZOOID | TRIM(TRAILING ' ' FROM RPAD(NAME,40,' ')) |
++-------+-------------------------------------------+
+|     1 | Alipore Zoological Gardens                |
+|     2 | Amirthi Zoological Park                   |
+|     3 | Arignar Anna Zoological Park              |
+|     4 | Assam State Zoo-cum-Botanical Garden      |
+|     5 | Bannerghatta National Park                |
+|     7 | Birsa Deer Park                           |
+|     8 | Bondla Wildlife Sanctuary                 |
+|    11 | Chennai Snake Park Trust                  |
+|    10 | Chhatbir Zoo                              |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani   |
+|    13 | Crocodile Breeding Centre, Kurukshetra    |
+|     9 | Pipli Mini Zoo                            |
++-------+-------------------------------------------+
+12 rows in set (0.00 sec)
+
+mysql> #CONVERSION FUNCTIONS
+mysql> DESC VISITOR
+    -> ;
++-----------+-------------+------+-----+----------+----------------+
+| Field     | Type        | Null | Key | Default  | Extra          |
++-----------+-------------+------+-----+----------+----------------+
+| ZooId     | int         | NO   | PRI | NULL     |                |
+| TicketNo  | int         | NO   | UNI | NULL     | auto_increment |
+| Name      | varchar(50) | YES  |     | NULL     |                |
+| VisitDate | date        | YES  |     | NULL     |                |
+| EntryTime | time        | YES  |     | 09:00:00 |                |
+| ExitTime  | time        | YES  |     | 06:00:00 |                |
+| TimeSpent | time        | YES  |     | NULL     |                |
++-----------+-------------+------+-----+----------+----------------+
+7 rows in set (0.04 sec)
+
+mysql> CREATE TABLE DummyCon(ZooID int PR	
+    -> ^C
+mysql> CREATE TABLE DummyCon(ID int,Name Varchar(50),Date Varchar(20),Time Varchar(20),Num1 Bigint,Num2 Bigint,Num3 Bigint);	
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> INSERT INTO DummyCon VALUES
+    -> (1,'Ben',MAKEDATE(2008,243),MAKETIME(03,55,45),-86,6574,128),
+    -> (2,'Zack',MAKEDATE(2012,143),MAKETIME(11,34,00),-7,876,1345),
+    -> (3,'Philip',MAKEDATE(2002,98),MAKETIME(06,14,30),3,95342,54),
+    -> (4,'Ed',MAKEDATE(2023,68),MAKETIME(23,06,23),-31,56,9);
+Query OK, 4 rows affected (0.05 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM DummyCon;
++------+--------+------------+----------+------+-------+------+
+| ID   | Name   | Date       | Time     | Num1 | Num2  | Num3 |
++------+--------+------------+----------+------+-------+------+
+|    1 | Ben    | 2008-08-30 | 03:55:45 |  -86 |  6574 |  128 |
+|    2 | Zack   | 2012-05-22 | 11:34:00 |   -7 |   876 | 1345 |
+|    3 | Philip | 2002-04-08 | 06:14:30 |    3 | 95342 |   54 |
+|    4 | Ed     | 2023-03-09 | 23:06:23 |  -31 |    56 |    9 |
++------+--------+------------+----------+------+-------+------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CONVERT(Date,DATE) FROM DummyCon;
++--------------------+
+| CONVERT(Date,DATE) |
++--------------------+
+| 2008-08-30         |
+| 2012-05-22         |
+| 2002-04-08         |
+| 2023-03-09         |
++--------------------+
+4 rows in set (0.04 sec)
+
+mysql> CREATE TABLE DummyCon1(ID int,Name Varchar(50),Date Varchar(20),Time Varchar(20),Num1 Bigint,Num2 Bigint);	
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> INSERT INTO DummyCon1 VALUES
+    -> (1,'Ben','20080830','035545',-86,6574),
+    -> (2,'Zack','20120522','113400',-7,876),
+    -> (3,'Philip','20020408','061430',3,95342),
+    -> (4,'Ed','20230309','230623',-31,56);
+Query OK, 4 rows affected (0.05 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM DummyCon1;
++------+--------+----------+--------+------+-------+
+| ID   | Name   | Date     | Time   | Num1 | Num2  |
++------+--------+----------+--------+------+-------+
+|    1 | Ben    | 20080830 | 035545 |  -86 |  6574 |
+|    2 | Zack   | 20120522 | 113400 |   -7 |   876 |
+|    3 | Philip | 20020408 | 061430 |    3 | 95342 |
+|    4 | Ed     | 20230309 | 230623 |  -31 |    56 |
++------+--------+----------+--------+------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CONVERT(Date,DATE) FROM DummyCon1;
++--------------------+
+| CONVERT(Date,DATE) |
++--------------------+
+| 2008-08-30         |
+| 2012-05-22         |
+| 2002-04-08         |
+| 2023-03-09         |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CAST(Date as DATE) FROM DummyCon1;
++--------------------+
+| CAST(Date as DATE) |
++--------------------+
+| 2008-08-30         |
+| 2012-05-22         |
+| 2002-04-08         |
+| 2023-03-09         |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CONVERT(Time,TIME) FROM DummyCon1;
++--------------------+
+| CONVERT(Time,TIME) |
++--------------------+
+| 03:55:45           |
+| 11:34:00           |
+| 06:14:30           |
+| 23:06:23           |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CAST(Time AS TIME) FROM DummyCon1;
++--------------------+
+| CAST(Time AS TIME) |
++--------------------+
+| 03:55:45           |
+| 11:34:00           |
+| 06:14:30           |
+| 23:06:23           |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CONVERT(Num1,UNSIGNED) FROM DummyCon1;
++------------------------+
+| CONVERT(Num1,UNSIGNED) |
++------------------------+
+|   18446744073709551530 |
+|   18446744073709551609 |
+|                      3 |
+|   18446744073709551585 |
++------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CAST(Num1 AS UNSIGNED) FROM DummyCon1;
++------------------------+
+| CAST(Num1 AS UNSIGNED) |
++------------------------+
+|   18446744073709551530 |
+|   18446744073709551609 |
+|                      3 |
+|   18446744073709551585 |
++------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CONVERT(Num2,DECIMAL(6,1) FROM DummyCon1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM DummyCon1' at line 1
+mysql> SELECT CONVERT(Num2,DECIMAL(6,1)) FROM DummyCon1;
++----------------------------+
+| CONVERT(Num2,DECIMAL(6,1)) |
++----------------------------+
+|                     6574.0 |
+|                      876.0 |
+|                    95342.0 |
+|                       56.0 |
++----------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CAST(Num2 AS DECIMAL(4,1)) FROM DummyCon1;
++----------------------------+
+| CAST(Num2 AS DECIMAL(4,1)) |
++----------------------------+
+|                      999.9 |
+|                      876.0 |
+|                      999.9 |
+|                       56.0 |
++----------------------------+
+4 rows in set, 2 warnings (0.02 sec)
+
+mysql> SELECT CONVERT(Num2,BINARY) FROM DummyCon1;
++--------------------------------------------+
+| CONVERT(Num2,BINARY)                       |
++--------------------------------------------+
+|                                  |
+|                                    |
+|                                |
+|                                      |
++--------------------------------------------+
+4 rows in set (0.03 sec)
+
+mysql> SELECT CAST(NAME AS BINARY) FROM DummyCon1;
++--------------------------------------------+
+| CAST(NAME AS BINARY)                       |
++--------------------------------------------+
+|                                    |
+|                                  |
+|                              |
+|                                      |
++--------------------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT CONVERT(NAME,BINARY) FROM DummyCon1;
++--------------------------------------------+
+| CONVERT(NAME,BINARY)                       |
++--------------------------------------------+
+|                                    |
+|                                  |
+|                              |
+|                                      |
++--------------------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> NOTEE;

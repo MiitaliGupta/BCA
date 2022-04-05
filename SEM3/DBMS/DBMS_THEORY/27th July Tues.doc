@@ -1,0 +1,606 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> select world;
+ERROR 1054 (42S22): Unknown column 'world' in 'field list'
+
+mysql> use world
+Database changed
+
+mysql> show tables
+    -> ;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from city order by district limit 10;
++------+---------------+-------------+--------------------+------------+
+| ID   | Name          | CountryCode | District           | Population |
++------+---------------+-------------+--------------------+------------+
+| 3563 | Ciudad Losada | VEN         |                    |     134501 |
+| 3294 | Kueishan      | TWN         |                    |     112195 |
+| 3285 | Taiping       | TWN         |                    |     165524 |
+| 3293 | Taliao        | TWN         |                    |     115897 |
+|  909 | Sohumi        | GEO         | Abhasia [Aphazeti] |     111700 |
+| 2812 | Abidjan       | CIV         | Abidjan            |    2500000 |
+| 1498 | Pescara       | ITA         | Abruzzit           |     115698 |
+|   65 | Abu Dhabi     | ARE         | Abu Dhabi          |     398695 |
+|   67 | al-Ayn        | ARE         | Abu Dhabi          |     225970 |
+|  982 | Banda Aceh    | IDN         | Aceh               |     143409 |
++------+---------------+-------------+--------------------+------------+
+10 rows in set (0.01 sec)
+
+
+mysql> select * from city limit 10 order by district;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by district' at line 1
+
+
+mysql> select distinct countrycode from city;
++-------------+
+| countrycode |
++-------------+
+| ABW         |
+| AFG         |
+| AGO         |
+| AIA         |
+| ALB         |
+| AND         |
+| ANT         |
+| ARE         |
+| ARG         |
+| ARM         |
+| ASM         |
+| ATG         |
+| AUS         |
+| AUT         |
+| AZE         |
+| BDI         |
+| BEL         |
+| BEN         |
+| BFA         |
+| BGD         |
+| BGR         |
+| BHR         |
+| BHS         |
+| BIH         |
+| BLR         |
+| BLZ         |
+| BMU         |
+| BOL         |
+| BRA         |
+| BRB         |
+| BRN         |
+| BTN         |
+| BWA         |
+| CAF         |
+| CAN         |
+| CCK         |
+| CHE         |
+| CHL         |
+| CHN         |
+| CIV         |
+| CMR         |
+| COD         |
+| COG         |
+| COK         |
+| COL         |
+| COM         |
+| CPV         |
+| CRI         |
+| CUB         |
+| CXR         |
+| CYM         |
+| CYP         |
+| CZE         |
+| DEU         |
+| DJI         |
+| DMA         |
+| DNK         |
+| DOM         |
+| DZA         |
+| ECU         |
+| EGY         |
+| ERI         |
+| ESH         |
+| ESP         |
+| EST         |
+| ETH         |
+| FIN         |
+| FJI         |
+| FLK         |
+| FRA         |
+| FRO         |
+| FSM         |
+| GAB         |
+| GBR         |
+| GEO         |
+| GHA         |
+| GIB         |
+| GIN         |
+| GLP         |
+| GMB         |
+| GNB         |
+| GNQ         |
+| GRC         |
+| GRD         |
+| GRL         |
+| GTM         |
+| GUF         |
+| GUM         |
+| GUY         |
+| HKG         |
+| HND         |
+| HRV         |
+| HTI         |
+| HUN         |
+| IDN         |
+| IND         |
+| IRL         |
+| IRN         |
+| IRQ         |
+| ISL         |
+| ISR         |
+| ITA         |
+| JAM         |
+| JOR         |
+| JPN         |
+| KAZ         |
+| KEN         |
+| KGZ         |
+| KHM         |
+| KIR         |
+| KNA         |
+| KOR         |
+| KWT         |
+| LAO         |
+| LBN         |
+| LBR         |
+| LBY         |
+| LCA         |
+| LIE         |
+| LKA         |
+| LSO         |
+| LTU         |
+| LUX         |
+| LVA         |
+| MAC         |
+| MAR         |
+| MCO         |
+| MDA         |
+| MDG         |
+| MDV         |
+| MEX         |
+| MHL         |
+| MKD         |
+| MLI         |
+| MLT         |
+| MMR         |
+| MNG         |
+| MNP         |
+| MOZ         |
+| MRT         |
+| MSR         |
+| MTQ         |
+| MUS         |
+| MWI         |
+| MYS         |
+| MYT         |
+| NAM         |
+| NCL         |
+| NER         |
+| NFK         |
+| NGA         |
+| NIC         |
+| NIU         |
+| NLD         |
+| NOR         |
+| NPL         |
+| NRU         |
+| NZL         |
+| OMN         |
+| PAK         |
+| PAN         |
+| PCN         |
+| PER         |
+| PHL         |
+| PLW         |
+| PNG         |
+| POL         |
+| PRI         |
+| PRK         |
+| PRT         |
+| PRY         |
+| PSE         |
+| PYF         |
+| QAT         |
+| REU         |
+| ROM         |
+| RUS         |
+| RWA         |
+| SAU         |
+| SDN         |
+| SEN         |
+| SGP         |
+| SHN         |
+| SJM         |
+| SLB         |
+| SLE         |
+| SLV         |
+| SMR         |
+| SOM         |
+| SPM         |
+| STP         |
+| SUR         |
+| SVK         |
+| SVN         |
+| SWE         |
+| SWZ         |
+| SYC         |
+| SYR         |
+| TCA         |
+| TCD         |
+| TGO         |
+| THA         |
+| TJK         |
+| TKL         |
+| TKM         |
+| TMP         |
+| TON         |
+| TTO         |
+| TUN         |
+| TUR         |
+| TUV         |
+| TWN         |
+| TZA         |
+| UGA         |
+| UKR         |
+| URY         |
+| USA         |
+| UZB         |
+| VAT         |
+| VCT         |
+| VEN         |
+| VGB         |
+| VIR         |
+| VNM         |
+| VUT         |
+| WLF         |
+| WSM         |
+| YEM         |
+| YUG         |
+| ZAF         |
+| ZMB         |
+| ZWE         |
++-------------+
+232 rows in set (0.04 sec)
+
+mysql> select count(distinct name) from city;
++----------------------+
+| count(distinct name) |
++----------------------+
+|                 4001 |
++----------------------+
+1 row in set (0.03 sec)
+
+mysql> select count (distinct name) from city;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct name) from city' at line 1
+mysql> select count( distinct name) from city;
++-----------------------+
+| count( distinct name) |
++-----------------------+
+|                  4001 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(name) from city;
++-------------+
+| count(name) |
++-------------+
+|        4079 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select count(id) from city;
++-----------+
+| count(id) |
++-----------+
+|      4079 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select count(countrycode) from city;
++--------------------+
+| count(countrycode) |
++--------------------+
+|               4079 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(district) from city;
++-----------------+
+| count(district) |
++-----------------+
+|            4079 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select count(population) from city;
++-------------------+
+| count(population) |
++-------------------+
+|              4079 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(distinct population) from city;
++----------------------------+
+| count(distinct population) |
++----------------------------+
+|                       3897 |
++----------------------------+
+1 row in set (0.00 sec)
+
+mysql> desc city
+    -> ;
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| ID          | int      | NO   | PRI | NULL    | auto_increment |
+| Name        | char(35) | NO   |     |         |                |
+| CountryCode | char(3)  | NO   | MUL |         |                |
+| District    | char(20) | NO   |     |         |                |
+| Population  | int      | NO   |     | 0       |                |
++-------------+----------+------+-----+---------+----------------+
+5 rows in set (0.01 sec)
+
+mysql> describe city;
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| ID          | int      | NO   | PRI | NULL    | auto_increment |
+| Name        | char(35) | NO   |     |         |                |
+| CountryCode | char(3)  | NO   | MUL |         |                |
+| District    | char(20) | NO   |     |         |                |
+| Population  | int      | NO   |     | 0       |                |
++-------------+----------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> use world
+Database changed
+mysql> select name,ID from city limit 10;
++----------------+----+
+| name           | ID |
++----------------+----+
+| Kabul          |  1 |
+| Qandahar       |  2 |
+| Herat          |  3 |
+| Mazar-e-Sharif |  4 |
+| Amsterdam      |  5 |
+| Rotterdam      |  6 |
+| Haag           |  7 |
+| Utrecht        |  8 |
+| Eindhoven      |  9 |
+| Tilburg        | 10 |
++----------------+----+
+10 rows in set (0.00 sec)
+
+mysql> select name as country,ID from city limit 10;
++----------------+----+
+| country        | ID |
++----------------+----+
+| Kabul          |  1 |
+| Qandahar       |  2 |
+| Herat          |  3 |
+| Mazar-e-Sharif |  4 |
+| Amsterdam      |  5 |
+| Rotterdam      |  6 |
+| Haag           |  7 |
+| Utrecht        |  8 |
+| Eindhoven      |  9 |
+| Tilburg        | 10 |
++----------------+----+
+10 rows in set (0.00 sec)
+
+mysql> select* from city limit 10;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  1 | Kabul          | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
+|  6 | Rotterdam      | NLD         | Zuid-Holland  |     593321 |
+|  7 | Haag           | NLD         | Zuid-Holland  |     440900 |
+|  8 | Utrecht        | NLD         | Utrecht       |     234323 |
+|  9 | Eindhoven      | NLD         | Noord-Brabant |     201843 |
+| 10 | Tilburg        | NLD         | Noord-Brabant |     193238 |
++----+----------------+-------------+---------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select District ,ID limit 10;
+ERROR 1054 (42S22): Unknown column 'District' in 'field list'
+mysql> select District ,ID from city limit 10;
++---------------+----+
+| District      | ID |
++---------------+----+
+| Kabol         |  1 |
+| Qandahar      |  2 |
+| Herat         |  3 |
+| Balkh         |  4 |
+| Noord-Holland |  5 |
+| Zuid-Holland  |  6 |
+| Zuid-Holland  |  7 |
+| Utrecht       |  8 |
+| Noord-Brabant |  9 |
+| Noord-Brabant | 10 |
++---------------+----+
+10 rows in set (0.00 sec)
+
+mysql> select order by  District ,ID from city limit 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by  District ,ID from city limit 10' at line 1
+mysql> select* from city limit ID 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10' at line 1
+mysql> select* from city order by limit ID 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'limit ID 10' at line 1
+mysql> select* from city order by limitID 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10' at line 1
+mysql> select* from city order by district limitID 10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'limitID 10' at line 1
+
+mysql> select* from city limit 10;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  1 | Kabul          | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
+|  6 | Rotterdam      | NLD         | Zuid-Holland  |     593321 |
+|  7 | Haag           | NLD         | Zuid-Holland  |     440900 |
+|  8 | Utrecht        | NLD         | Utrecht       |     234323 |
+|  9 | Eindhoven      | NLD         | Noord-Brabant |     201843 |
+| 10 | Tilburg        | NLD         | Noord-Brabant |     193238 |
++----+----------------+-------------+---------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select* from city limit 10 order by district;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by district' at line 1
+mysql> 
+mysql> select * from city order by ID order by name limit 10 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by name limit 10' at line 1
+mysql> select * from city order by ID order,by name limit 10 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order,by name limit 10' at line 1
+mysql> select * from city order by ID, order by name limit 10 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by name limit 10' at line 1
+mysql> select * from city order by(ID,name) limit 10 ;
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select * from city order by ID(asc) order by name(asc) limit 10 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc) order by name(asc) limit 10' at line 1
+mysql> select * from city order by ID Name limit 10 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Name limit 10' at line 1
+mysql> select * from city order by ID,Name limit 10 ;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  1 | Kabul          | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
+|  6 | Rotterdam      | NLD         | Zuid-Holland  |     593321 |
+|  7 | Haag           | NLD         | Zuid-Holland  |     440900 |
+|  8 | Utrecht        | NLD         | Utrecht       |     234323 |
+|  9 | Eindhoven      | NLD         | Noord-Brabant |     201843 |
+| 10 | Tilburg        | NLD         | Noord-Brabant |     193238 |
++----+----------------+-------------+---------------+------------+
+10 rows in set (0.01 sec)
+
+mysql> select * from city order by Name, ID limit 10 ;
++------+------------------------+-------------+---------------------+------------+
+| ID   | Name                   | CountryCode | District            | Population |
++------+------------------------+-------------+---------------------+------------+
+|  670 | A CoruÇña (La CoruÇña) | ESP         | Galicia             |     243402 |
+| 3097 | Aachen                 | DEU         | Nordrhein-Westfalen |     243825 |
+| 3318 | Aalborg                | DNK         | Nordjylland         |     161161 |
+| 2760 | Aba                    | NGA         | Imo & Abia          |     298900 |
+| 1404 | Abadan                 | IRN         | Khuzestan           |     206073 |
+|  395 | Abaetetuba             | BRA         | ParÇ­               |     111258 |
+| 3683 | Abakan                 | RUS         | Hakassia            |     169200 |
+| 1849 | Abbotsford             | CAN         | British Colombia    |     105403 |
+| 2747 | Abeokuta               | NGA         | Ogun                |     427400 |
+|  478 | Aberdeen               | GBR         | Scotland            |     213070 |
++------+------------------------+-------------+---------------------+------------+
+10 rows in set (0.01 sec)
+
+mysql> select * from city order by Name,ID limit 10 ;
++------+------------------------+-------------+---------------------+------------+
+| ID   | Name                   | CountryCode | District            | Population |
++------+------------------------+-------------+---------------------+------------+
+|  670 | A CoruÇña (La CoruÇña) | ESP         | Galicia             |     243402 |
+| 3097 | Aachen                 | DEU         | Nordrhein-Westfalen |     243825 |
+| 3318 | Aalborg                | DNK         | Nordjylland         |     161161 |
+| 2760 | Aba                    | NGA         | Imo & Abia          |     298900 |
+| 1404 | Abadan                 | IRN         | Khuzestan           |     206073 |
+|  395 | Abaetetuba             | BRA         | ParÇ­               |     111258 |
+| 3683 | Abakan                 | RUS         | Hakassia            |     169200 |
+| 1849 | Abbotsford             | CAN         | British Colombia    |     105403 |
+| 2747 | Abeokuta               | NGA         | Ogun                |     427400 |
+|  478 | Aberdeen               | GBR         | Scotland            |     213070 |
++------+------------------------+-------------+---------------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from city order by ID ASC, Name ASC limit 10 ;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  1 | Kabul          | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
+|  6 | Rotterdam      | NLD         | Zuid-Holland  |     593321 |
+|  7 | Haag           | NLD         | Zuid-Holland  |     440900 |
+|  8 | Utrecht        | NLD         | Utrecht       |     234323 |
+|  9 | Eindhoven      | NLD         | Noord-Brabant |     201843 |
+| 10 | Tilburg        | NLD         | Noord-Brabant |     193238 |
++----+----------------+-------------+---------------+------------+
+10 rows in set (0.01 sec)
+
+mysql> select * from city order by Name ASC ID limit 10 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ID limit 10' at line 1
+mysql> select * from city order by Name WHERE ID<=10 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE ID<=10' at line 1
+mysql> select * from city order by Name group by ID limit 1,10;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group by ID limit 1,10' at line 1
+mysql> select * from city WHERE ID<=10 ;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  1 | Kabul          | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
+|  6 | Rotterdam      | NLD         | Zuid-Holland  |     593321 |
+|  7 | Haag           | NLD         | Zuid-Holland  |     440900 |
+|  8 | Utrecht        | NLD         | Utrecht       |     234323 |
+|  9 | Eindhoven      | NLD         | Noord-Brabant |     201843 |
+| 10 | Tilburg        | NLD         | Noord-Brabant |     193238 |
++----+----------------+-------------+---------------+------------+
+10 rows in set (0.03 sec)
+
+mysql> select * from city WHERE ID<=10 order by Name;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
+|  9 | Eindhoven      | NLD         | Noord-Brabant |     201843 |
+|  7 | Haag           | NLD         | Zuid-Holland  |     440900 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  1 | Kabul          | AFG         | Kabol         |    1780000 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  6 | Rotterdam      | NLD         | Zuid-Holland  |     593321 |
+| 10 | Tilburg        | NLD         | Noord-Brabant |     193238 |
+|  8 | Utrecht        | NLD         | Utrecht       |     234323 |
++----+----------------+-------------+---------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> notee;

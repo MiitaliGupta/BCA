@@ -1,0 +1,751 @@
+mysql> /*CREATING TABLE USING CONSTRAINTS*/
+mysql> 
+mysql> CREATE TABLE Zoo(ZooId int NOT NULL UNIQUE,Name varchar(50),District varchar(50),Contact_No. int,Animal_Population int CHECK(Animal_Population>=1), Visitors_per_Month int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '. int,Animal_Population int CHECK(Animal_Population>=1), Visitors_per_Month int)' at line 1
+mysql> CREATE TABLE Zoo(ZooId int NOT NULL,Name varchar(50),District varchar(50),Contact_No. int,Animal_Population int CHECK(Animal_Population>=1), Visitors_per_Month int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '. int,Animal_Population int CHECK(Animal_Population>=1), Visitors_per_Month int)' at line 1
+mysql> CREATE TABLE Zoo(ZooId int NOT NULL UNIQUE,Name varchar(50),District varchar(50),Contact_No. int, Animal_Population int CHECK(Animal_Population>1), Visitors_per_Month int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '. int, Animal_Population int CHECK(Animal_Population>1), Visitors_per_Month int)' at line 1
+mysql> CREATE TABLE Zoo(ZooId int NOT NULL UNIQUE,Name varchar(50),District varchar(50),Contact_No. int, Animal_Population int , Visitors_per_Month int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '. int, Animal_Population int , Visitors_per_Month int)' at line 1
+mysql> CREATE TABLE Zoo(ZooId int NOT NULL UNIQUE,Name varchar(50),District varchar(50),Contact_No int,Animal_Population int CHECK(Animal_Population>=1), Visitors_per_Month int);
+ERROR 1046 (3D000): No database selected
+mysql> use ZOO;
+Database changed
+mysql> CREATE TABLE Zoo(ZooId int NOT NULL UNIQUE,Name varchar(50),District varchar(50),Contact_No int,Animal_Population int CHECK(Animal_Population>=1), Visitors_per_Month int);
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> desc Zoo;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| ZooId              | int         | NO   | PRI | NULL    |       |
+| Name               | varchar(50) | YES  |     | NULL    |       |
+| District           | varchar(50) | YES  |     | NULL    |       |
+| Contact_No         | int         | YES  |     | NULL    |       |
+| Animal_Population  | int         | YES  |     | NULL    |       |
+| Visitors_per_Month | int         | YES  |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+6 rows in set (0.05 sec)
+
+mysql> ALTER table Zoo add State varchar(50);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Zoo;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| ZooId              | int         | NO   | PRI | NULL    |       |
+| Name               | varchar(50) | YES  |     | NULL    |       |
+| District           | varchar(50) | YES  |     | NULL    |       |
+| Contact_No         | int         | YES  |     | NULL    |       |
+| Animal_Population  | int         | YES  |     | NULL    |       |
+| Visitors_per_Month | int         | YES  |     | NULL    |       |
+| State              | varchar(50) | YES  |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.03 sec)
+
+mysql> ALTER TABLE Zoo MODIFY State varchar(50) AFTER Name;
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Zoo;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| ZooId              | int         | NO   | PRI | NULL    |       |
+| Name               | varchar(50) | YES  |     | NULL    |       |
+| State              | varchar(50) | YES  |     | NULL    |       |
+| District           | varchar(50) | YES  |     | NULL    |       |
+| Contact_No         | int         | YES  |     | NULL    |       |
+| Animal_Population  | int         | YES  |     | NULL    |       |
+| Visitors_per_Month | int         | YES  |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> ALTER TABLE Zoo MODIFY Name varchar(50) UNIQUE;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Zoo MODIFY Name varchar(50) UNIQUE;
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> desc Zoo;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| ZooId              | int         | NO   | PRI | NULL    |       |
+| Name               | varchar(50) | YES  | UNI | NULL    |       |
+| State              | varchar(50) | YES  |     | NULL    |       |
+| District           | varchar(50) | YES  |     | NULL    |       |
+| Contact_No         | int         | YES  |     | NULL    |       |
+| Animal_Population  | int         | YES  |     | NULL    |       |
+| Visitors_per_Month | int         | YES  |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.03 sec)
+
+mysql> ALTER TABLE Zoo MODIFY Name varchar(50) NOT NULL;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Zoo;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| ZooId              | int         | NO   | PRI | NULL    |       |
+| Name               | varchar(50) | NO   | UNI | NULL    |       |
+| State              | varchar(50) | YES  |     | NULL    |       |
+| District           | varchar(50) | YES  |     | NULL    |       |
+| Contact_No         | int         | YES  |     | NULL    |       |
+| Animal_Population  | int         | YES  |     | NULL    |       |
+| Visitors_per_Month | int         | YES  |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.03 sec)
+
+mysql> /*THERE CANT BE MORE THAN ONE PRIMARY KEY*/;
+ERROR: 
+No query specified
+
+mysql> /*THERE CANT BE MORE THAN ONE PRIMARY KEY*/
+mysql> ALTER TABLE Zoo MODIFY ZooId int AUTO_INCREMENT;
+Query OK, 0 rows affected (0.22 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Zoo;
++--------------------+-------------+------+-----+---------+----------------+
+| Field              | Type        | Null | Key | Default | Extra          |
++--------------------+-------------+------+-----+---------+----------------+
+| ZooId              | int         | NO   | PRI | NULL    | auto_increment |
+| Name               | varchar(50) | NO   | UNI | NULL    |                |
+| State              | varchar(50) | YES  |     | NULL    |                |
+| District           | varchar(50) | YES  |     | NULL    |                |
+| Contact_No         | int         | YES  |     | NULL    |                |
+| Animal_Population  | int         | YES  |     | NULL    |                |
+| Visitors_per_Month | int         | YES  |     | NULL    |                |
++--------------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.04 sec)
+
+mysql> /*AUTO INCREMENT*/
+mysql> insert into Zoo values(6174,"Alipore Zoological Gardens","West Bengal","Kolkata",03324791150,1266,3000000);
+ERROR 1264 (22003): Out of range value for column 'Contact_No' at row 1
+mysql> ALTER TABLE Zoo MODIFY Contact_No BigInt;
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into Zoo values(6174,"Alipore Zoological Gardens","West Bengal","Kolkata",03324791150,1266,3000000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Zoo;
++-------+----------------------------+-------------+----------+------------+-------------------+--------------------+
+| ZooId | Name                       | State       | District | Contact_No | Animal_Population | Visitors_per_Month |
++-------+----------------------------+-------------+----------+------------+-------------------+--------------------+
+|  6174 | Alipore Zoological Gardens | West Bengal | Kolkata  | 3324791150 |              1266 |            3000000 |
++-------+----------------------------+-------------+----------+------------+-------------------+--------------------+
+1 row in set (0.00 sec)
+
+mysql> ^C
+mysql> ALTER TABLE Zoo RENAME District to City, 
+
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to City, 
+' at line 1
+mysql> ALTER TABLE Zoo RENAME District to City;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to City' at line 1
+mysql> ALTER TABLE Zoo RENAME COLUMN District to City;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Zoo RENAME COLUMN Visitors_per_Month to Visitors_per_Year;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Zoo;
++-------------------+-------------+------+-----+---------+----------------+
+| Field             | Type        | Null | Key | Default | Extra          |
++-------------------+-------------+------+-----+---------+----------------+
+| ZooId             | int         | NO   | PRI | NULL    | auto_increment |
+| Name              | varchar(50) | NO   | UNI | NULL    |                |
+| State             | varchar(50) | YES  |     | NULL    |                |
+| City              | varchar(50) | YES  |     | NULL    |                |
+| Contact_No        | bigint      | YES  |     | NULL    |                |
+| Animal_Population | int         | YES  |     | NULL    |                |
+| Visitors_per_Year | int         | YES  |     | NULL    |                |
++-------------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.03 sec)
+
+mysql> insert into Zoo values("Amirthi Zoological Park","Tamil Nadu","Vellore",09789323326,174,131619);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into Zoo values(,"Amirthi Zoological Park","Tamil Nadu","Vellore",09789323326,174,131619);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',"Amirthi Zoological Park","Tamil Nadu","Vellore",09789323326,174,131619)' at line 1
+mysql> /*CHECKING HOW AUTO INCREMENT WORKS*/
+mysql> insert into Zoo values(null,"Amirthi Zoological Park","Tamil Nadu","Vellore",09789323326,174,131619);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Zoo;
++-------+----------------------------+-------------+---------+------------+-------------------+-------------------+
+| ZooId | Name                       | State       | City    | Contact_No | Animal_Population | Visitors_per_Year |
++-------+----------------------------+-------------+---------+------------+-------------------+-------------------+
+|  6174 | Alipore Zoological Gardens | West Bengal | Kolkata | 3324791150 |              1266 |           3000000 |
+|  6175 | Amirthi Zoological Park    | Tamil Nadu  | Vellore | 9789323326 |               174 |            131619 |
++-------+----------------------------+-------------+---------+------------+-------------------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> DELETE FROM Zoo;
+Query OK, 2 rows affected (0.04 sec)
+
+mysql> SELECT * FROM Zoo;
+Empty set (0.00 sec)
+
+mysql> insert into Zoo values(1,"Alipore Zoological Gardens","West Bengal","Kolkata",03324791150,1266,3000000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Zoo values(null,"Amirthi Zoological Park","Tamil Nadu","Vellore",09789323326,174,131619);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM Zoo;
++-------+----------------------------+-------------+---------+------------+-------------------+-------------------+
+| ZooId | Name                       | State       | City    | Contact_No | Animal_Population | Visitors_per_Year |
++-------+----------------------------+-------------+---------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens | West Bengal | Kolkata | 3324791150 |              1266 |           3000000 |
+|  6176 | Amirthi Zoological Park    | Tamil Nadu  | Vellore | 9789323326 |               174 |            131619 |
++-------+----------------------------+-------------+---------+------------+-------------------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> drop table Zoo;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> notee;
+mysql> SELECT * FROM Zoo;
++-------+----------------------------+-------------+---------+------------+-------------------+-------------------+
+| ZooId | Name                       | State       | City    | Contact_No | Animal_Population | Visitors_per_Year |
++-------+----------------------------+-------------+---------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens | West Bengal | Kolkata | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park    | Tamil Nadu  | Vellore | 9789323326 |               174 |            131619 |
++-------+----------------------------+-------------+---------+------------+-------------------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> /*ENTRING NULL VALUE*/
+mysql> insert into Zoo values(null,NULL,"Tamil Nadu","Chennai",04422751089,2644,2040000);
+ERROR 1048 (23000): Column 'Name' cannot be null
+mysql> insert into Zoo values(null,"Arignar Anna Zoological Park","Tamil Nadu","Chennai",04422751089,2644,2040000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT into Zoo(Name,State,City) values("Assam State Zoo-cum-Botanical Garden","Assam","Guwahati");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM Zoo;
++-------+--------------------------------------+-------------+----------+------------+-------------------+-------------------+
+| ZooId | Name                                 | State       | City     | Contact_No | Animal_Population | Visitors_per_Year |
++-------+--------------------------------------+-------------+----------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata  | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore  | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai  | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati |       NULL |              NULL |              NULL |
++-------+--------------------------------------+-------------+----------+------------+-------------------+-------------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT into Zoo(State,City) values("Assam","Guwahati");
+ERROR 1364 (HY000): Field 'Name' doesn't have a default value
+mysql> /*ENTERING LESSER VALUE THAN CHECKED VALUE*/
+mysql> insert into Zoo values(null,"Bannerghatta National Park","Karnataka","Bengaluru",08029776466,0,1616130);
+ERROR 3819 (HY000): Check constraint 'zoo_chk_1' is violated.
+mysql> insert into Zoo values(null,"Bannerghatta National Park","Karnataka","Bengaluru",08029776466,1300,1616130);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> /*RE-ENTERING SAME NAME*/
+mysql> insert into Zoo values(null,"Bannerghatta National Park","Karnataka","Bengaluru",08029776466,1300,1616130);
+ERROR 1062 (23000): Duplicate entry 'Bannerghatta National Park' for key 'zoo.Name'
+mysql> UPDATE Zoo SET Contact_No = 07002716702 WHERE Contact_No is Null;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE Zoo SET Animal_Population = 895 WHERE Animal_Population is Null, SET Visitors_per_Year =450000 WHERE Visitors_per_Year is Null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', SET Visitors_per_Year =450000 WHERE Visitors_per_Year is Null' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 895 WHERE Animal_Population is Null,UPDATE SET Visitors_per_Year =450000 WHERE Visitors_per_Year is Null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',UPDATE SET Visitors_per_Year =450000 WHERE Visitors_per_Year is Null' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 895 WHERE Animal_Population is Null, SET Visitors_per_Year = 450000 WHERE Visitors_per_Year is Null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', SET Visitors_per_Year = 450000 WHERE Visitors_per_Year is Null' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 895 WHERE Animal_Population is Null,Visitors_per_Year = 450000 WHERE Visitors_per_Year is Null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',Visitors_per_Year = 450000 WHERE Visitors_per_Year is Null' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 895 , Visitors_per_Year = 450000 WHERE ZooId is 4;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '4' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 895 , Visitors_per_Year = 450000 WHERE ZooId = 4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM Zoo;
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | Animal_Population | Visitors_per_Year |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |              1300 |           1616130 |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+5 rows in set (0.03 sec)
+
+mysql> INSERT into Zoo(Name,State,City) values("Birsa Deer Park ","Jharkhand","Ranchi");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> UPDATE Zoo SET Animal_Population = 1450 WHERE Animal_Population = Null,Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 1450 WHERE Animal_Population is Null,Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 1450 WHERE Animal_Population = Null,SET Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',SET Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 1450 WHERE Animal_Population = Null,UPDATE Zoo SET Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',UPDATE Zoo SET Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 1450 WHERE Animal_Population = Null,UPDATE Zoo SET Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null WHERE ZooId = 6;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',UPDATE Zoo SET Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null WHERE ' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 1450 WHERE Animal_Population = Null, SET Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null WHERE ZooId = 6;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', SET Visitors_per_Year = 800000 WHERE Visitors_per_Year = Null WHERE ZooId = 6' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 1450, SET Visitors_per_Year = 800000 WHERE ZooId = 6;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SET Visitors_per_Year = 800000 WHERE ZooId = 6' at line 1
+mysql> UPDATE Zoo SET Animal_Population = 1450,Visitors_per_Year = 800000 WHERE ZooId = 6;
+Query OK, 0 rows affected (0.04 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> SELECT * FROM Zoo;
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | Animal_Population | Visitors_per_Year |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    |       NULL |              NULL |              NULL |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql> UPDATE Zoo SET Animal_Population = 1450,Visitors_per_Year = 800000 WHERE ZooId = 7;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM Zoo;
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | Animal_Population | Visitors_per_Year |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    |       NULL |              1450 |            800000 |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql> UPDATE Zoo SET Contact_No = 06512480948  WHERE Contact_No is Null;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM Zoo;
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | Animal_Population | Visitors_per_Year |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |              1450 |            800000 |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql> /*DIRECTLY CREATING PRIMARY KEY*/
+mysql> CREATE TABLE Feed(Genus Varchar(50),Species Varchar(50) PRIMARY KEY,Food_Type Varchar(100));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc Feed;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| Genus     | varchar(50)  | YES  |     | NULL    |       |
+| Species   | varchar(50)  | NO   | PRI | NULL    |       |
+| Food_Type | varchar(100) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> /*CREATING FORIEGN KEY*/
+mysql> CREATE TABLE Employee(FORREIGN KEY(ZooID) REFERENCES Zoo(ZooId), EmpId int,Name Varchar(50),Designation varchar(50),Hire_Date date);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY(ZooID) REFERENCES Zoo(ZooId), EmpId int,Name Varchar(50),Designation varchar' at line 1
+mysql> CREATE TABLE Employee(FORREIGN_KEY(ZooID) REFERENCES Zoo(ZooId), EmpId int,Name Varchar(50),Designation varchar(50),Hire_Date date);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(ZooID) REFERENCES Zoo(ZooId), EmpId int,Name Varchar(50),Designation varchar(50' at line 1
+mysql> CREATE TABLE Employee(FOREIGN_KEY(ZooID) REFERENCES Zoo(ZooId), EmpId int,Name Varchar(50),Designation varchar(50),Hire_Date date);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(ZooID) REFERENCES Zoo(ZooId), EmpId int,Name Varchar(50),Designation varchar(50' at line 1
+mysql> CREATE TABLE Employee(ZooId int, EmpId int,Name Varchar(50),Designation varchar(50),Hire_Date date, FOREIGN_KEY(ZooID) REFERENCES Zoo(ZooId));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(ZooID) REFERENCES Zoo(ZooId))' at line 1
+mysql> CREATE TABLE Employee(ZooId int, EmpId int,Name Varchar(50),Designation varchar(50),Hire_Date date, FOREIGN KEY(ZooID) REFERENCES Zoo(ZooId));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> Desc Employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| ZooId       | int         | YES  | MUL | NULL    |       |
+| EmpId       | int         | YES  |     | NULL    |       |
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Designation | varchar(50) | YES  |     | NULL    |       |
+| Hire_Date   | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.04 sec)
+
+mysql> Select * Employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Employee' at line 1
+mysql> Select * From Employee;
+Empty set (0.04 sec)
+
+mysql> /*CREATING FORIEGN KEY and PRIMARY KEY SIMULTANEOUSLY*/
+mysql> CREATE TABLE Employee(ZooId int PRIMARY KEY, TicketNo int,Name Varchar(50),VisitDate date,EntryTime time, FOREIGN KEY(ZooID) REFERENCES Zoo(ZooId));
+ERROR 1050 (42S01): Table 'employee' already exists
+mysql> CREATE TABLE Visitor(ZooId int PRIMARY KEY, TicketNo int,Name Varchar(50),VisitDate date,EntryTime time, FOREIGN KEY(ZooID) REFERENCES Zoo(ZooId));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> Desc Visitor;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| ZooId     | int         | NO   | PRI | NULL    |       |
+| TicketNo  | int         | YES  |     | NULL    |       |
+| Name      | varchar(50) | YES  |     | NULL    |       |
+| VisitDate | date        | YES  |     | NULL    |       |
+| EntryTime | time        | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
+
+mysql> INSERT into Employee(1,1001,"Alex","Veterinarian",2020-04-01);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1,1001,"Alex","Veterinarian",2020-04-01)' at line 1
+mysql> INSERT into Employee(1,1001,"Alex","Veterinarian","2020-04-01");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1,1001,"Alex","Veterinarian","2020-04-01")' at line 1
+mysql> INSERT into Employee(1,1001,"Alex","Veterinarian",TO_DATE("2020-04-01", YYYY-MM-DD));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1,1001,"Alex","Veterinarian",TO_DATE("2020-04-01", YYYY-MM-DD))' at line 1
+mysql> INSERT into Employee(1,1001,"Alex","Veterinarian",TO_DATE("01-04-2020", "DD-MM-YYYY"));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1,1001,"Alex","Veterinarian",TO_DATE("01-04-2020", "DD-MM-YYYY"))' at line 1
+mysql> INSERT into Employee(1,1001,"Alex","Veterinarian",TO_DATE('01-04-2020', 'DD-MM-YYYY'));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1,1001,"Alex","Veterinarian",TO_DATE('01-04-2020', 'DD-MM-YYYY'))' at line 1
+mysql> INSERT into Employee values(1,1001,"Alex","Veterinarian",TO_DATE('01-04-2020', 'DD-MM-YYYY'));
+ERROR 1305 (42000): FUNCTION zoo.TO_DATE does not exist
+mysql> INSERT into Employee values(1,1001,"Alex","Veterinarian",2020-04-01);
+ERROR 1292 (22007): Incorrect date value: '2015' for column 'Hire_Date' at row 1
+mysql> INSERT into Employee values(1,1001,"Alex","Veterinarian","2020-04-01");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT*FROM Employee;
++-------+-------+------+--------------+------------+
+| ZooId | EmpId | Name | Designation  | Hire_Date  |
++-------+-------+------+--------------+------------+
+|     1 |  1001 | Alex | Veterinarian | 2020-04-01 |
++-------+-------+------+--------------+------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT into Employee values(1,1001,"Alex","Veterinarian","01-04-2020");
+ERROR 1292 (22007): Incorrect date value: '01-04-2020' for column 'Hire_Date' at row 1
+mysql> UPDATE Employee SET Hire_Date = "01-04-2020" WHERE ZooId = 1;
+ERROR 1292 (22007): Incorrect date value: '01-04-2020' for column 'Hire_Date' at row 1
+mysql> /*YYYY-MM-DD Format of date is only allowed*/
+mysql> ALTER TABLE Employee MODIFY EmpID int UNIQUE;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> /*ENTERING NULL VALUE IN UNIQUE COLUMN*/;
+ERROR: 
+No query specified
+
+mysql> /*ENTERING NULL VALUE IN UNIQUE COLUMN*/
+mysql> INSERT into Employee values(1,Null,"Bianca","Aquarist","2018-11-15");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT*FROM Employee;
++-------+-------+--------+--------------+------------+
+| ZooId | EmpID | Name   | Designation  | Hire_Date  |
++-------+-------+--------+--------------+------------+
+|     1 |  1001 | Alex   | Veterinarian | 2020-04-01 |
+|     1 |  NULL | Bianca | Aquarist     | 2018-11-15 |
++-------+-------+--------+--------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE Employee SET EmpId = 5642  WHERE EmpId is Null;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> show tables;
++---------------+
+| Tables_in_zoo |
++---------------+
+| employee      |
+| feed          |
+| visitor       |
+| zoo           |
++---------------+
+4 rows in set (0.05 sec)
+
+mysql> desc Visitor;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| ZooId     | int         | NO   | PRI | NULL    |       |
+| TicketNo  | int         | YES  |     | NULL    |       |
+| Name      | varchar(50) | YES  |     | NULL    |       |
+| VisitDate | date        | YES  |     | NULL    |       |
+| EntryTime | time        | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
+
+mysql> desc Feed;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| Genus     | varchar(50)  | YES  |     | NULL    |       |
+| Species   | varchar(50)  | NO   | PRI | NULL    |       |
+| Food_Type | varchar(100) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.03 sec)
+
+mysql> desc Employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| ZooId       | int         | YES  | MUL | NULL    |       |
+| EmpID       | int         | YES  | UNI | NULL    |       |
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Designation | varchar(50) | YES  |     | NULL    |       |
+| Hire_Date   | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Employee ADD CONSTRAINT PRIMARY KEY(EmpId)
+    -> ;
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Employee;\
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| ZooId       | int         | YES  | MUL | NULL    |       |
+| EmpID       | int         | NO   | PRI | NULL    |       |
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Designation | varchar(50) | YES  |     | NULL    |       |
+| Hire_Date   | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> /*ADDING CONSTRAINT*/;
+ERROR: 
+No query specified
+
+mysql> /*ADDING CONSTRAINT*/
+mysql> SELECT*FROM Zoo;
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | Animal_Population | Visitors_per_Year |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |              1450 |            800000 |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT into Employee values(9,Null,"Bianca","Aquarist","2018-11-15");
+ERROR 1048 (23000): Column 'EmpID' cannot be null
+mysql> INSERT into Employee values(9,78543,"Sarah","General Curator","2017-01-12");
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`zoo`.`employee`, CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`ZooId`) REFERENCES `zoo` (`ZooId`))
+mysql> /*FOREIGN KEY USAGE*/
+mysql> /*DEFAULT*/
+mysql> ALTER TABLE Visitor MODIFY EntryTime time Default 9:00;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':00' at line 1
+mysql> ALTER TABLE Visitor MODIFY EntryTime time Default 9:00:00;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':00:00' at line 1
+mysql> ALTER TABLE Visitor MODIFY EntryTime time Default '9:00';
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Visitor;
++-----------+-------------+------+-----+----------+-------+
+| Field     | Type        | Null | Key | Default  | Extra |
++-----------+-------------+------+-----+----------+-------+
+| ZooId     | int         | NO   | PRI | NULL     |       |
+| TicketNo  | int         | YES  |     | NULL     |       |
+| Name      | varchar(50) | YES  |     | NULL     |       |
+| VisitDate | date        | YES  |     | NULL     |       |
+| EntryTime | time        | YES  |     | 09:00:00 |       |
++-----------+-------------+------+-----+----------+-------+
+5 rows in set (0.04 sec)
+
+mysql> ALTER TABLE Visitor MODIFY TicketNo int UNIQUE;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Visitor;
++-----------+-------------+------+-----+----------+-------+
+| Field     | Type        | Null | Key | Default  | Extra |
++-----------+-------------+------+-----+----------+-------+
+| ZooId     | int         | NO   | PRI | NULL     |       |
+| TicketNo  | int         | YES  | UNI | NULL     |       |
+| Name      | varchar(50) | YES  |     | NULL     |       |
+| VisitDate | date        | YES  |     | NULL     |       |
+| EntryTime | time        | YES  |     | 09:00:00 |       |
++-----------+-------------+------+-----+----------+-------+
+5 rows in set (0.02 sec)
+
+mysql> ALTER TABLE Visitor MODIFY TicketNo int NOT UNIQUE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'UNIQUE' at line 1
+mysql> ALTER TABLE Visitor DROP INDEX UNIQUE TicketNo int;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'UNIQUE TicketNo int' at line 1
+mysql> ALTER TABLE Visitor DROP INDEX UNIQUE TicketNo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'UNIQUE TicketNo' at line 1
+mysql> ALTER TABLE Visitor DROP INDEX UNIQUE; TicketNo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'UNIQUE' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TicketNo' at line 1
+mysql> ALTER TABLE Visitor DROP INDEX UNIQUE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'UNIQUE' at line 1
+mysql> SHOW INDEX FROM Visitor;
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table   | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| visitor |          0 | PRIMARY  |            1 | ZooId       | A         |           0 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| visitor |          0 | TicketNo |            1 | TicketNo    | A         |           0 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.05 sec)
+
+mysql> ALTER TABLE Visitor DROP INDEX TicketNo;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Visitor;
++-----------+-------------+------+-----+----------+-------+
+| Field     | Type        | Null | Key | Default  | Extra |
++-----------+-------------+------+-----+----------+-------+
+| ZooId     | int         | NO   | PRI | NULL     |       |
+| TicketNo  | int         | YES  |     | NULL     |       |
+| Name      | varchar(50) | YES  |     | NULL     |       |
+| VisitDate | date        | YES  |     | NULL     |       |
+| EntryTime | time        | YES  |     | 09:00:00 |       |
++-----------+-------------+------+-----+----------+-------+
+5 rows in set (0.02 sec)
+
+mysql> ALTER TABLE Visitor MODIFY TicketNo int NOT NULL;
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Visitor;
++-----------+-------------+------+-----+----------+-------+
+| Field     | Type        | Null | Key | Default  | Extra |
++-----------+-------------+------+-----+----------+-------+
+| ZooId     | int         | NO   | PRI | NULL     |       |
+| TicketNo  | int         | NO   |     | NULL     |       |
+| Name      | varchar(50) | YES  |     | NULL     |       |
+| VisitDate | date        | YES  |     | NULL     |       |
+| EntryTime | time        | YES  |     | 09:00:00 |       |
++-----------+-------------+------+-----+----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Visitor DROP INDEX TicketNo;
+ERROR 1091 (42000): Can't DROP 'TicketNo'; check that column/key exists
+mysql> ALTER TABLE Visitor MODIFY TicketNo int NULL;
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Visitor;
++-----------+-------------+------+-----+----------+-------+
+| Field     | Type        | Null | Key | Default  | Extra |
++-----------+-------------+------+-----+----------+-------+
+| ZooId     | int         | NO   | PRI | NULL     |       |
+| TicketNo  | int         | YES  |     | NULL     |       |
+| Name      | varchar(50) | YES  |     | NULL     |       |
+| VisitDate | date        | YES  |     | NULL     |       |
+| EntryTime | time        | YES  |     | 09:00:00 |       |
++-----------+-------------+------+-----+----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> /*ALTERING/DROPPING CONSTRAINTS*/
+mysql> ALTER TABLE Visitor DROP PRIMARY KEY;
+ERROR 1553 (HY000): Cannot drop index 'PRIMARY': needed in a foreign key constraint
+mysql> ALTER TABLE Visitor DROP FOREIGN KEY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> ALTER TABLE Visitor DROP FOREIGN KEY ZooId;
+ERROR 1091 (42000): Can't DROP 'ZooId'; check that column/key exists
+mysql> ALTER TABLE Visitor DROP KEY FOREIGN KEY ZooId;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY ZooId' at line 1
+mysql> ALTER TABLE Visitor DROP KEY ZooId;
+ERROR 1091 (42000): Can't DROP 'ZooId'; check that column/key exists
+mysql> sp_help Visitor;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sp_help Visitor' at line 1
+mysql> notee;
+mysql> desc feed;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| Genus     | varchar(50)  | YES  |     | NULL    |       |
+| Species   | varchar(50)  | NO   | PRI | NULL    |       |
+| Food_Type | varchar(100) | YES  |     | NULL    |       |
+| ZooId     | int          | YES  | MUL | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table feed drop primary key;
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc feed;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| Genus     | varchar(50)  | YES  |     | NULL    |       |
+| Species   | varchar(50)  | NO   |     | NULL    |       |
+| Food_Type | varchar(100) | YES  |     | NULL    |       |
+| ZooId     | int          | YES  | MUL | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> show create table feed;
++-------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                                                                             |
++-------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| feed  | CREATE TABLE `feed` (
+  `Genus` varchar(50) DEFAULT NULL,
+  `Species` varchar(50) NOT NULL,
+  `Food_Type` varchar(100) DEFAULT NULL,
+  `ZooId` int DEFAULT NULL,
+  KEY `ZooId` (`ZooId`),
+  CONSTRAINT `feed_ibfk_1` FOREIGN KEY (`ZooId`) REFERENCES `zoo` (`ZooId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> alter table feed drop foreign key feed_ibfk_1;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc feed;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| Genus     | varchar(50)  | YES  |     | NULL    |       |
+| Species   | varchar(50)  | NO   |     | NULL    |       |
+| Food_Type | varchar(100) | YES  |     | NULL    |       |
+| ZooId     | int          | YES  | MUL | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table feed drop key ZooId;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc feed;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| Genus     | varchar(50)  | YES  |     | NULL    |       |
+| Species   | varchar(50)  | NO   |     | NULL    |       |
+| Food_Type | varchar(100) | YES  |     | NULL    |       |
+| ZooId     | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> notee;

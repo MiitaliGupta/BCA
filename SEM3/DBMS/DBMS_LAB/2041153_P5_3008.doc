@@ -1,0 +1,984 @@
+mysql> show tables;
++---------------+
+| Tables_in_zoo |
++---------------+
+| dummyemp      |
+| dummyemp1     |
+| employee      |
+| feed          |
+| visitor       |
+| zoo           |
++---------------+
+6 rows in set (0.03 sec)
+
+mysql> desc Employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| ZooId       | int         | YES  | MUL | NULL    |       |
+| EmpID       | int         | NO   | PRI | NULL    |       |
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Designation | varchar(50) | YES  |     | NULL    |       |
+| Hire_Date   | date        | YES  |     | NULL    |       |
+| Salary      | int         | YES  |     | NULL    |       |
+| Status      | varchar(40) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.04 sec)
+
+mysql> Select * From Employee;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+10 rows in set (0.02 sec)
+
+mysql> INSERT INTO Employee values(2,5642,'Finance Manager',makedate(2008,32),1500,'On Duty');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO Employee values(2,5642,'Rex','Finance Manager',makedate(2008,32),1500,'On Duty');
+ERROR 1062 (23000): Duplicate entry '5642' for key 'employee.PRIMARY'
+mysql> INSERT INTO Employee values(2,8945,'Rex','Finance Manager',makedate(2008,32),1500,'On Duty');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO Employee values(2,7956,'Sarah','Cheif Operating Officer',makedate(2009,12),15000,'On Duty');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> Insert into Employee value
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> Insert into Employee values
+    -> (2,7956,'Anna','Aquarist',makedate(2010,67),45000,'On Duty');
+ERROR 1062 (23000): Duplicate entry '7956' for key 'employee.PRIMARY'
+mysql> Insert into Employee values
+    -> (2,8979,'Anna','Aquarist',makedate(2010,67),45000,'On Duty'),
+    -> (2,8932,'Frank','Conservation Biologist',makedate(2020,344),100000,'On Duty'),
+    -> (2,8932,'Rick','Development Director',makedate(2015,244),95431,'On Duty'),
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+mysql> Insert into Employee values
+    -> (2,8979,'Anna','Aquarist',makedate(2010,67),45000,'On Duty'),
+    -> (2,8932,'Frank','Conservation Biologist',makedate(2020,344),100000,'On Duty'),
+    -> (2,3435,'Rick','Development Director',makedate(2015,244),95431,'On Duty');
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from Employee;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+15 rows in set (0.00 sec)
+
+mysql> #USE OF WHERE OPERATOR
+mysql> 
+mysql> 
+mysql> #WITH LOGICAL OPERATORS
+mysql> 
+mysql> SELECT * FROM EMPLOYEE WHERE ZooId=2;
++-------+-------+---------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name    | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+---------+-------------------------+------------+--------+---------+
+|     2 |  3242 | Aiden   | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick    | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     2 |  6512 | Mitchel | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah   | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank   | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex     | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     2 |  8979 | Anna    | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+---------+-------------------------+------------+--------+---------+
+7 rows in set (0.04 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary>100000;
++-------+-------+--------+------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation            | Hire_Date  | Salary | Status  |
++-------+-------+--------+------------------------+------------+--------+---------+
+|     1 |  5446 | Stella | Conservation Biologist | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist               | 2018-11-15 | 125000 | On Duty |
++-------+-------+--------+------------------------+------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary>=100000;
++-------+-------+--------+------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation            | Hire_Date  | Salary | Status  |
++-------+-------+--------+------------------------+------------+--------+---------+
+|     1 |  5446 | Stella | Conservation Biologist | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist               | 2018-11-15 | 125000 | On Duty |
+|     2 |  8932 | Frank  | Conservation Biologist | 2020-12-09 | 100000 | On Duty |
++-------+-------+--------+------------------------+------------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary<50000;
++-------+-------+-------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name  | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+-------+-------------------------+------------+--------+---------+
+|     2 |  3242 | Aiden | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     1 |  4533 | Ray   | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     2 |  7956 | Sarah | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8945 | Rex   | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     2 |  8979 | Anna  | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+-------+-------------------------+------------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary<=25000;
++-------+-------+-------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name  | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+-------+-------------------------+------------+--------+---------+
+|     2 |  3242 | Aiden | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     1 |  4533 | Ray   | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     2 |  7956 | Sarah | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8945 | Rex   | Finance Manager         | 2008-02-01 |   1500 | On Duty |
++-------+-------+-------+-------------------------+------------+--------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary<>25000;
++-------+-------+--------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+--------+-------------------------+------------+--------+---------+
+|     2 |  3435 | Rick   | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  5446 | Stella | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     2 |  7956 | Sarah  | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank  | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex    | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     2 |  8979 | Anna   | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+--------+-------------------------+------------+--------+---------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary<>25000 AND Salary<> 100000;
++-------+-------+--------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+--------+-------------------------+------------+--------+---------+
+|     2 |  3435 | Rick   | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  5446 | Stella | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     2 |  7956 | Sarah  | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8945 | Rex    | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     2 |  8979 | Anna   | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+--------+-------------------------+------------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> 
+mysql> #NOT NULL
+mysql> SELECT * FROM EMPLOYEE WHERE Salary IS NOT NULL;
++-------+-------+--------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+--------+-------------------------+------------+--------+---------+
+|     2 |  3242 | Aiden  | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick   | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray    | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  5446 | Stella | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     2 |  7956 | Sarah  | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank  | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex    | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     2 |  8979 | Anna   | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+--------+-------------------------+------------+--------+---------+
+9 rows in set (0.00 sec)
+
+mysql> #NULL
+mysql> SELECT * FROM EMPLOYEE WHERE Salary IS NULL;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> #AGGREGATE FUNCTIONS
+mysql> #COUNT
+mysql> SELECT COUNT(Salary) FROM EMPLOYEE;
++---------------+
+| COUNT(Salary) |
++---------------+
+|             9 |
++---------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT COUNT(Salary) FROM EMPLOYEE WHERE Salary>100000;
++---------------+
+| COUNT(Salary) |
++---------------+
+|             2 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(Salary) FROM EMPLOYEE WHERE Salary<>25000 AND Salary<> 100000;
++---------------+
+| COUNT(Salary) |
++---------------+
+|             6 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> #SUM
+mysql> SELECT SUM(Salary) FROM EMPLOYEE;
++-------------+
+| SUM(Salary) |
++-------------+
+|      681931 |
++-------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT SUM(Salary) FROM EMPLOYEE WHERE Salary>100000;
++-------------+
+| SUM(Salary) |
++-------------+
+|      375000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT SUM(Salary) FROM EMPLOYEE WHERE Salary<>25000 AND Salary<> 100000;
++-------------+
+| SUM(Salary) |
++-------------+
+|      531931 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> #AVG
+mysql> SELECT AVG(Salary) FROM EMPLOYEE;
++-------------+
+| AVG(Salary) |
++-------------+
+|  75770.1111 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(Salary) FROM EMPLOYEE WHERE Salary>100000;
++-------------+
+| AVG(Salary) |
++-------------+
+| 187500.0000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(Salary) FROM EMPLOYEE WHERE Salary<>25000 AND Salary<> 100000;
++-------------+
+| AVG(Salary) |
++-------------+
+|  88655.1667 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> #MIN
+mysql> SELECT MIN(Salary) FROM EMPLOYEE;
++-------------+
+| MIN(Salary) |
++-------------+
+|        1500 |
++-------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT MIN(Salary) FROM EMPLOYEE WHERE Salary>100000;
++-------------+
+| MIN(Salary) |
++-------------+
+|      125000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MIN(Salary) FROM EMPLOYEE WHERE Salary<>25000 AND Salary<> 100000;
++-------------+
+| MIN(Salary) |
++-------------+
+|        1500 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> #MAX
+mysql> SELECT MAX(Salary) FROM EMPLOYEE;
++-------------+
+| MAX(Salary) |
++-------------+
+|      250000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(Salary) FROM EMPLOYEE WHERE Salary>100000;
++-------------+
+| MAX(Salary) |
++-------------+
+|      250000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(Salary) FROM EMPLOYEE WHERE Salary<>25000 AND Salary<> 100000;
++-------------+
+| MAX(Salary) |
++-------------+
+|      250000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> #IN COMMAND
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId IN(8%);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId IN(LIKE '8%');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE '8%')' at line 1
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId IN(LIKE 8%);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE 8%)' at line 1
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId IN(4533,8979);
++-------+-------+------+-------------+------------+--------+---------+
+| ZooId | EmpID | Name | Designation | Hire_Date  | Salary | Status  |
++-------+-------+------+-------------+------------+--------+---------+
+|     1 |  4533 | Ray  | Zookeeper   | 2019-05-07 |  25000 | On Duty |
+|     2 |  8979 | Anna | Aquarist    | 2010-03-08 |  45000 | On Duty |
++-------+-------+------+-------------+------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId NOT IN(4533,8979);
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+13 rows in set (0.00 sec)
+
+mysql> #BETWEEN COMMAND
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId BETWEEN 5000 AND 7000 ;
++-------+-------+---------+------------------------+------------+--------+---------+
+| ZooId | EmpID | Name    | Designation            | Hire_Date  | Salary | Status  |
++-------+-------+---------+------------------------+------------+--------+---------+
+|     1 |  5446 | Stella  | Conservation Biologist | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca  | Aquarist               | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val     | Finance Manager        | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel | Veterinarian           | 2009-10-27 |   NULL | On Duty |
++-------+-------+---------+------------------------+------------+--------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId NOT BETWEEN 5000 AND 7000 ;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId NOT BETWEEN 5000 AND 7000 AND Salary NOT NULL ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL' at line 1
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId NOT BETWEEN 5000 AND 7000 AND Salary IS NOT NULL ;
++-------+-------+-------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name  | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+-------+-------------------------+------------+--------+---------+
+|     2 |  3242 | Aiden | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick  | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray   | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     2 |  7956 | Sarah | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex   | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     2 |  8979 | Anna  | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+-------+-------------------------+------------+--------+---------+
+7 rows in set (0.04 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId NOT BETWEEN 5000 AND 7000 AND Salary IN(25000) ;
++-------+-------+-------+-------------+------------+--------+---------+
+| ZooId | EmpID | Name  | Designation | Hire_Date  | Salary | Status  |
++-------+-------+-------+-------------+------------+--------+---------+
+|     2 |  3242 | Aiden | Zookeeper   | 2011-10-13 |  25000 | On Duty |
+|     1 |  4533 | Ray   | Zookeeper   | 2019-05-07 |  25000 | On Duty |
++-------+-------+-------+-------------+------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId NOT BETWEEN 5000 AND 7000 OR Salary IN(250000) ;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+12 rows in set (0.00 sec)
+
+mysql> #EARLIER THERE WERE 11 ROWS BUT NOW 12 CUZ OF OR KEYWORD
+mysql> #LIKE COMMANDS
+mysql> SELECT * FROM EMPLOYEE WHERE EmpId LIKE '8%';
++-------+-------+--------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+--------+-------------------------+------------+--------+---------+
+|     2 |  8932 | Frank  | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex    | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna   | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+--------+-------------------------+------------+--------+---------+
+4 rows in set (0.04 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Designation LIKE 'c%r';
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Name LIKE 'r__';
++-------+-------+------+-----------------+------------+--------+---------+
+| ZooId | EmpID | Name | Designation     | Hire_Date  | Salary | Status  |
++-------+-------+------+-----------------+------------+--------+---------+
+|     1 |  4533 | Ray  | Zookeeper       | 2019-05-07 |  25000 | On Duty |
+|     2 |  8945 | Rex  | Finance Manager | 2008-02-01 |   1500 | On Duty |
++-------+-------+------+-----------------+------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Name LIKE 'r__%';
++-------+-------+------+----------------------+------------+--------+---------+
+| ZooId | EmpID | Name | Designation          | Hire_Date  | Salary | Status  |
++-------+-------+------+----------------------+------------+--------+---------+
+|     2 |  3435 | Rick | Development Director | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray  | Zookeeper            | 2019-05-07 |  25000 | On Duty |
+|     2 |  8945 | Rex  | Finance Manager      | 2008-02-01 |   1500 | On Duty |
++-------+-------+------+----------------------+------------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Name LIKE 'r___%';
++-------+-------+------+----------------------+------------+--------+---------+
+| ZooId | EmpID | Name | Designation          | Hire_Date  | Salary | Status  |
++-------+-------+------+----------------------+------------+--------+---------+
+|     2 |  3435 | Rick | Development Director | 2015-09-01 |  95431 | On Duty |
++-------+-------+------+----------------------+------------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Name NOT LIKE 'r%';
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+12 rows in set (0.04 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Name NOT LIKE 'r%' OR 'a%';
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+12 rows in set, 1 warning (0.04 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Name NOT LIKE 'r%' OR NOT LIKE 'a%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE 'a%'' at line 1
+mysql> SELECT * FROM EMPLOYEE WHERE Name NOT LIKE 'r%' OR Name NOT LIKE 'a%';
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Name NOT LIKE 'r%' AND NOT LIKE 'a%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIKE 'a%'' at line 1
+mysql> SELECT * FROM EMPLOYEE WHERE Name NOT LIKE 'r%' AND Name NOT LIKE 'a%';
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Name NOT LIKE 'r%' AND Name NOT LIKE 'a%' AND Salary>100000;
++-------+-------+--------+------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation            | Hire_Date  | Salary | Status  |
++-------+-------+--------+------------------------+------------+--------+---------+
+|     1 |  5446 | Stella | Conservation Biologist | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist               | 2018-11-15 | 125000 | On Duty |
++-------+-------+--------+------------------------+------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> #ALIASES
+mysql> SELECT Name AS Employee_Name,Designation AS Department FROM Employee;
++---------------+-------------------------+
+| Employee_Name | Department              |
++---------------+-------------------------+
+| Alex          | Veterinarian            |
+| Aiden         | Zookeeper               |
+| Rick          | Development Director    |
+| Ray           | Zookeeper               |
+| Josefine      | Chief Operating Officer |
+| Norine        | Curator of Exhibits     |
+| Stella        | Conservation Biologist  |
+| Bianca        | Aquarist                |
+| Val           | Finance Manager         |
+| Mitchel       | Veterinarian            |
+| Sarah         | Cheif Operating Officer |
+| Frank         | Conservation Biologist  |
+| Rex           | Finance Manager         |
+| Samual        | Curator of Horticulture |
+| Anna          | Aquarist                |
++---------------+-------------------------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT Name AS Employee_Name,Designation AS Department FROM Employee WHERE Salary>=100000;
++---------------+------------------------+
+| Employee_Name | Department             |
++---------------+------------------------+
+| Stella        | Conservation Biologist |
+| Bianca        | Aquarist               |
+| Frank         | Conservation Biologist |
++---------------+------------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Name AS Employee_Name,Designation AS Department FROM Employee WHERE Salary IS NOT NULL;
++---------------+-------------------------+
+| Employee_Name | Department              |
++---------------+-------------------------+
+| Aiden         | Zookeeper               |
+| Rick          | Development Director    |
+| Ray           | Zookeeper               |
+| Stella        | Conservation Biologist  |
+| Bianca        | Aquarist                |
+| Sarah         | Cheif Operating Officer |
+| Frank         | Conservation Biologist  |
+| Rex           | Finance Manager         |
+| Anna          | Aquarist                |
++---------------+-------------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT Name AS Employee_Name,Designation AS Department FROM Employee WHERE Salary IS NULL;
++---------------+-------------------------+
+| Employee_Name | Department              |
++---------------+-------------------------+
+| Alex          | Veterinarian            |
+| Josefine      | Chief Operating Officer |
+| Norine        | Curator of Exhibits     |
+| Val           | Finance Manager         |
+| Mitchel       | Veterinarian            |
+| Samual        | Curator of Horticulture |
++---------------+-------------------------+
+6 rows in set (0.00 sec)
+
+mysql> #AND-OR-NOT
+mysql> SELECT * FROM EMPLOYEE WHERE Salary<100000 OR EmpId>7000;
++-------+-------+--------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+--------+-------------------------+------------+--------+---------+
+|     2 |  3242 | Aiden  | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick   | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray    | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     2 |  7956 | Sarah  | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank  | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex    | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna   | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+--------+-------------------------+------------+--------+---------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary!=2500 OR EmpId>7000;
++-------+-------+--------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+--------+-------------------------+------------+--------+---------+
+|     2 |  3242 | Aiden  | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick   | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray    | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  5446 | Stella | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     2 |  7956 | Sarah  | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank  | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex    | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna   | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+--------+-------------------------+------------+--------+---------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary!=2500 OR EmpId<7000;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary!=2500 AND EmpId>7000;
++-------+-------+-------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name  | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+-------+-------------------------+------------+--------+---------+
+|     2 |  7956 | Sarah | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex   | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     2 |  8979 | Anna  | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+-------+-------------------------+------------+--------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary!=2500 AND NOT EmpId>7000;
++-------+-------+--------+------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation            | Hire_Date  | Salary | Status  |
++-------+-------+--------+------------------------+------------+--------+---------+
+|     2 |  3242 | Aiden  | Zookeeper              | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick   | Development Director   | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray    | Zookeeper              | 2019-05-07 |  25000 | On Duty |
+|     1 |  5446 | Stella | Conservation Biologist | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist               | 2018-11-15 | 125000 | On Duty |
++-------+-------+--------+------------------------+------------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE NOT Designation='Zookeeper';
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+13 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE NOT Designation='Zookeeper' AND NOT Salary IS NULL ;
++-------+-------+--------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+--------+-------------------------+------------+--------+---------+
+|     2 |  3435 | Rick   | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  5446 | Stella | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     2 |  7956 | Sarah  | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank  | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex    | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     2 |  8979 | Anna   | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+--------+-------------------------+------------+--------+---------+
+7 rows in set (0.00 sec)
+
+mysql> #UPDATE
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | On Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |   1500 | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Designation='Veterinarian' ;
++-------+-------+---------+--------------+------------+--------+---------+
+| ZooId | EmpID | Name    | Designation  | Hire_Date  | Salary | Status  |
++-------+-------+---------+--------------+------------+--------+---------+
+|     1 |  1001 | Alex    | Veterinarian | 2020-04-01 |   NULL | On Duty |
+|     2 |  6512 | Mitchel | Veterinarian | 2009-10-27 |   NULL | On Duty |
++-------+-------+---------+--------------+------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEE SET Salary=85000 WHERE Designation='Veterinarian';
+Query OK, 2 rows affected (0.04 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEE WHERE Designation='Veterinarian' ;
++-------+-------+---------+--------------+------------+--------+---------+
+| ZooId | EmpID | Name    | Designation  | Hire_Date  | Salary | Status  |
++-------+-------+---------+--------------+------------+--------+---------+
+|     1 |  1001 | Alex    | Veterinarian | 2020-04-01 |  85000 | On Duty |
+|     2 |  6512 | Mitchel | Veterinarian | 2009-10-27 |  85000 | On Duty |
++-------+-------+---------+--------------+------------+--------+---------+
+2 rows in set (0.02 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary<20000 ;
++-------+-------+-------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name  | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+-------+-------------------------+------------+--------+---------+
+|     2 |  7956 | Sarah | Cheif Operating Officer | 2009-01-12 |  15000 | On Duty |
+|     2 |  8945 | Rex   | Finance Manager         | 2008-02-01 |   1500 | On Duty |
++-------+-------+-------+-------------------------+------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEE SET Salary=30000 WHERE Salary<20000;
+Query OK, 2 rows affected (0.03 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary<20000 ;
+Empty set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary=30000 ;
++-------+-------+-------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name  | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+-------+-------------------------+------------+--------+---------+
+|     2 |  7956 | Sarah | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty |
+|     2 |  8945 | Rex   | Finance Manager         | 2008-02-01 |  30000 | On Duty |
++-------+-------+-------+-------------------------+------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary BETWEEN 100000 AND 250000 ;
++-------+-------+--------+------------------------+------------+--------+---------+
+| ZooId | EmpID | Name   | Designation            | Hire_Date  | Salary | Status  |
++-------+-------+--------+------------------------+------------+--------+---------+
+|     1 |  5446 | Stella | Conservation Biologist | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca | Aquarist               | 2018-11-15 | 125000 | On Duty |
+|     2 |  8932 | Frank  | Conservation Biologist | 2020-12-09 | 100000 | On Duty |
++-------+-------+--------+------------------------+------------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEE SET Status='Off Duty' WHERE Salary BETWEEN 100000 AND 250000;
+Query OK, 3 rows affected (0.03 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEE WHERE Salary BETWEEN 100000 AND 250000 ;
++-------+-------+--------+------------------------+------------+--------+----------+
+| ZooId | EmpID | Name   | Designation            | Hire_Date  | Salary | Status   |
++-------+-------+--------+------------------------+------------+--------+----------+
+|     1 |  5446 | Stella | Conservation Biologist | 2016-03-09 | 250000 | Off Duty |
+|     1 |  5642 | Bianca | Aquarist               | 2018-11-15 | 125000 | Off Duty |
+|     2 |  8932 | Frank  | Conservation Biologist | 2020-12-09 | 100000 | Off Duty |
++-------+-------+--------+------------------------+------------+--------+----------+
+3 rows in set (0.03 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Hire_Date IN(2004-06-04) ;
+Empty set, 1 warning (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEE WHERE Hire_Date IN('2004-06-04') ;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+1 row in set (0.03 sec)
+
+mysql> UPDATE EMPLOYEE SET Salary=35000 WHERE Salary IN('2004-06-04');
+ERROR 1292 (22007): Truncated incorrect DOUBLE value: '2004-06-04'
+mysql> UPDATE EMPLOYEE SET Salary=35000 WHERE Hire_Date IN('2004-06-04');
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEE WHERE Hire_Date IN('2004-06-04') ;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql>  create table delemp as select * from employee;
+Query OK, 15 rows affected (0.07 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM DELEMP;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+15 rows in set (0.00 sec)
+
+mysql> #DELETE
+mysql> DELETE FROM DELEMP WHERE Salary IS NULL;
+Query OK, 3 rows affected (0.04 sec)
+
+mysql> SELECT * FROM DELEMP;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+12 rows in set (0.03 sec)
+
+mysql> DELETE FROM DELEMP WHERE Salary<30000;
+Query OK, 2 rows affected (0.01 sec)
+
+mysql> SELECT * FROM DELEMP;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+10 rows in set (0.00 sec)
+
+mysql> DELETE FROM DELEMP WHERE Status IN('Off Duty');
+Query OK, 3 rows affected (0.04 sec)
+
+mysql> SELECT * FROM DELEMP;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+7 rows in set (0.00 sec)
+
+mysql> DELETE FROM DELEMP WHERE Emp_Id BETWEEN 3000 AND 7000;
+ERROR 1054 (42S22): Unknown column 'Emp_Id' in 'where clause'
+mysql> DELETE FROM DELEMP WHERE EmpId BETWEEN 3000 AND 7000;
+Query OK, 3 rows affected (0.04 sec)
+
+mysql> SELECT * FROM DELEMP;
++-------+-------+-------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name  | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+-------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex  | Veterinarian            | 2020-04-01 |  85000 | On Duty |
+|     2 |  7956 | Sarah | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty |
+|     2 |  8945 | Rex   | Finance Manager         | 2008-02-01 |  30000 | On Duty |
+|     2 |  8979 | Anna  | Aquarist                | 2010-03-08 |  45000 | On Duty |
++-------+-------+-------+-------------------------+------------+--------+---------+
+4 rows in set (0.00 sec)
+
+mysql> NOTEE;

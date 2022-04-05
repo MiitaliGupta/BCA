@@ -1,0 +1,599 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dummydb            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
+| zoo                |
++--------------------+
+8 rows in set (0.12 sec)
+
+mysql> use zoo;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_zoo |
++---------------+
+| dummy         |
+| employee      |
+| feed          |
+| visitor       |
+| zoo           |
++---------------+
+5 rows in set (0.02 sec)
+
+mysql> #INSERTION
+mysql> select * from zoo;
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | Animal_Population | Visitors_per_Year |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |              1450 |            800000 |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+6 rows in set (0.06 sec)
+mysql> desc zoo;
++-------------------+-------------+------+-----+---------+----------------+
+| Field             | Type        | Null | Key | Default | Extra          |
++-------------------+-------------+------+-----+---------+----------------+
+| ZooId             | int         | NO   | PRI | NULL    | auto_increment |
+| Name              | varchar(50) | NO   | UNI | NULL    |                |
+| State             | varchar(50) | YES  |     | NULL    |                |
+| City              | varchar(50) | YES  |     | NULL    |                |
+| Contact_No        | bigint      | YES  |     | NULL    |                |
+| Animal_Population | int         | YES  |     | NULL    |                |
+| Visitors_per_Year | int         | YES  |     | NULL    |                |
++-------------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.04 sec)
+
+mysql> #ALL COLUMNS
+
+mysql> #SINGLE ROW
+mysql> INSERT into zoo values(null,'Bondla Wildlife Sanctuary','Goa','Ponda',8923561278,3213,100000);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> #MULTIPLE ROWS
+mysql> INSERT into zoo values(null,'Pipli Mini Zoo','Haryana','Pipli',4677569871,345,25000),(null,'Chhatbir Zoo','Punjab','Zirakpur',5312674284,1432,125000);
+Query OK, 2 rows affected (0.04 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> #FEW COLUMNS IN SINGLE ROW
+mysql> INSERT into zoo (Name,State,City) values('Chennai Snake Park Trust','Tamil Nadu','Chennai');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> #FEW COLUMNS IN MULTIPLE ROWS
+mysql> INSERT into zoo (Name,State,City) values('Chinkara Breeding Centre Kairu, Bhiwani','Haryana','Bahal'),('Crocodile Breeding Centre, Kurukshetra','Haryana','Bhaur Saidan');
+Query OK, 2 rows affected (0.04 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> #NOT NULL ERROR
+mysql> INSERT into zoo values(null,null,'Goa','Ponda',8923561278,3213,100000);
+ERROR 1048 (23000): Column 'Name' cannot be null
+mysql> #DUPLICATE ENTRY
+mysql> INSERT into zoo values(null,'Bondla Wildlife Sanctuary','Goa','Ponda',8923561278,3213,100000);
+ERROR 1062 (23000): Duplicate entry 'Bondla Wildlife Sanctuary' for key 'zoo.Name'
+mysql> #CHECK CONSTRAINT VIOLATION
+mysql> INSERT into zoo values(null,'Bondla Wildlife Sanctuary','Goa','Ponda',8923561278,0,100000);
+ERROR 3819 (HY000): Check constraint 'zoo_chk_1' is violated.
+mysql> #PRIMARY KEY VIOLATION
+mysql> INSERT into zoo values(1,'Bondla Wildlife Sanctuary','Goa','Ponda',8923561278,123,100000);
+ERROR 1062 (23000): Duplicate entry '1' for key 'zoo.ZooId' 
+mysql> select * from zoo;
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+| ZooId | Name                                    | State       | City         | Contact_No | Animal_Population | Visitors_per_Year |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens              | West Bengal | Kolkata      | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park                 | Tamil Nadu  | Vellore      | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park            | Tamil Nadu  | Chennai      | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Assam       | Guwahati     | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park              | Karnataka   | Bengaluru    | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                         | Jharkhand   | Ranchi       | 6512480948 |              1450 |            800000 |
+|     8 | Bondla Wildlife Sanctuary               | Goa         | Ponda        | 8923561278 |              3213 |            100000 |
+|     9 | Pipli Mini Zoo                          | Haryana     | Pipli        | 4677569871 |               345 |             25000 |
+|    10 | Chhatbir Zoo                            | Punjab      | Zirakpur     | 5312674284 |              1432 |            125000 |
+|    11 | Chennai Snake Park Trust                | Tamil Nadu  | Chennai      |       NULL |              NULL |              NULL |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana     | Bahal        |       NULL |              NULL |              NULL |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Haryana     | Bhaur Saidan |       NULL |              NULL |              NULL |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+12 rows in set (0.00 sec)
+mysql> select * from employee;
++-------+-------+--------+--------------+------------+
+| ZooId | EmpID | Name   | Designation  | Hire_Date  |
++-------+-------+--------+--------------+------------+
+|     1 |  1001 | Alex   | Veterinarian | 2020-04-01 |
+|     1 |  5642 | Bianca | Aquarist     | 2018-11-15 |
++-------+-------+--------+--------------+------------+
+2 rows in set (0.07 sec)
+
+mysql> #FORIEGN KEY VIOLATION
+mysql> INSERT into Employee values(14,3455,'Ray','Zookeeper','2018-05-07');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`zoo`.`employee`, CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`ZooId`) REFERENCES `zoo` (`ZooId`))
+
+mysql> Alter Table Employee add Salary int;
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| ZooId       | int         | YES  | MUL | NULL    |       |
+| EmpID       | int         | NO   | PRI | NULL    |       |
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Designation | varchar(50) | YES  |     | NULL    |       |
+| Hire_Date   | date        | YES  |     | NULL    |       |
+| Salary      | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into Employee values(1,4533,'Ray','Zookeeper','2019-05-07'),(1,5446,'Stella','Conservation Biologist','2016-03-09');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into Employee values(1,4533,'Ray','Zookeeper','2019-05-07',null),(1,5446,'Stella','Conservation Biologist','2016-03-09',null);
+Query OK, 2 rows affected (0.04 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into Employee values(1,4862,'Norine','Curator of Exhibits','2010-08-12',null),(1,8975,'Samual','Curator of Horticulture','2010-07-01',null);
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+-------+--------+-------------------------+------------+--------+
+| ZooId | EmpID | Name   | Designation             | Hire_Date  | Salary |
++-------+-------+--------+-------------------------+------------+--------+
+|     1 |  1001 | Alex   | Veterinarian            | 2020-04-01 |   NULL |
+|     1 |  4533 | Ray    | Zookeeper               | 2019-05-07 |   NULL |
+|     1 |  4862 | Norine | Curator of Exhibits     | 2010-08-12 |   NULL |
+|     1 |  5446 | Stella | Conservation Biologist  | 2016-03-09 |   NULL |
+|     1 |  5642 | Bianca | Aquarist                | 2018-11-15 |   NULL |
+|     1 |  8975 | Samual | Curator of Horticulture | 2010-07-01 |   NULL |
++-------+-------+--------+-------------------------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> insert into Employee values(2,,'','','',null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ','','','',null)' at line 1
+mysql> insert into Employee values(1,4643,'Josefine','Chief Operating Officer','2004-06-04',null);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into Employee values(1,6432,'Val','Finance Manager','2011-10-13',null);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employee values(2,6512,'Mitchel','Veterinarian','2009-10-27',null),(2,6512,'Aiden','Zookeeper','2011-10-13',null);
+ERROR 1062 (23000): Duplicate entry '6512' for key 'employee.PRIMARY'
+mysql> insert into Employee values(2,6512,'Mitchel','Veterinarian','2009-10-27',null),(2,3242,'Aiden','Zookeeper','2011-10-13',null);
+Query OK, 2 rows affected (0.04 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+-------+----------+-------------------------+------------+--------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary |
++-------+-------+----------+-------------------------+------------+--------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |   NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |   NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 |   NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 |   NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL |
++-------+-------+----------+-------------------------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> Alter Table Employee add Status Varchar(40);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> #UPDATION 
+mysql> #USING WHERE CONDITION
+mysql> #SINGLE VALUE
+mysql> UPDATE Employee SET Salary=125000 where EmpID=5642;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+mysql> #MULTIPLE VALUES
+mysql> UPDATE Employee SET Salary=250000, Status='On Duty' where EmpID=5446;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | NULL    |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |   NULL | NULL    |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |   NULL | NULL    |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | NULL    |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | NULL    |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | NULL    |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | NULL    |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | NULL    |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | NULL    |
++-------+-------+----------+-------------------------+------------+--------+---------+
+10 rows in set (0.00 sec)
+
+mysql> #MULTIPLE ROWS
+mysql> UPDATE Employee SET Salary=25000 where Designation='Zookeeper';
+Query OK, 2 rows affected (0.04 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from employee;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | NULL    |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | NULL    |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | NULL    |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | NULL    |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | NULL    |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | NULL    |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | NULL    |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | NULL    |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | NULL    |
++-------+-------+----------+-------------------------+------------+--------+---------+
+10 rows in set (0.03 sec)
+
+mysql> #WITHOUT USING WHERE CONDITION
+mysql> #ENTIRE COULMN
+mysql> UPDATE Employee SET Status='On Duty';
+Query OK, 9 rows affected (0.03 sec)
+Rows matched: 10  Changed: 9  Warnings: 0
+
+mysql> select * from employee;
++-------+-------+----------+-------------------------+------------+--------+---------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status  |
++-------+-------+----------+-------------------------+------------+--------+---------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | On Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty |
++-------+-------+----------+-------------------------+------------+--------+---------+
+10 rows in set (0.00 sec)
+
+mysql> #NOT NULL ERROR
+mysql> UPDATE Employee SET EmpID=Null where EmpID=5642;
+ERROR 1048 (23000): Column 'EmpID' cannot be null
+mysql> #DUPLICATE ENTRY/ PRIMARY KEY VIOLATION
+mysql> UPDATE Employee SET EmpID=1001 where EmpID=5642;
+ERROR 1062 (23000): Duplicate entry '1001' for key 'employee.PRIMARY'
+mysql> #FOREIGN KEY VIOLATION
+mysql> UPDATE Employee SET ZooID=15 where EmpID=5642;
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`zoo`.`employee`, CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`ZooId`) REFERENCES `zoo` (`ZooId`))
+mysql> #CHECK CONSTRAINT VIOLATION 
+mysql> UPDATE Zoo SET Animal_Population=0 where ZooID=3;
+ERROR 3819 (HY000): Check constraint 'zoo_chk_1' is violated.
+
+
+
+mysql> #SELECTION
+mysql> #ALL COLUMNS
+mysql> SELECT * FROM Zoo;
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+| ZooId | Name                                    | State       | City         | Contact_No | Animal_Population | Visitors_per_Year |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens              | West Bengal | Kolkata      | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park                 | Tamil Nadu  | Vellore      | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park            | Tamil Nadu  | Chennai      | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Assam       | Guwahati     | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park              | Karnataka   | Bengaluru    | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                         | Jharkhand   | Ranchi       | 6512480948 |              1450 |            800000 |
+|     8 | Bondla Wildlife Sanctuary               | Goa         | Ponda        | 8923561278 |              3213 |            100000 |
+|     9 | Pipli Mini Zoo                          | Haryana     | Pipli        | 4677569871 |               345 |             25000 |
+|    10 | Chhatbir Zoo                            | Punjab      | Zirakpur     | 5312674284 |              1432 |            125000 |
+|    11 | Chennai Snake Park Trust                | Tamil Nadu  | Chennai      |       NULL |              NULL |              NULL |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana     | Bahal        |       NULL |              NULL |              NULL |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Haryana     | Bhaur Saidan |       NULL |              NULL |              NULL |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+12 rows in set (0.00 sec)
+
+mysql> #USING WHERE
+mysql> SELECT * FROM Zoo where State='Haryana';
++-------+-----------------------------------------+---------+--------------+------------+-------------------+-------------------+
+| ZooId | Name                                    | State   | City         | Contact_No | Animal_Population | Visitors_per_Year |
++-------+-----------------------------------------+---------+--------------+------------+-------------------+-------------------+
+|     9 | Pipli Mini Zoo                          | Haryana | Pipli        | 4677569871 |               345 |             25000 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana | Bahal        |       NULL |              NULL |              NULL |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Haryana | Bhaur Saidan |       NULL |              NULL |              NULL |
++-------+-----------------------------------------+---------+--------------+------------+-------------------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> #LIMIT
+mysql> SELECT * FROM Zoo limit 5;
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | Animal_Population | Visitors_per_Year |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  | Chennai   | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |              1300 |           1616130 |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+5 rows in set (0.00 sec)
+
+
+mysql> #FEW COLUMNS
+mysql> SELECT ZooId,Name,State,City FROM Zoo;
++-------+-----------------------------------------+-------------+--------------+
+| ZooId | Name                                    | State       | City         |
++-------+-----------------------------------------+-------------+--------------+
+|     1 | Alipore Zoological Gardens              | West Bengal | Kolkata      |
+|     2 | Amirthi Zoological Park                 | Tamil Nadu  | Vellore      |
+|     3 | Arignar Anna Zoological Park            | Tamil Nadu  | Chennai      |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Assam       | Guwahati     |
+|     5 | Bannerghatta National Park              | Karnataka   | Bengaluru    |
+|     7 | Birsa Deer Park                         | Jharkhand   | Ranchi       |
+|     8 | Bondla Wildlife Sanctuary               | Goa         | Ponda        |
+|     9 | Pipli Mini Zoo                          | Haryana     | Pipli        |
+|    10 | Chhatbir Zoo                            | Punjab      | Zirakpur     |
+|    11 | Chennai Snake Park Trust                | Tamil Nadu  | Chennai      |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana     | Bahal        |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Haryana     | Bhaur Saidan |
++-------+-----------------------------------------+-------------+--------------+
+12 rows in set (0.00 sec)
+
+mysql> #CHANGING ORDER
+mysql> SELECT ZooId,Name,City,State FROM Zoo;
++-------+-----------------------------------------+--------------+-------------+
+| ZooId | Name                                    | City         | State       |
++-------+-----------------------------------------+--------------+-------------+
+|     1 | Alipore Zoological Gardens              | Kolkata      | West Bengal |
+|     2 | Amirthi Zoological Park                 | Vellore      | Tamil Nadu  |
+|     3 | Arignar Anna Zoological Park            | Chennai      | Tamil Nadu  |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Guwahati     | Assam       |
+|     5 | Bannerghatta National Park              | Bengaluru    | Karnataka   |
+|     7 | Birsa Deer Park                         | Ranchi       | Jharkhand   |
+|     8 | Bondla Wildlife Sanctuary               | Ponda        | Goa         |
+|     9 | Pipli Mini Zoo                          | Pipli        | Haryana     |
+|    10 | Chhatbir Zoo                            | Zirakpur     | Punjab      |
+|    11 | Chennai Snake Park Trust                | Chennai      | Tamil Nadu  |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Bahal        | Haryana     |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Bhaur Saidan | Haryana     |
++-------+-----------------------------------------+--------------+-------------+
+12 rows in set (0.00 sec)
+
+mysql> #DISTINCT
+mysql> SELECT ZooId,Name,Distinct(State),City FROM Zoo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Distinct(State),City FROM Zoo' at line 1
+mysql> SELECT Distinct(State) FROM Zoo;
++-------------+
+| State       |
++-------------+
+| West Bengal |
+| Tamil Nadu  |
+| Assam       |
+| Karnataka   |
+| Jharkhand   |
+| Goa         |
+| Haryana     |
+| Punjab      |
++-------------+
+8 rows in set (0.04 sec)
+
+mysql> #COUNT
+mysql> SELECT Count(*) FROM Zoo;
++----------+
+| Count(*) |
++----------+
+|       12 |
++----------+
+1 row in set (0.04 sec)
+
+mysql> SELECT Count(Name) FROM Zoo;
++-------------+
+| Count(Name) |
++-------------+
+|          12 |
++-------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT Count(Contact_No) FROM Zoo;
++-------------------+
+| Count(Contact_No) |
++-------------------+
+|                 9 |
++-------------------+
+1 row in set (0.03 sec)
+
+mysql> #COUNT + DISTINCT
+
+mysql> SELECT Count(Distinct State) FROM Zoo;
++-----------------------+
+| Count(Distinct State) |
++-----------------------+
+|                     8 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> #MIN
+mysql> SELECT Min(Animal_Population) FROM Zoo;
++------------------------+
+| Min(Animal_Population) |
++------------------------+
+|                    174 |
++------------------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT Min(Visitors_per_year) FROM Zoo;
++------------------------+
+| Min(Visitors_per_year) |
++------------------------+
+|                  25000 |
++------------------------+
+1 row in set (0.00 sec)
+
+
+mysql> #MAX
+mysql> SELECT Max(Animal_Population) FROM Zoo;
++------------------------+
+| Max(Animal_Population) |
++------------------------+
+|                   3213 |
++------------------------+
+1 row in set (0.00 sec)
+
+
+mysql> SELECT Max(Visitors_per_year) FROM Zoo;
++------------------------+
+| Max(Visitors_per_year) |
++------------------------+
+|                3000000 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> #SUM
+mysql> SELECT Sum(Animal_Population) FROM Zoo;
++------------------------+
+| Sum(Animal_Population) |
++------------------------+
+|                  12719 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Sum(Visitors_per_year) FROM Zoo;
++------------------------+
+| Sum(Visitors_per_year) |
++------------------------+
+|                8287749 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> #AVG
+mysql> SELECT AVG(Animal_Population) FROM Zoo;
++------------------------+
+| AVG(Animal_Population) |
++------------------------+
+|              1413.2222 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Avg(Visitors_per_year) FROM Zoo;
++------------------------+
+| Avg(Visitors_per_year) |
++------------------------+
+|            920861.0000 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> #CREATING TABLE USING ‘AS’ KEYWORD FOR DELETION
+mysql> create table dummyemp select * from employee;
+Query OK, 10 rows affected (0.14 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> update dummyemp set status='Off Duty' where Salary=125000;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from dummyemp;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |   NULL | On Duty  |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty  |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty  |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |   NULL | On Duty  |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+10 rows in set (0.00 sec)
+
+
+mysql> #DELETION
+mysql> #USING WHERE CONDITION
+mysql> #SINGLE ROW
+mysql>  DELETE from dummyemp where Designation='Veterinarian';
+Query OK, 2 rows affected (0.04 sec)
+
+mysql> select * from dummyemp;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty  |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty  |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+8 rows in set (0.03 sec)
+
+mysql> #MULTIPLE ROWS 
+mysql> DELETE from dummyemp where SaLARY=Null;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from dummyemp;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty  |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty  |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+8 rows in set (0.00 sec)
+
+mysql> DELETE from dummyemp where Salary=Null;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELETE from dummyemp where Salary=NULL;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from dummyemp;
++-------+-------+----------+-------------------------+------------+--------+----------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   |
++-------+-------+----------+-------------------------+------------+--------+----------+
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |   NULL | On Duty  |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | On Duty  |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |
++-------+-------+----------+-------------------------+------------+--------+----------+
+8 rows in set (0.00 sec)
+
+mysql>  DELETE from dummyemp where Status='On Duty';
+Query OK, 7 rows affected (0.04 sec)
+
+mysql> select * from dummyemp;
++-------+-------+--------+-------------+------------+--------+----------+
+| ZooId | EmpID | Name   | Designation | Hire_Date  | Salary | Status   |
++-------+-------+--------+-------------+------------+--------+----------+
+|     1 |  5642 | Bianca | Aquarist    | 2018-11-15 | 125000 | Off Duty |
++-------+-------+--------+-------------+------------+--------+----------+
+1 row in set (0.03 sec)
+
+mysql> #WITHOUT USING WHERE CONDITION
+mysql> #ALL ROWS
+mysql> DELETE from dummyemp;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from dummyemp;
+Empty set (0.00 sec)
+
+mysql> notee;

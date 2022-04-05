@@ -1,0 +1,279 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| class10            |
+| dummy              |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.11 sec)
+
+mysql> CREATE TABLE Persons (
+    ->     ID int NOT NULL UNIQUE,
+    ->     LastName varchar(255) NOT NULL,
+    ->     FirstName varchar(255),
+    ->     Age int
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+mysql> use dummy;
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_dummy |
++-----------------+
+| members         |
+| new             |
++-----------------+
+2 rows in set (0.03 sec)
+
+mysql> create table customer( ID int NOT NULL, LastName varchar(50) NOT NULL, FirstName varchar(50) NOT NULL, Email varchar(50), Product varchar(50) NOT NULL);
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_dummy |
++-----------------+
+| customer        |
+| members         |
+| new             |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> desc customer;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| ID        | int         | NO   |     | NULL    |       |
+| LastName  | varchar(50) | NO   |     | NULL    |       |
+| FirstName | varchar(50) | NO   |     | NULL    |       |
+| Email     | varchar(50) | YES  |     | NULL    |       |
+| Product   | varchar(50) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into customer(1,nayak,sankalp,tab);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1,nayak,sankalp,tab)' at line 1
+mysql> insert into custome (ID, LastName, FirstName, Product) values(1,nayak,sankalp,tab);
+ERROR 1146 (42S02): Table 'dummy.custome' doesn't exist
+mysql> insert into customer (ID, LastName, FirstName, Product) values(1,nayak,sankalp,tab);
+ERROR 1054 (42S22): Unknown column 'nayak' in 'field list'
+mysql> insert into customer (ID, LastName, FirstName, Product) values(1,"nayak","sankalp","tab");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++----+----------+-----------+-------+---------+
+| ID | LastName | FirstName | Email | Product |
++----+----------+-----------+-------+---------+
+|  1 | nayak    | sankalp   | NULL  | tab     |
++----+----------+-----------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into customer (ID, LastName, FirstName) values(1,"nayak","sankalp");
+ERROR 1364 (HY000): Field 'Product' doesn't have a default value
+mysql> create table employee(emp_ID int NOT NULL, LastName varchar(50) NOT NULL, FirstName varchar(50) NOT NULL, Email varchar(50), UNIQUE(ID));
+ERROR 1072 (42000): Key column 'ID' doesn't exist in table
+mysql> create table employee(emp_ID int NOT NULL, LastName varchar(50) NOT NULL, FirstName varchar(50) NOT NULL, Email varchar(50), UNIQUE(emp_ID));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc employee;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| emp_ID    | int         | NO   | PRI | NULL    |       |
+| LastName  | varchar(50) | NO   |     | NULL    |       |
+| FirstName | varchar(50) | NO   |     | NULL    |       |
+| Email     | varchar(50) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into employee values (101,'hello','world','helloworld@gnmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values (101,'hello','world','helloworld@gnmail.com');
+ERROR 1062 (23000): Duplicate entry '101' for key 'employee.emp_ID'
+mysql> insert into employee values (102,'hello','world','helloworld@gnmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employee;
++--------+----------+-----------+-----------------------+
+| emp_ID | LastName | FirstName | Email                 |
++--------+----------+-----------+-----------------------+
+|    101 | hello    | world     | helloworld@gnmail.com |
+|    102 | hello    | world     | helloworld@gnmail.com |
++--------+----------+-----------+-----------------------+
+2 rows in set (0.00 sec)
+
+mysql> create table resident(LastName varchar(50) NOT NULL, FirstName varchar(50) NOT NULL, City varchar(50) DEFAULT 'Mexico');
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc resident;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| LastName  | varchar(50) | NO   |     | NULL    |       |
+| FirstName | varchar(50) | NO   |     | NULL    |       |
+| City      | varchar(50) | YES  |     | Mexico  |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into employee values ('jus','rem');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into resident values('hus','dre');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into resident (LastName,FirstName) values('hus','dre');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from resident;
++----------+-----------+--------+
+| LastName | FirstName | City   |
++----------+-----------+--------+
+| hus      | dre       | Mexico |
++----------+-----------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into resident values('les','bro','Texas');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from resident;
++----------+-----------+--------+
+| LastName | FirstName | City   |
++----------+-----------+--------+
+| hus      | dre       | Mexico |
+| les      | bro       | Texas  |
++----------+-----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Persons (
+    ->     ID int NOT NULL UNIQUE,
+    ->     LastName varchar(255) NOT NULL,
+    ->     FirstName varchar(255),
+    ->     Age int
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> drop table Persons;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table new_employee(Name varchar(50) NOT NULL, Age int, CHECK (Age>=18);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table new_employee(Name varchar(50) NOT NULL, Age int CHECK (Age>=18);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table new_employee(Name varchar(50) NOT NULL, Age int CHECK (Age>=18));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc new_emloyee;
+ERROR 1146 (42S02): Table 'dummy.new_emloyee' doesn't exist
+mysql> desc new_employee;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Name  | varchar(50) | NO   |     | NULL    |       |
+| Age   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> insert into new_employee values('Ram',20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into new_employee values('Ram',16);
+ERROR 3819 (HY000): Check constraint 'new_employee_chk_1' is violated.
+mysql> select * from new_employee;
++------+------+
+| Name | Age  |
++------+------+
+| Ram  |   20 |
++------+------+
+1 row in set (0.00 sec)
+
+mysql> create table primarystudent(student_id int NOT NULL,student_name varchar(30),student_age int, PRIMARY KEY(student_id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc primarystudent;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| student_id   | int         | NO   | PRI | NULL    |       |
+| student_name | varchar(30) | YES  |     | NULL    |       |
+| student_age  | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> alter table primarytable rename to primary_stu;
+ERROR 1146 (42S02): Table 'dummy.primarytable' doesn't exist
+mysql> alter table primarystudent rename to primary_stu;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> drop table primary_stu; 
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table primary(id int NOT NULL,name varchar(30) ,age int ,PRIMARY KEY(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primary(id int NOT NULL,name varchar(30) ,age int ,PRIMARY KEY(id))' at line 1
+mysql> create table primary(id int NOT NULL,name varchar(30) ,age int , PRIMARY KEY(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primary(id int NOT NULL,name varchar(30) ,age int , PRIMARY KEY(id))' at line 1
+mysql> create table primary (id int NOT NULL,name varchar(30) ,age int , PRIMARY KEY(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primary (id int NOT NULL,name varchar(30) ,age int , PRIMARY KEY(id))' at line 1
+mysql> create table primary_kid (id int NOT NULL,name varchar(30) ,age int , PRIMARY KEY(id));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc primary_kid;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(30) | YES  |     | NULL    |       |
+| age   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into primary_kid values(231,'Rohan', 21);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select # from primary_kid;
+    -> select * from primary_kid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from primary_kid' at line 2
+mysql> select * from primary_kid;
++-----+-------+------+
+| id  | name  | age  |
++-----+-------+------+
+| 231 | Rohan |   21 |
++-----+-------+------+
+1 row in set (0.00 sec)
+
+mysql> insert into primary_kid values(654,'Res', 32);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create table foreign_info (t_id int,id int,name varchar(30), primary key(t_id), foreign key (id) references primary_kid(id));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc foreign_info;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| t_id  | int         | NO   | PRI | NULL    |       |
+| id    | int         | YES  | MUL | NULL    |       |
+| name  | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> create table dum(id int, name varchar(50));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create index idx_id ON dum(id);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dum;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | YES  | MUL | NULL    |       |
+| name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> notee;

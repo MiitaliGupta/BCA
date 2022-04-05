@@ -1,0 +1,114 @@
+mysql> #Single Row Subqueries
+mysql> #WHERE CLAUSE
+mysql> use Zoo;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_zoo |
++---------------+
+| emp           |
+| emp1          |
+| emp_duty      |
+| emp_dutynew   |
+| emp_salary    |
+| employee      |
+| feed          |
+| food          |
+| newzoo        |
+| visit         |
+| visitors      |
+| zoo           |
+| zoo_visit     |
++---------------+
+13 rows in set (0.04 sec)
+
+mysql> #Single Row Subqueries
+mysql> #WHERE CLAUSE
+mysql> Select EmpId,Name,Designation From E
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> ;
+ERROR 1146 (42S02): Table 'zoo.e' doesn't exist
+mysql> #inner query
+mysql> Select EmpId,Name,Designation From Employee Where Name Like 'R%';
++-------+---------+----------------------+
+| EmpId | Name    | Designation          |
++-------+---------+----------------------+
+|  3435 | Rick    | Development Director |
+|  4387 | Ron     | Aquarist             |
+|  4533 | Ray     | Zookeeper            |
+|  5465 | Rebecca | Curator of Exhibits  |
+|  8945 | Rex     | Finance Manager      |
++-------+---------+----------------------+
+5 rows in set (0.03 sec)
+
+mysql> Select * From Employee Where EmpId = (Select EmpId,Name,Designation From Employee Where Name Like 'R%');
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> Select * From Employee Where EmpId = (Select EmpId From Employee Where Name Like 'R%');
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> Select * From Employee Where EmpId = (Select EmpId From Employee Where Name Like 'Ro%');
++-------+-------+------+-------------+------------+--------+---------+------------+--------------+
+| ZooId | EmpID | Name | Designation | Hire_Date  | Salary | Status  | DaysWorked | MonthsWorked |
++-------+-------+------+-------------+------------+--------+---------+------------+--------------+
+|     3 |  4387 | Ron  | Aquarist    | 2010-10-14 | 130000 | On Duty |       3981 |         NULL |
++-------+-------+------+-------------+------------+--------+---------+------------+--------------+
+1 row in set (0.04 sec)
+
+mysql> Select * From Employee Where EmpId = (Select Name From Employee Where Name Like 'R%');
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> Select * From Employee Where EmpId = (Select Name From Employee Where Name Like 'Ro%');
+Empty set (0.03 sec)
+
+mysql> Select Name From Employee Where Name Like 'R%';
++---------+
+| Name    |
++---------+
+| Rick    |
+| Ron     |
+| Ray     |
+| Rebecca |
+| Rex     |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> Select Name From Employee Where Name Like 'Ro%';
++------+
+| Name |
++------+
+| Ron  |
++------+
+1 row in set (0.00 sec)
+
+mysql> #Using Single Row Operators
+mysql> notee;

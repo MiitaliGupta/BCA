@@ -1,0 +1,482 @@
+mysql> notee;
+mysql> USE ZOO;
+Database changed
+mysql> SHOW TABLES:
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':' at line 1
+mysql> SHOW TABLES;
++---------------+
+| Tables_in_zoo |
++---------------+
+| emp           |
+| emp1          |
+| employee      |
+| feed          |
+| food          |
+| newzoo        |
+| newzoolist    |
+| visit         |
+| visitors      |
+| zoo           |
++---------------+
+10 rows in set (0.06 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist  | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+23 rows in set (0.06 sec)
+
+mysql> #CREATING VIEW
+mysql> CREATE VIEW Emp_Salary AS
+    -> SELECT EmpID,Name,Designation,Salary FROM EMPLOYEE
+    -> WHERE Status='On Duty' AND Salary>=45000;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> SELECT * FROM Emp_Salary;
++-------+----------+------------------------+--------+
+| EmpID | Name     | Designation            | Salary |
++-------+----------+------------------------+--------+
+|  1001 | Alex     | Veterinarian           |  85000 |
+|  3435 | Rick     | Development Director   |  95431 |
+|  4387 | Ron      | Aquarist               | 130000 |
+|  5465 | Rebecca  | Curator of Exhibits    |  45000 |
+|  6512 | Mitchel  | Veterinarian           |  85000 |
+|  8979 | Anna     | Aquarist               |  45000 |
+|  9743 | Maddison | Veterinarian           |  90000 |
+|  9812 | Annie    | Conservation Biologist |  90000 |
+|  9814 | Gabriel  | Finance Manager        |  45000 |
++-------+----------+------------------------+--------+
+9 rows in set (0.01 sec)
+
+mysql> SELECT * FROM newzoo;
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+| ZooID | ZooName                                 | State       | City         | Contact_No | Animal_Population | Visitors_per_Year |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens              | West Bengal | Kolkata      | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park                 | Tamil Nadu  | Vellore      | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park            | Tamil Nadu  | Chennai      | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Assam       | Guwahati     | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park              | Karnataka   | Bengaluru    | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                         | Jharkhand   | Ranchi       | 6512480948 |              1450 |            800000 |
+|     8 | Bondla Wildlife Sanctuary               | Goa         | Ponda        | 8923561278 |              3213 |            100000 |
+|     9 | Pipli Mini Zoo                          | Haryana     | Pipli        | 4677569871 |               345 |             25000 |
+|    10 | Chhatbir Zoo                            | Punjab      | Zirakpur     | 5312674284 |              1432 |            125000 |
+|    11 | Chennai Snake Park Trust                | Tamil Nadu  | Chennai      | 8877598493 |               888 |            975764 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana     | Bahal        | 7318696946 |              2873 |           1318592 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Haryana     | Bhaur Saidan | 9713775775 |              2699 |           1165670 |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+12 rows in set (0.05 sec)
+
+mysql> SELECT * FROM visit;
++------+----------+-------------+------------+-----------+----------+-----------+
+| ID   | TicketNo | VisitorName | VisitDate  | EntryTime | ExitTime | TimeSpent |
++------+----------+-------------+------------+-----------+----------+-----------+
+|    1 |     1001 | Chris       | 2006-05-10 | 10:00:17  | 15:14:43 | 05:14:26  |
+|    2 |     1005 | Cami        | 2006-07-23 | 10:10:17  | 14:29:43 | 04:19:26  |
+|    3 |     1006 | Janet       | 2021-08-15 | 02:41:50  | 16:29:43 | 13:47:53  |
+|    4 |     1007 | Zayn        | 2021-08-15 | 09:53:17  | 17:28:29 | 07:35:12  |
+|   20 |     1008 | Diana       | 2010-10-14 | 09:00:00  | 18:00:00 | 09:00:00  |
+|   21 |     1009 | Harley      | 2010-10-14 | 09:00:00  | 18:00:00 | 09:00:00  |
+|   22 |     1010 | Jake        | 2010-10-14 | 09:00:00  | 18:00:00 | 09:00:00  |
+|   23 |     1011 | Marisha     | 2010-10-14 | 09:00:00  | 18:00:00 | 09:00:00  |
++------+----------+-------------+------------+-----------+----------+-----------+
+8 rows in set (0.05 sec)
+
+mysql> #CREATING VIEW USING JOIN
+mysql> CREATE VIEW Zoo_Visit AS
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> SELECT * FROM visitors;
++-------+----------+---------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name    | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+---------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris   | 2006-05-10 | 10:00:17  | 15:14:43 | 05:14:26  |
+|     2 |     1005 | Cami    | 2006-07-23 | 10:10:17  | 14:29:43 | 04:19:26  |
+|     3 |     1006 | Janet   | 2021-08-15 | 02:41:50  | 16:29:43 | 13:47:53  |
+|     4 |     1007 | Zayn    | 2021-08-15 | 09:53:17  | 17:28:29 | 07:35:12  |
+|     1 |     1008 | Justina | 2010-10-14 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     1 |     1009 | Eustace | 2012-02-12 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     1 |     1010 | Delicia | 2015-05-23 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     1 |     1011 | Shelagh | 2019-03-20 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     1 |     1012 | Myrtle  | 2018-12-10 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     2 |     1013 | Harley  | 2010-10-14 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     2 |     1014 | Kevin   | 2012-02-12 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     2 |     1015 | Norton  | 2015-05-23 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     2 |     1016 | Dawson  | 2019-03-20 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     2 |     1017 | Charlie | 2018-12-10 | 09:00:00  | 06:00:00 | 03:00:00  |
++-------+----------+---------+------------+-----------+----------+-----------+
+14 rows in set (0.06 sec)
+
+mysql> #CREATING VIEW USING JOIN
+mysql> CREATE VIEW Zoo_Visit AS
+    -> Select NewZoo.ZooId, NewZoo.ZooName,NewZoo.City,NewZoo.Visitors_per_Year,SUM(VisiTors.TimeSpent) FROM NewZoo NATURAL JOIN Visitors GroupBy Visitors.ZooId;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Visitors.ZooId' at line 2
+mysql> CREATE VIEW Zoo_Visit AS
+    -> Select NewZoo.ZooId, NewZoo.ZooName,NewZoo.City,NewZoo.Visitors_per_Year,SUM(VisiTors.TimeSpent) FROM NewZoo NATURAL JOIN Visitors GroupBy ZooId;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ZooId' at line 2
+mysql> CREATE VIEW Zoo_Visit AS
+    -> Select NewZoo.ZooId, NewZoo.ZooName,NewZoo.City,NewZoo.Visitors_per_Year,SUM(VisiTors.TimeSpent) FROM NewZoo NATURAL JOIN Visitors;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> SELCT * FROM ZOO_Visit;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELCT * FROM ZOO_Visit' at line 1
+mysql> SELECT * FROM ZOO_Visit;
++-------+----------------------------+---------+-------------------+-------------------------+
+| ZooId | ZooName                    | City    | Visitors_per_Year | SUM(VisiTors.TimeSpent) |
++-------+----------------------------+---------+-------------------+-------------------------+
+|     1 | Alipore Zoological Gardens | Kolkata |           3000000 |                  601617 |
++-------+----------------------------+---------+-------------------+-------------------------+
+1 row in set (0.01 sec)
+
+mysql> #CREATING VIEW WITH CHECK OPTION
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist  | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+23 rows in set (0.00 sec)
+
+mysql> CREATE VIEW Emp_Duty AS
+    -> SELECT EmpID,Name,Designation,Salary FROM EMPLOYEE
+    -> WHERE Status='Off Duty' WITH CHECK OPTION;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT * FROM Emp_Duty;
++-------+--------+------------------------+--------+
+| EmpID | Name   | Designation            | Salary |
++-------+--------+------------------------+--------+
+|  5446 | Stella | Conservation Biologist | 250000 |
+|  5642 | Bianca | Aquarist               | 125000 |
+|  8932 | Frank  | Conservation Biologist | 100000 |
++-------+--------+------------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> #CREATE OR REPLACE VIEW 
+mysql> CREATE OR REPLACE VIEW Zoo_Visit AS
+    -> Select NewZoo.ZooId, NewZoo.ZooName,NewZoo.City,NewZoo.Visitors_per_Year,SUM(VisiTors.TimeSpent) FROM NewZoo INNER JOIN Visitors ON NewZoo.ZooID=Visitors.ZOoID GroupBy Visitors.ZooId;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GroupBy Visitors.ZooId' at line 2
+mysql> CREATE OR REPLACE VIEW Zoo_Visit AS
+    -> Select NewZoo.ZooId, NewZoo.ZooName,NewZoo.City,NewZoo.Visitors_per_Year,SUM(VisiTors.TimeSpent) FROM NewZoo INNER JOIN Visitors ON NewZoo.ZooID=Visitors.ZOoID GroupBy Visitors.ZooId,NewZo.ZooID;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GroupBy Visitors.ZooId,NewZo.ZooID' at line 2
+mysql> CREATE OR REPLACE VIEW Zoo_Visit AS
+    -> Select NewZoo.ZooId, NewZoo.ZooName,NewZoo.City,NewZoo.Visitors_per_Year,SUM(VisiTors.TimeSpent) FROM NewZoo INNER JOIN Visitors ON NewZoo.ZooID=Visitors.ZOoID GroupBy Visitors.ZooId,NewZoo.ZooID;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GroupBy Visitors.ZooId,NewZoo.ZooID' at line 2
+mysql> CREATE OR REPLACE VIEW Zoo_Visit AS
+    -> Select NewZoo.ZooId, NewZoo.ZooName,NewZoo.City,NewZoo.Visitors_per_Year,SUM(VisiTors.TimeSpent) FROM NewZoo,Visitors WHERE NewZoo.ZooID=Visitors.ZOoID GroupBy Visitors.ZooId;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GroupBy Visitors.ZooId' at line 2
+mysql> CREATE OR REPLACE VIEW Zoo_Visit AS
+    -> Select NewZoo.ZooId, NewZoo.ZooName,NewZoo.City,NewZoo.Visitors_per_Year,SUM(VisiTors.TimeSpent) FROM NewZoo INNER JOIN Visitors ON NewZoo.ZooID=Visitors.ZOoID GroupBy ZooID;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GroupBy ZooID' at line 2
+mysql> CREATE OR REPLACE VIEW Zoo_Visit AS
+    -> Select NewZoo.ZooId, NewZoo.ZooName,NewZoo.City,NewZoo.Visitors_per_Year,SUM(VisiTors.TimeSpent) FROM NewZoo NATURAL JOIN Visitors Group By Visitors.ZooId;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> SELECT * FROM Zoo_Visit;
++-------+--------------------------------------+----------+-------------------+-------------------------+
+| ZooId | ZooName                              | City     | Visitors_per_Year | SUM(VisiTors.TimeSpent) |
++-------+--------------------------------------+----------+-------------------+-------------------------+
+|     1 | Alipore Zoological Gardens           | Kolkata  |           3000000 |                  201426 |
+|     2 | Amirthi Zoological Park              | Vellore  |            131619 |                  191926 |
+|     3 | Arignar Anna Zoological Park         | Chennai  |           2040000 |                  134753 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Guwahati |            450000 |                   73512 |
++-------+--------------------------------------+----------+-------------------+-------------------------+
+4 rows in set (0.01 sec)
+
+mysql> #UPDATING VIEWS
+mysql> #uPDATING VIEWS AND CHECKING MASTER
+mysql> INSERT INTO EMP_SALARY VALUES
+    -> (9999,'Ben',' Curator of Horticulture',50000);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> SELECT * FROM EMP_SALARY;
++-------+----------+------------------------+--------+
+| EmpID | Name     | Designation            | Salary |
++-------+----------+------------------------+--------+
+|  1001 | Alex     | Veterinarian           |  85000 |
+|  3435 | Rick     | Development Director   |  95431 |
+|  4387 | Ron      | Aquarist               | 130000 |
+|  5465 | Rebecca  | Curator of Exhibits    |  45000 |
+|  6512 | Mitchel  | Veterinarian           |  85000 |
+|  8979 | Anna     | Aquarist               |  45000 |
+|  9743 | Maddison | Veterinarian           |  90000 |
+|  9812 | Annie    | Conservation Biologist |  90000 |
+|  9814 | Gabriel  | Finance Manager        |  45000 |
++-------+----------+------------------------+--------+
+9 rows in set (0.04 sec)
+
+mysql> Desc Employee;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| ZooId        | int         | YES  | MUL | NULL    |       |
+| EmpID        | int         | NO   | PRI | NULL    |       |
+| Name         | varchar(50) | YES  |     | NULL    |       |
+| Designation  | varchar(50) | YES  |     | NULL    |       |
+| Hire_Date    | date        | YES  |     | NULL    |       |
+| Salary       | int         | YES  |     | NULL    |       |
+| Status       | varchar(40) | YES  |     | NULL    |       |
+| DaysWorked   | int         | YES  |     | NULL    |       |
+| MonthsWorked | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+9 rows in set (0.05 sec)
+
+mysql> SELECT * FROM Employee;
++-------+-------+----------+--------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation              | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+--------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian             | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper                | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper                | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director     | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                 | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper                | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer  | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits      | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist   | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits      | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                 | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager          | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian             | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer  | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist   | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager          | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture  | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                 | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian             | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist   | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager          | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper                | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist   | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|  NULL |  9999 | Ben      |  Curator of Horticulture | NULL       |  50000 | NULL     |       NULL |         NULL |
++-------+-------+----------+--------------------------+------------+--------+----------+------------+--------------+
+24 rows in set (0.00 sec)
+
+mysql> CREATE VIEW Emp_Salary AS
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> CREATE or Replace VIEW Emp_Salary AS
+    -> SELECT EmpID,Name,Designation,Salary FROM EMPLOYEE
+    -> WHERE Salary>=45000;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO EMP_SALARY VALUES
+    -> (9998,'Gwen','Finance Manager',50000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM EMP_SALARY;
++-------+----------+--------------------------+--------+
+| EmpID | Name     | Designation              | Salary |
++-------+----------+--------------------------+--------+
+|  1001 | Alex     | Veterinarian             |  85000 |
+|  3435 | Rick     | Development Director     |  95431 |
+|  4387 | Ron      | Aquarist                 | 130000 |
+|  5446 | Stella   | Conservation Biologist   | 250000 |
+|  5465 | Rebecca  | Curator of Exhibits      |  45000 |
+|  5642 | Bianca   | Aquarist                 | 125000 |
+|  6512 | Mitchel  | Veterinarian             |  85000 |
+|  8932 | Frank    | Conservation Biologist   | 100000 |
+|  8979 | Anna     | Aquarist                 |  45000 |
+|  9743 | Maddison | Veterinarian             |  90000 |
+|  9812 | Annie    | Conservation Biologist   |  90000 |
+|  9814 | Gabriel  | Finance Manager          |  45000 |
+|  9998 | Gwen     | Finance Manager          |  50000 |
+|  9999 | Ben      |  Curator of Horticulture |  50000 |
++-------+----------+--------------------------+--------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Employee;
++-------+-------+----------+--------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation              | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+--------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian             | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper                | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper                | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director     | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                 | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper                | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer  | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits      | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist   | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits      | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                 | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager          | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian             | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer  | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist   | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager          | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture  | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                 | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian             | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist   | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager          | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper                | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist   | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|  NULL |  9998 | Gwen     | Finance Manager          | NULL       |  50000 | NULL     |       NULL |         NULL |
+|  NULL |  9999 | Ben      |  Curator of Horticulture | NULL       |  50000 | NULL     |       NULL |         NULL |
++-------+-------+----------+--------------------------+------------+--------+----------+------------+--------------+
+25 rows in set (0.00 sec)
+
+mysql> #UPDATING MASTER AND CHECKING VIEW
+mysql> INSERT INTO EMPLOYEE VALUES
+    -> (4,9997,'Eddy','Aquarist',MAKEDATE(2014,123),48000,'Off Duty',NULL,NUll);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM Employee;
++-------+-------+----------+--------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation              | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+--------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian             | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper                | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper                | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director     | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                 | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper                | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer  | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits      | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist   | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits      | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                 | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager          | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian             | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer  | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist   | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager          | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture  | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                 | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian             | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist   | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager          | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper                | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist   | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9997 | Eddy     | Aquarist                 | 2014-05-03 |  48000 | Off Duty |       NULL |         NULL |
+|  NULL |  9998 | Gwen     | Finance Manager          | NULL       |  50000 | NULL     |       NULL |         NULL |
+|  NULL |  9999 | Ben      |  Curator of Horticulture | NULL       |  50000 | NULL     |       NULL |         NULL |
++-------+-------+----------+--------------------------+------------+--------+----------+------------+--------------+
+26 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP_SALARY;
++-------+----------+--------------------------+--------+
+| EmpID | Name     | Designation              | Salary |
++-------+----------+--------------------------+--------+
+|  1001 | Alex     | Veterinarian             |  85000 |
+|  3435 | Rick     | Development Director     |  95431 |
+|  4387 | Ron      | Aquarist                 | 130000 |
+|  5446 | Stella   | Conservation Biologist   | 250000 |
+|  5465 | Rebecca  | Curator of Exhibits      |  45000 |
+|  5642 | Bianca   | Aquarist                 | 125000 |
+|  6512 | Mitchel  | Veterinarian             |  85000 |
+|  8932 | Frank    | Conservation Biologist   | 100000 |
+|  8979 | Anna     | Aquarist                 |  45000 |
+|  9743 | Maddison | Veterinarian             |  90000 |
+|  9812 | Annie    | Conservation Biologist   |  90000 |
+|  9814 | Gabriel  | Finance Manager          |  45000 |
+|  9997 | Eddy     | Aquarist                 |  48000 |
+|  9998 | Gwen     | Finance Manager          |  50000 |
+|  9999 | Ben      |  Curator of Horticulture |  50000 |
++-------+----------+--------------------------+--------+
+15 rows in set (0.00 sec)
+
+mysql> SHOW TABLES:
+    -> SHOW TABLES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':
+SHOW TABLES' at line 1
+mysql> SHOW TABLES;
++---------------+
+| Tables_in_zoo |
++---------------+
+| emp           |
+| emp1          |
+| emp_duty      |
+| emp_salary    |
+| employee      |
+| feed          |
+| food          |
+| newzoo        |
+| newzoolist    |
+| visit         |
+| visitors      |
+| zoo           |
+| zoo_visit     |
++---------------+
+13 rows in set (0.03 sec)
+
+mysql> SHOW TABLES where table_type LIKE 'View';
+ERROR 1054 (42S22): Unknown column 'table_type' in 'where clause'
+mysql> SHOW FULL TABLES in Zoo where table_type LIKE 'View';
+Empty set (0.03 sec)
+
+mysql> SHOW FULL TABLES in Zoo where table_type='View';
+Empty set (0.04 sec)
+
+mysql> #DROPPING A VIEW;
+mysql> DROP View newzoolist;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> SHOW TABLES;
++---------------+
+| Tables_in_zoo |
++---------------+
+| emp           |
+| emp1          |
+| emp_duty      |
+| emp_salary    |
+| employee      |
+| feed          |
+| food          |
+| newzoo        |
+| visit         |
+| visitors      |
+| zoo           |
+| zoo_visit     |
++---------------+
+12 rows in set (0.00 sec)
+
+mysql> NOTEE;

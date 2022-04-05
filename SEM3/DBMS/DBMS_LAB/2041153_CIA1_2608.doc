@@ -1,0 +1,489 @@
+mysql> #TASK 1
+mysql> #DATABASE CREATION
+mysql> CREATE database Hospitals
+    -> ;
+Query OK, 1 row affected (0.08 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dummydb            |
+| hospitals          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
+| zoo                |
++--------------------+
+9 rows in set (0.05 sec)
+
+mysql> #TABLE CREATION WITH CONSTRAINTS
+mysql> CREATE TABLE Hospital(Hos_Id int PRIMARY KEY AUTO_INCREMENT,Name varchar(100) NOT NULL,Phone bigint UNIQUE CHECK(Phone > 1000000000 AND Phone < 9999999999),Address varchar(200) DEFAULT "Please Contact Us To Know Our Exact Location");
+ERROR 1046 (3D000): No database selected
+mysql> use hospitals;
+Database changed
+mysql> CREATE TABLE Hospital(Hos_Id int PRIMARY KEY AUTO_INCREMENT,Name varchar(100) NOT NULL,Phone bigint UNIQUE CHECK(Phone > 1000000000 AND Phone < 9999999999),Address varchar(200) DEFAULT "Please Contact Us To Know Our Exact Location");
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> CREATE TABLE Hospital(Hos_Id int,Emp_Id PRIMARY KEY,Name varchar(50) NOT NULL,Designation varchar(30),Salary int CHECK(Salary > 15000),Status varchar(20) DEFAULT "On Duty", FOREIGN KEY(Hos_Id) REFERENCES Hospital(Hos_ID));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMARY KEY,Name varchar(50) NOT NULL,Designation varchar(30),Salary int CHECK(S' at line 1
+mysql> CREATE TABLE Hospital(Hos_Id int,Emp_Id int PRIMARY KEY,Name varchar(50) NOT NULL,Designation varchar(30),Salary int CHECK(Salary > 15000),Status varchar(20) DEFAULT "On Duty", FOREIGN KEY(Hos_Id) REFERENCES Hospital(Hos_ID));
+ERROR 1050 (42S01): Table 'hospital' already exists
+mysql> CREATE TABLE Employee(Hos_Id int,Emp_Id int PRIMARY KEY,Name varchar(50) NOT NULL,Designation varchar(30),Salary int CHECK(Salary > 15000),Status varchar(20) DEFAULT "On Duty", FOREIGN KEY(Hos_Id) REFERENCES Hospital(Hos_ID));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_hospitals |
++---------------------+
+| employee            |
+| hospital            |
++---------------------+
+2 rows in set (0.01 sec)
+
+mysql> desc Hospital;
++---------+--------------+------+-----+----------------------------------------------+----------------+
+| Field   | Type         | Null | Key | Default                                      | Extra          |
++---------+--------------+------+-----+----------------------------------------------+----------------+
+| Hos_Id  | int          | NO   | PRI | NULL                                         | auto_increment |
+| Name    | varchar(100) | NO   |     | NULL                                         |                |
+| Phone   | bigint       | YES  | UNI | NULL                                         |                |
+| Address | varchar(200) | YES  |     | Please Contact Us To Know Our Exact Location |                |
++---------+--------------+------+-----+----------------------------------------------+----------------+
+4 rows in set (0.03 sec)
+
+mysql> desc Employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Hos_Id      | int         | YES  | MUL | NULL    |       |
+| Emp_Id      | int         | NO   | PRI | NULL    |       |
+| Name        | varchar(50) | NO   |     | NULL    |       |
+| Designation | varchar(30) | YES  |     | NULL    |       |
+| Salary      | int         | YES  |     | NULL    |       |
+| Status      | varchar(20) | YES  |     | On Duty |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> 
+mysql> 
+mysql> #INSERTION OF VALUES
+mysql> 
+mysql> 
+mysql> INSERT INTO Hospital Values(1,'Apolo Hospital',9432421876);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO Hospital Values(1,'Apolo Hospital',9432421876,null);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM Hospital;
++--------+----------------+------------+---------+
+| Hos_Id | Name           | Phone      | Address |
++--------+----------------+------------+---------+
+|      1 | Apolo Hospital | 9432421876 | NULL    |
++--------+----------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> DELETE FROM Hospital;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO Hospital (Hos_Id,Name,Phone) Values(1,'Apolo Hospital',9432421876);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> SELECT * FROM Hospital;
++--------+----------------+------------+----------------------------------------------+
+| Hos_Id | Name           | Phone      | Address                                      |
++--------+----------------+------------+----------------------------------------------+
+|      1 | Apolo Hospital | 9432421876 | Please Contact Us To Know Our Exact Location |
++--------+----------------+------------+----------------------------------------------+
+1 row in set (0.03 sec)
+
+mysql> INSERT INTO Hospital (Name,Phone) Values('Woodland Medical Center',9857993247);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> ^C
+mysql> INSERT INTO Hospital (Name,Phone) Values('Hopedale Community Hospital',9324598150),('Clemency Medical Clinic',9671580367),('Harmony Grove General Hospital',9482660614);
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Hospital;
++--------+--------------------------------+------------+----------------------------------------------+
+| Hos_Id | Name                           | Phone      | Address                                      |
++--------+--------------------------------+------------+----------------------------------------------+
+|      1 | Apolo Hospital                 | 9432421876 | Please Contact Us To Know Our Exact Location |
+|      2 | Woodland Medical Center        | 9857993247 | Please Contact Us To Know Our Exact Location |
+|      3 | Hopedale Community Hospital    | 9324598150 | Please Contact Us To Know Our Exact Location |
+|      4 | Clemency Medical Clinic        | 9671580367 | Please Contact Us To Know Our Exact Location |
+|      5 | Harmony Grove General Hospital | 9482660614 | Please Contact Us To Know Our Exact Location |
++--------+--------------------------------+------------+----------------------------------------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO Employee(Hos_Id,Emp_Id,Name,Designation,Salary) Values(1,43245,'Sarah',Nurse,30000);
+ERROR 1054 (42S22): Unknown column 'Nurse' in 'field list'
+mysql> INSERT INTO Employee(Hos_Id,Emp_Id,Name,Designation,Salary) Values(1,43245,'Sarah','Nurse',30000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Employee(Hos_Id,Emp_Id,Name,Designation,Salary) Values(1,56432,'Jezelle','Eye Specialist',100000),(2,45322,'Robert','Cardiologist',250000),(1,86532,'Ray','Physiotherapist',90000),(3,'Flora','Gynocologist',150000);
+ERROR 1136 (21S01): Column count doesn't match value count at row 4
+mysql> INSERT INTO Employee(Hos_Id,Emp_Id,Name,Designation,Salary) Values(1,56432,'Jezelle','Eye Specialist',100000),(2,45322,'Robert','Cardiologist',250000),(1,86532,'Ray','Physiotherapist',90000),(3,46860,'Flora','Gynocologist',150000);
+Query OK, 4 rows affected (0.04 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Employee;
++--------+--------+---------+-----------------+--------+---------+
+| Hos_Id | Emp_Id | Name    | Designation     | Salary | Status  |
++--------+--------+---------+-----------------+--------+---------+
+|      1 |  43245 | Sarah   | Nurse           |  30000 | On Duty |
+|      2 |  45322 | Robert  | Cardiologist    | 250000 | On Duty |
+|      3 |  46860 | Flora   | Gynocologist    | 150000 | On Duty |
+|      1 |  56432 | Jezelle | Eye Specialist  | 100000 | On Duty |
+|      1 |  86532 | Ray     | Physiotherapist |  90000 | On Duty |
++--------+--------+---------+-----------------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> #TASK 2
+mysql> 
+mysql> #DISPLAY
+mysql> #BETWEEN
+mysql> 
+mysql> SELECT * FROM Hospital WHERE Hos_Id BETWEEN 2 to 4;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to 4' at line 1
+mysql> SELECT * FROM Hospital WHERE Hos_Id BETWEEN 2 AND 4;
++--------+-----------------------------+------------+----------------------------------------------+
+| Hos_Id | Name                        | Phone      | Address                                      |
++--------+-----------------------------+------------+----------------------------------------------+
+|      2 | Woodland Medical Center     | 9857993247 | Please Contact Us To Know Our Exact Location |
+|      3 | Hopedale Community Hospital | 9324598150 | Please Contact Us To Know Our Exact Location |
+|      4 | Clemency Medical Clinic     | 9671580367 | Please Contact Us To Know Our Exact Location |
++--------+-----------------------------+------------+----------------------------------------------+
+3 rows in set (0.03 sec)
+
+mysql> SELECT * FROM Hospital WHERE Hos_Id NOT BETWEEN 2 AND 4;
++--------+--------------------------------+------------+----------------------------------------------+
+| Hos_Id | Name                           | Phone      | Address                                      |
++--------+--------------------------------+------------+----------------------------------------------+
+|      1 | Apolo Hospital                 | 9432421876 | Please Contact Us To Know Our Exact Location |
+|      5 | Harmony Grove General Hospital | 9482660614 | Please Contact Us To Know Our Exact Location |
++--------+--------------------------------+------------+----------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> #IN
+mysql> 
+mysql> SELECT * FROM Hospital WHERE Hos_Id IN(3,4);
++--------+-----------------------------+------------+----------------------------------------------+
+| Hos_Id | Name                        | Phone      | Address                                      |
++--------+-----------------------------+------------+----------------------------------------------+
+|      3 | Hopedale Community Hospital | 9324598150 | Please Contact Us To Know Our Exact Location |
+|      4 | Clemency Medical Clinic     | 9671580367 | Please Contact Us To Know Our Exact Location |
++--------+-----------------------------+------------+----------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Hospital WHERE Hos_Id NOT IN(3,4);
++--------+--------------------------------+------------+----------------------------------------------+
+| Hos_Id | Name                           | Phone      | Address                                      |
++--------+--------------------------------+------------+----------------------------------------------+
+|      1 | Apolo Hospital                 | 9432421876 | Please Contact Us To Know Our Exact Location |
+|      2 | Woodland Medical Center        | 9857993247 | Please Contact Us To Know Our Exact Location |
+|      5 | Harmony Grove General Hospital | 9482660614 | Please Contact Us To Know Our Exact Location |
++--------+--------------------------------+------------+----------------------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> #AND
+mysql> 
+mysql> SELECT * FROM Employee WHERE Hos_Id= 2 AND 3;
++--------+--------+--------+--------------+--------+---------+
+| Hos_Id | Emp_Id | Name   | Designation  | Salary | Status  |
++--------+--------+--------+--------------+--------+---------+
+|      2 |  45322 | Robert | Cardiologist | 250000 | On Duty |
++--------+--------+--------+--------------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM Employee WHERE Hos_Id= 2 AND Hos_Id=3;
+Empty set (0.00 sec)
+
+mysql> SELECT * FROM Employee WHERE Hos_Id= 1  AND Name="Ray";
++--------+--------+------+-----------------+--------+---------+
+| Hos_Id | Emp_Id | Name | Designation     | Salary | Status  |
++--------+--------+------+-----------------+--------+---------+
+|      1 |  86532 | Ray  | Physiotherapist |  90000 | On Duty |
++--------+--------+------+-----------------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> #OR
+mysql> 
+mysql> SELECT * FROM Employee WHERE Hos_Id= 2 OR Hos_Id=3;
++--------+--------+--------+--------------+--------+---------+
+| Hos_Id | Emp_Id | Name   | Designation  | Salary | Status  |
++--------+--------+--------+--------------+--------+---------+
+|      2 |  45322 | Robert | Cardiologist | 250000 | On Duty |
+|      3 |  46860 | Flora  | Gynocologist | 150000 | On Duty |
++--------+--------+--------+--------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> #NOT
+mysql> 
+mysql> SELECT * FROM Employee WHERE NOT Hos_Id= 1;
++--------+--------+--------+--------------+--------+---------+
+| Hos_Id | Emp_Id | Name   | Designation  | Salary | Status  |
++--------+--------+--------+--------------+--------+---------+
+|      2 |  45322 | Robert | Cardiologist | 250000 | On Duty |
+|      3 |  46860 | Flora  | Gynocologist | 150000 | On Duty |
++--------+--------+--------+--------------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> #LIKE
+mysql> 
+mysql> SELECT * FROM Hospital WHERE Phone LIKE 94%;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%' at line 1
+mysql> SELECT * FROM Hospital WHERE Phone LIKE '94%';
++--------+--------------------------------+------------+----------------------------------------------+
+| Hos_Id | Name                           | Phone      | Address                                      |
++--------+--------------------------------+------------+----------------------------------------------+
+|      1 | Apolo Hospital                 | 9432421876 | Please Contact Us To Know Our Exact Location |
+|      5 | Harmony Grove General Hospital | 9482660614 | Please Contact Us To Know Our Exact Location |
++--------+--------------------------------+------------+----------------------------------------------+
+2 rows in set (0.04 sec)
+
+mysql> SELECT * FROM Hospital WHERE Phone LIKE '%7';
++--------+-------------------------+------------+----------------------------------------------+
+| Hos_Id | Name                    | Phone      | Address                                      |
++--------+-------------------------+------------+----------------------------------------------+
+|      2 | Woodland Medical Center | 9857993247 | Please Contact Us To Know Our Exact Location |
+|      4 | Clemency Medical Clinic | 9671580367 | Please Contact Us To Know Our Exact Location |
++--------+-------------------------+------------+----------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Employee WHERE Name LIKE '_a%';
++--------+--------+-------+-----------------+--------+---------+
+| Hos_Id | Emp_Id | Name  | Designation     | Salary | Status  |
++--------+--------+-------+-----------------+--------+---------+
+|      1 |  43245 | Sarah | Nurse           |  30000 | On Duty |
+|      1 |  86532 | Ray   | Physiotherapist |  90000 | On Duty |
++--------+--------+-------+-----------------+--------+---------+
+2 rows in set (0.04 sec)
+
+mysql> 
+mysql> #VIOLATION OF CONSTRAINTS
+mysql> #PRIMARY KEY
+mysql> INSERT INTO Hospital (Hos_Id,Name,Phone) Values(4,'Apolo Hospital',9432421876);
+ERROR 1062 (23000): Duplicate entry '4' for key 'hospital.PRIMARY'
+mysql> 
+mysql> #CHECK CONSTRAINT
+mysql> INSERT INTO Hospital (Name,Phone) Values('Woodland Medical Center',985799324);
+ERROR 3819 (HY000): Check constraint 'hospital_chk_1' is violated.
+mysql> 
+mysql> #AUTO INCREMENT
+mysql> INSERT INTO Hospital (Hos_Id,Name,Phone) Values(10,'City Hospital',9324078236);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Delete from Hospital where Hos_Id=10;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> ALTER TABLE Hospital Phone Bigint AUTO_INCREMENT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Phone Bigint AUTO_INCREMENT' at line 1
+mysql> ALTER TABLE Hospital MODIFY Phone Bigint AUTO_INCREMENT;
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> 
+mysql> #TASK3
+mysql> #AGGREGATE FUNCTIONS
+mysql> 
+mysql> #MAX
+mysql> SELECT Hos_Id,Emp_Id,Name, Designation, MAX(Salary), Status FROM EMPLOYEE;
++--------+--------+-------+-------------+-------------+---------+
+| Hos_Id | Emp_Id | Name  | Designation | MAX(Salary) | Status  |
++--------+--------+-------+-------------+-------------+---------+
+|      1 |  43245 | Sarah | Nurse       |      250000 | On Duty |
++--------+--------+-------+-------------+-------------+---------+
+1 row in set (0.03 sec)
+
+mysql> 
+mysql> #MIN
+mysql> SELECT Hos_Id,Emp_Id,Name, Designation, MIN(Salary), Status FROM EMPLOYEE;
++--------+--------+-------+-------------+-------------+---------+
+| Hos_Id | Emp_Id | Name  | Designation | MIN(Salary) | Status  |
++--------+--------+-------+-------------+-------------+---------+
+|      1 |  43245 | Sarah | Nurse       |       30000 | On Duty |
++--------+--------+-------+-------------+-------------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Hos_Id,Emp_Id,Name, Designation, Salary, Status FROM Employee WHERE Salary=MAX(Salary);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> SELECT Hos_Id,Emp_Id,Name, Designation, Salary, Status FROM Employee WHERE MAX(Salary);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> SELECT MAX(Salary) FROM EMPLOYEE;
++-------------+
+| MAX(Salary) |
++-------------+
+|      250000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> #MIN
+mysql> SELECT MIN(Salary) FROM EMPLOYEE;
++-------------+
+| MIN(Salary) |
++-------------+
+|       30000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> #AVG
+mysql> SELECT AVG(Salary) FROM EMPLOYEE;
++-------------+
+| AVG(Salary) |
++-------------+
+| 124000.0000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> #TASK4
+mysql> #MODIFICATION
+mysql> DESC HOSPITAL;
++---------+--------------+------+-----+----------------------------------------------+----------------+
+| Field   | Type         | Null | Key | Default                                      | Extra          |
++---------+--------------+------+-----+----------------------------------------------+----------------+
+| Hos_Id  | int          | NO   | PRI | NULL                                         | auto_increment |
+| Name    | varchar(100) | NO   |     | NULL                                         |                |
+| Phone   | bigint       | YES  | UNI | NULL                                         |                |
+| Address | varchar(200) | YES  |     | Please Contact Us To Know Our Exact Location |                |
++---------+--------------+------+-----+----------------------------------------------+----------------+
+4 rows in set (0.05 sec)
+
+mysql> DESC EMPLOYEE;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Hos_Id      | int         | YES  | MUL | NULL    |       |
+| Emp_Id      | int         | NO   | PRI | NULL    |       |
+| Name        | varchar(50) | NO   |     | NULL    |       |
+| Designation | varchar(30) | YES  |     | NULL    |       |
+| Salary      | int         | YES  |     | NULL    |       |
+| Status      | varchar(20) | YES  |     | On Duty |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE HOSPITAL ADD COLUMN Beds_Available varchar(3) DEFAULT 'Yes';
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC HOSPITAL;
++----------------+--------------+------+-----+----------------------------------------------+----------------+
+| Field          | Type         | Null | Key | Default                                      | Extra          |
++----------------+--------------+------+-----+----------------------------------------------+----------------+
+| Hos_Id         | int          | NO   | PRI | NULL                                         | auto_increment |
+| Name           | varchar(100) | NO   |     | NULL                                         |                |
+| Phone          | bigint       | YES  | UNI | NULL                                         |                |
+| Address        | varchar(200) | YES  |     | Please Contact Us To Know Our Exact Location |                |
+| Beds_Available | varchar(3)   | YES  |     | Yes                                          |                |
++----------------+--------------+------+-----+----------------------------------------------+----------------+
+5 rows in set (0.03 sec)
+
+mysql> ALTER TABLE EMPLOYEE MODIFY Status varchar(20) NOT NULL;
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC EMPLOYEE;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Hos_Id      | int         | YES  | MUL | NULL    |       |
+| Emp_Id      | int         | NO   | PRI | NULL    |       |
+| Name        | varchar(50) | NO   |     | NULL    |       |
+| Designation | varchar(30) | YES  |     | NULL    |       |
+| Salary      | int         | YES  |     | NULL    |       |
+| Status      | varchar(20) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE EMPLOYEE MODIFY Status varchar(20) NOT NULL DEFAULT "On Duty";
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC EMPLOYEE;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Hos_Id      | int         | YES  | MUL | NULL    |       |
+| Emp_Id      | int         | NO   | PRI | NULL    |       |
+| Name        | varchar(50) | NO   |     | NULL    |       |
+| Designation | varchar(30) | YES  |     | NULL    |       |
+| Salary      | int         | YES  |     | NULL    |       |
+| Status      | varchar(20) | NO   |     | On Duty |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE EMPLOYEE REMANE COLUMN Designation to Post;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REMANE COLUMN Designation to Post' at line 1
+mysql> ALTER TABLE EMPLOYEE REMANE COLUMN Designation varchar(30) to Post;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REMANE COLUMN Designation varchar(30) to Post' at line 1
+mysql> ALTER TABLE EMPLOYEE RENAME COLUMN Designation to Post;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC EMPLOYEE;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Hos_Id | int         | YES  | MUL | NULL    |       |
+| Emp_Id | int         | NO   | PRI | NULL    |       |
+| Name   | varchar(50) | NO   |     | NULL    |       |
+| Post   | varchar(30) | YES  |     | NULL    |       |
+| Salary | int         | YES  |     | NULL    |       |
+| Status | varchar(20) | NO   |     | On Duty |       |
++--------+-------------+------+-----+---------+-------+
+6 rows in set (0.03 sec)
+
+mysql> 
+mysql> #DROPPING OF FOREIGN KEY
+mysql> 
+mysql> SELECT * CREATE TABLE EMPLOYEE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CREATE TABLE EMPLOYEE' at line 1
+mysql> SHOW CREATE TABLE EMPLOYEE;
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| EMPLOYEE | CREATE TABLE `employee` (
+  `Hos_Id` int DEFAULT NULL,
+  `Emp_Id` int NOT NULL,
+  `Name` varchar(50) NOT NULL,
+  `Post` varchar(30) DEFAULT NULL,
+  `Salary` int DEFAULT NULL,
+  `Status` varchar(20) NOT NULL DEFAULT 'On Duty',
+  PRIMARY KEY (`Emp_Id`),
+  KEY `Hos_Id` (`Hos_Id`),
+  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`Hos_Id`) REFERENCES `hospital` (`Hos_Id`),
+  CONSTRAINT `employee_chk_1` CHECK ((`Salary` > 15000))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.04 sec)
+
+mysql> ALTER TABLE EMPLOYEE DROP FOREIGN KEY employee_ibfk_1;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE EMPLOYEE DROP KEY Hos_Id;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC EMPLOYEE;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Hos_Id | int         | YES  |     | NULL    |       |
+| Emp_Id | int         | NO   | PRI | NULL    |       |
+| Name   | varchar(50) | NO   |     | NULL    |       |
+| Post   | varchar(30) | YES  |     | NULL    |       |
+| Salary | int         | YES  |     | NULL    |       |
+| Status | varchar(20) | NO   |     | On Duty |       |
++--------+-------------+------+-----+---------+-------+
+6 rows in set (0.04 sec)
+
+mysql> NOTEE;

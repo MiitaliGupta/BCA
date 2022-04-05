@@ -1,0 +1,438 @@
+mysql> SELECT HOST,USER FROM MySQL.user;
++-----------+------------------+
+| HOST      | USER             |
++-----------+------------------+
+| %         | mitali           |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | root             |
++-----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> #CREATING USER
+mysql> CREATE USER 'usr1' IDENTIFIED BY 'usr1' ;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE USER 'usr2' IDENTIFIED BY 'usr2' ;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE USER 'man1' IDENTIFIED BY 'man2' ;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> drop user 'man1';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE USER 'man1' IDENTIFIED BY 'man1' ;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE USER 'man2' IDENTIFIED BY 'man2' ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE USER 'int1' IDENTIFIED BY 'int1' ;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE USER 'int2' IDENTIFIED BY 'int2' ;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> #CREATING ROLE
+mysql> CREATE ROLE 'manager' IDENTIFIED BY 'manager' ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IDENTIFIED BY 'manager'' at line 1
+mysql> CREATE ROLE 'manager'@'localhost' IDENTIFIED BY 'manager' ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IDENTIFIED BY 'manager'' at line 1
+mysql> CREATE ROLE 'manager'@'localhost' [IDENTIFIED BY 'manager'] ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[IDENTIFIED BY 'manager']' at line 1
+mysql> CREATE ROLE 'manager' [IDENTIFIED BY 'manager'] ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[IDENTIFIED BY 'manager']' at line 1
+mysql> 
+mysql> 
+mysql> CREATE ROLE 'manager';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE ROLE 'intern';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> #GRANTING ROLES
+mysql> GRANT 'manager' to 'man1','man2';
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> GRANT 'intern' to 'int1','int2';
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT HOST,USER FROM MySQL.user;
++-----------+------------------+
+| HOST      | USER             |
++-----------+------------------+
+| %         | int1             |
+| %         | int2             |
+| %         | intern           |
+| %         | man1             |
+| %         | man2             |
+| %         | manager          |
+| %         | mitali           |
+| %         | usr1             |
+| %         | usr2             |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | root             |
++-----------+------------------+
+13 rows in set (0.00 sec)
+
+mysql> #GRANTING PREVILEGES
+mysql> SELECT HOST,USER FROM MySQL.user;
++-----------+------------------+
+| HOST      | USER             |
++-----------+------------------+
+| %         | dev1             |
+| %         | dev2             |
+| %         | developer        |
+| %         | int1             |
+| %         | int2             |
+| %         | intern           |
+| %         | man1             |
+| %         | man2             |
+| %         | manager          |
+| %         | mitali           |
+| %         | usr1             |
+| %         | usr2             |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | root             |
++-----------+------------------+
+16 rows in set (0.00 sec)
+
+mysql> #GRANTING PREVILEGES
+mysql> GRANT ALL ON Zoo.* TO developer;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> GRANT ALL ON Zoo.* TO developer WITH GRANT OPTION;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT SHOW DATABASES, SELECT, INSERT, UPDATE, DELETE, ALTER, CREATE, CREATE VIEW, SHOW VIEW ON Zoo.* TO manager WITH GRANT OPTION ;
+ERROR 1221 (HY000): Incorrect usage of DB GRANT and GLOBAL PRIVILEGES
+mysql> GRANT SELECT, INSERT, UPDATE, DELETE, ALTER, CREATE, CREATE VIEW, SHOW VIEW ON Zoo.* TO manager WITH GRANT OPTION ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT SELECT, INSERT, UPDATE, DELETE, ALTER, SHOW VIEW ON Zoo.* TO intern;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON Zoo.* TO intern;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> #SWITCHING TO INTERN
+mysql> mysql -u int1 -p
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql -u int1 -p' at line 1
+mysql> mysql -u int1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql -u int1' at line 1
+mysql> mysql -u int1 -p Zoo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql -u int1 -p Zoo' at line 1
+mysql> mysql -u user -p Zoo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql -u user -p Zoo' at line 1
+mysql> System mysql -u int1 -p;
+mysql> SYSTEM mysql -u int1 -p;
+mysql> SYSTEM mysql -u int1 -p Zoo;
+mysql> SYSTEM mysql -u 'int1' -p;
+mysql> SYSTEM mysql -u 'int1'@'%' -p;
+mysql> SELECT USER,HOST,USER(),CURRENT_USER() FROM mysql.user;
++------------------+-----------+----------------+----------------+
+| USER             | HOST      | USER()         | CURRENT_USER() |
++------------------+-----------+----------------+----------------+
+| dev1             | %         | root@localhost | root@localhost |
+| dev2             | %         | root@localhost | root@localhost |
+| developer        | %         | root@localhost | root@localhost |
+| int1             | %         | root@localhost | root@localhost |
+| int2             | %         | root@localhost | root@localhost |
+| intern           | %         | root@localhost | root@localhost |
+| man1             | %         | root@localhost | root@localhost |
+| man2             | %         | root@localhost | root@localhost |
+| manager          | %         | root@localhost | root@localhost |
+| mitali           | %         | root@localhost | root@localhost |
+| usr1             | %         | root@localhost | root@localhost |
+| usr2             | %         | root@localhost | root@localhost |
+| mysql.infoschema | localhost | root@localhost | root@localhost |
+| mysql.session    | localhost | root@localhost | root@localhost |
+| mysql.sys        | localhost | root@localhost | root@localhost |
+| root             | localhost | root@localhost | root@localhost |
++------------------+-----------+----------------+----------------+
+16 rows in set (0.04 sec)
+
+mysql> NOTEE;
+mysql> select user from mysql.user;
++------------------+
+| user             |
++------------------+
+| dev1             |
+| dev2             |
+| developer        |
+| int1             |
+| int2             |
+| intern           |
+| man1             |
+| man2             |
+| manager          |
+| mca              |
+| mitali           |
+| new              |
+| priyanshi        |
+| usr1             |
+| usr2             |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| root             |
++------------------+
+19 rows in set (0.04 sec)
+
+mysql> Show grants for developer;
++----------------------------------------------------------------------+
+| Grants for developer@%                                               |
++----------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `developer`@`%`                                |
+| GRANT ALL PRIVILEGES ON `zoo`.* TO `developer`@`%` WITH GRANT OPTION |
++----------------------------------------------------------------------+
+2 rows in set (0.02 sec)
+
+mysql> Select ALL on Zoo.* TO 'developer' WITH GRANT OPTION;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on Zoo.* TO 'developer' WITH GRANT OPTION' at line 1
+mysql> GRANT ALL on Zoo.* TO 'developer' WITH GRANT OPTION;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> Show grants for developer;
++----------------------------------------------------------------------+
+| Grants for developer@%                                               |
++----------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `developer`@`%`                                |
+| GRANT ALL PRIVILEGES ON `zoo`.* TO `developer`@`%` WITH GRANT OPTION |
++----------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> GRANT ALL on *.* TO 'developer' WITH GRANT OPTION;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> Show grants for developer;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for developer@%                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE, CREATE ROLE, DROP ROLE ON *.* TO `developer`@`%` WITH GRANT OPTION                                                                                                                                                                                                                    |
+| GRANT APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTION_ADMIN,CLONE_ADMIN,CONNECTION_ADMIN,ENCRYPTION_KEY_ADMIN,FLUSH_OPTIMIZER_COSTS,FLUSH_STATUS,FLUSH_TABLES,FLUSH_USER_RESOURCES,GROUP_REPLICATION_ADMIN,INNODB_REDO_LOG_ARCHIVE,INNODB_REDO_LOG_ENABLE,PERSIST_RO_VARIABLES_ADMIN,REPLICATION_APPLIER,REPLICATION_SLAVE_ADMIN,RESOURCE_GROUP_ADMIN,RESOURCE_GROUP_USER,ROLE_ADMIN,SERVICE_CONNECTION_ADMIN,SESSION_VARIABLES_ADMIN,SET_USER_ID,SHOW_ROUTINE,SYSTEM_USER,SYSTEM_VARIABLES_ADMIN,TABLE_ENCRYPTION_ADMIN,XA_RECOVER_ADMIN ON *.* TO `developer`@`%` WITH GRANT OPTION |
+| GRANT ALL PRIVILEGES ON `zoo`.* TO `developer`@`%` WITH GRANT OPTION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+3 rows in set (0.04 sec)
+
+mysql> USE Zoo;
+Database changed
+mysql> Show grants for manager;
++---------------------------------------------------------------------------------------------------------------------------+
+| Grants for manager@%                                                                                                      |
++---------------------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `manager`@`%`                                                                                       |
+| GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, CREATE VIEW, SHOW VIEW ON `zoo`.* TO `manager`@`%` WITH GRANT OPTION |
++---------------------------------------------------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> Show grants for man1;
++-----------------------------------+
+| Grants for man1@%                 |
++-----------------------------------+
+| GRANT USAGE ON *.* TO `man1`@`%`  |
+| GRANT `manager`@`%` TO `man1`@`%` |
++-----------------------------------+
+2 rows in set (0.01 sec)
+
+mysql> Show grants for intern;
++-----------------------------------------------------------------------------------+
+| Grants for intern@%                                                               |
++-----------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `intern`@`%`                                                |
+| GRANT SELECT, INSERT, UPDATE, DELETE, ALTER, SHOW VIEW ON `zoo`.* TO `intern`@`%` |
++-----------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> Show grants for int1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int1' at line 1
+mysql> Show grants for int1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int1' at line 1
+mysql> #granting permission to particular tables
+mysql> grant select, insert on Zoo.visit,Zoo.feed to USR1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',Zoo.feed to USR1' at line 1
+mysql> #it is case sensitive
+mysql> grant select, insert on Zoo.visit,Zoo.feed to usr1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',Zoo.feed to usr1' at line 1
+mysql> #more than one table cant be given
+mysql> grant select, insert on Zoo.visit to usr1;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> Show grants for usr1;
++-----------------------------------------------------+
+| Grants for usr1@%                                   |
++-----------------------------------------------------+
+| GRANT USAGE ON *.* TO `usr1`@`%`                    |
+| GRANT SELECT, INSERT ON `zoo`.`visit` TO `usr1`@`%` |
++-----------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> #REVOKE
+mysql> show grants for manager;
++---------------------------------------------------------------------------------------------------------------------------+
+| Grants for manager@%                                                                                                      |
++---------------------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `manager`@`%`                                                                                       |
+| GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, CREATE VIEW, SHOW VIEW ON `zoo`.* TO `manager`@`%` WITH GRANT OPTION |
++---------------------------------------------------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> Show grants for man1;
++-----------------------------------+
+| Grants for man1@%                 |
++-----------------------------------+
+| GRANT USAGE ON *.* TO `man1`@`%`  |
+| GRANT `manager`@`%` TO `man1`@`%` |
++-----------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> revoke delete, select on Zoo.* from man1;
+ERROR 1141 (42000): There is no such grant defined for user 'man1' on host '%'
+mysql> revoke delete, select on *.* from man1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> Show grants for man1;
++-----------------------------------+
+| Grants for man1@%                 |
++-----------------------------------+
+| GRANT USAGE ON *.* TO `man1`@`%`  |
+| GRANT `manager`@`%` TO `man1`@`%` |
++-----------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> revoke delete, select on *.* from manager;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show grants for manager;
++---------------------------------------------------------------------------------------------------------------------------+
+| Grants for manager@%                                                                                                      |
++---------------------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `manager`@`%`                                                                                       |
+| GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, CREATE VIEW, SHOW VIEW ON `zoo`.* TO `manager`@`%` WITH GRANT OPTION |
++---------------------------------------------------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> revoke delete, select on Zoo.* from manager;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show grants for manager;
++-----------------------------------------------------------------------------------------------------------+
+| Grants for manager@%                                                                                      |
++-----------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `manager`@`%`                                                                       |
+| GRANT INSERT, UPDATE, CREATE, ALTER, CREATE VIEW, SHOW VIEW ON `zoo`.* TO `manager`@`%` WITH GRANT OPTION |
++-----------------------------------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> show grants for developer;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for developer@%                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE, CREATE ROLE, DROP ROLE ON *.* TO `developer`@`%` WITH GRANT OPTION                                                                                                                                                                                                                    |
+| GRANT APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTION_ADMIN,CLONE_ADMIN,CONNECTION_ADMIN,ENCRYPTION_KEY_ADMIN,FLUSH_OPTIMIZER_COSTS,FLUSH_STATUS,FLUSH_TABLES,FLUSH_USER_RESOURCES,GROUP_REPLICATION_ADMIN,INNODB_REDO_LOG_ARCHIVE,INNODB_REDO_LOG_ENABLE,PERSIST_RO_VARIABLES_ADMIN,REPLICATION_APPLIER,REPLICATION_SLAVE_ADMIN,RESOURCE_GROUP_ADMIN,RESOURCE_GROUP_USER,ROLE_ADMIN,SERVICE_CONNECTION_ADMIN,SESSION_VARIABLES_ADMIN,SET_USER_ID,SHOW_ROUTINE,SYSTEM_USER,SYSTEM_VARIABLES_ADMIN,TABLE_ENCRYPTION_ADMIN,XA_RECOVER_ADMIN ON *.* TO `developer`@`%` WITH GRANT OPTION |
+| GRANT ALL PRIVILEGES ON `zoo`.* TO `developer`@`%` WITH GRANT OPTION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+3 rows in set (0.04 sec)
+
+mysql> revoke SELECT, INSERT, UPDATE, DELETE on *.* from developer;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show grants for developer;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for developer@%                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE, CREATE ROLE, DROP ROLE ON *.* TO `developer`@`%` WITH GRANT OPTION                                                                                                                                                                                                                                                    |
+| GRANT APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTION_ADMIN,CLONE_ADMIN,CONNECTION_ADMIN,ENCRYPTION_KEY_ADMIN,FLUSH_OPTIMIZER_COSTS,FLUSH_STATUS,FLUSH_TABLES,FLUSH_USER_RESOURCES,GROUP_REPLICATION_ADMIN,INNODB_REDO_LOG_ARCHIVE,INNODB_REDO_LOG_ENABLE,PERSIST_RO_VARIABLES_ADMIN,REPLICATION_APPLIER,REPLICATION_SLAVE_ADMIN,RESOURCE_GROUP_ADMIN,RESOURCE_GROUP_USER,ROLE_ADMIN,SERVICE_CONNECTION_ADMIN,SESSION_VARIABLES_ADMIN,SET_USER_ID,SHOW_ROUTINE,SYSTEM_USER,SYSTEM_VARIABLES_ADMIN,TABLE_ENCRYPTION_ADMIN,XA_RECOVER_ADMIN ON *.* TO `developer`@`%` WITH GRANT OPTION |
+| GRANT ALL PRIVILEGES ON `zoo`.* TO `developer`@`%` WITH GRANT OPTION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> revoke all on *.* from developer;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show grants for developer;
++---------------------------------------+
+| Grants for developer@%                |
++---------------------------------------+
+| GRANT USAGE ON *.* TO `developer`@`%` |
++---------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> show grants for manager;
++-----------------------------------------------------------------------------------------------------------+
+| Grants for manager@%                                                                                      |
++-----------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `manager`@`%`                                                                       |
+| GRANT INSERT, UPDATE, CREATE, ALTER, CREATE VIEW, SHOW VIEW ON `zoo`.* TO `manager`@`%` WITH GRANT OPTION |
++-----------------------------------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> revoke delete, select on Zoo.* from manager;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> revoke delete, select on Zoo.feed from manager;
+ERROR 1147 (42000): There is no such grant defined for user 'manager' on host '%' on table 'feed'
+mysql> 
+mysql> #dropping user
+mysql> select user from mysql.user;
++------------------+
+| user             |
++------------------+
+| dev1             |
+| dev2             |
+| developer        |
+| int1             |
+| int2             |
+| intern           |
+| man1             |
+| man2             |
+| manager          |
+| mca              |
+| mitali           |
+| new              |
+| priyanshi        |
+| usr1             |
+| usr2             |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| root             |
++------------------+
+19 rows in set (0.00 sec)
+
+mysql> drop user usr2;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select user from mysql.user;
++------------------+
+| user             |
++------------------+
+| dev1             |
+| dev2             |
+| developer        |
+| int1             |
+| int2             |
+| intern           |
+| man1             |
+| man2             |
+| manager          |
+| mca              |
+| mitali           |
+| new              |
+| priyanshi        |
+| usr1             |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| root             |
++------------------+
+18 rows in set (0.00 sec)
+
+mysql> NOTEE;

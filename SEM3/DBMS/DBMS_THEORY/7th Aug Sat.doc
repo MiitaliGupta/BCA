@@ -1,0 +1,268 @@
+mysql> drop table new;
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
+| new1            |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql> drop table new1;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create database dummydb;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dummydb            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.05 sec)
+
+mysql> use dummydb
+Database changed
+mysql> create table student(Regno int,Name varchar(50),Marks int);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_dummydb |
++-------------------+
+| student           |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Regno | int         | YES  |     | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
+| Marks | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> alter table student rename to STUDENT;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_dummydb |
++-------------------+
+| student           |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Regno | int         | YES  |     | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
+| Marks | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table student rename to Students;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_dummydb |
++-------------------+
+| students          |
++-------------------+
+1 row in set (0.03 sec)
+
+mysql> /*renamed by adding a -s*/
+mysql> alter table student rename column Regno to Register Number;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Number' at line 1
+mysql> alter table student rename column Regno to 'Register Number';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Register Number'' at line 1
+mysql> alter table student rename column Regno to 'Register_Number';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Register_Number'' at line 1
+mysql> alter table students rename column Regno to 'Register Number';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Register Number'' at line 1
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> alter table students rename column Regno to Register Number;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Number' at line 1
+mysql> alter table students rename column Regno to Register_Number;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| Marks           | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> alter table students add DOB varchar(20);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| Marks           | int         | YES  |     | NULL    |       |
+| DOB             | varchar(20) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table students add Course varchar(20), add Department varchar(50);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| Marks           | int         | YES  |     | NULL    |       |
+| DOB             | varchar(20) | YES  |     | NULL    |       |
+| Course          | varchar(20) | YES  |     | NULL    |       |
+| Department      | varchar(50) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.03 sec)
+
+mysql> alter table students add Course varchar(20), drop Department varchar(50);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'varchar(50)' at line 1
+mysql> alter table students add Course varchar(20), drop Department;
+ERROR 1060 (42S21): Duplicate column name 'Course'
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| Marks           | int         | YES  |     | NULL    |       |
+| DOB             | varchar(20) | YES  |     | NULL    |       |
+| Course          | varchar(20) | YES  |     | NULL    |       |
+| Department      | varchar(50) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table students add CIA1 int, drop Department;
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| Marks           | int         | YES  |     | NULL    |       |
+| DOB             | varchar(20) | YES  |     | NULL    |       |
+| Course          | varchar(20) | YES  |     | NULL    |       |
+| CIA1            | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.03 sec)
+
+mysql> alter table students drop Marks,rename Course to Dept, add CourseCode varchar(10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to Dept, add CourseCode varchar(10)' at line 1
+mysql> alter table students drop Marks,rename column Course to Dept, add CourseCode varchar(10);
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| DOB             | varchar(20) | YES  |     | NULL    |       |
+| Dept            | varchar(20) | YES  |     | NULL    |       |
+| CIA1            | int         | YES  |     | NULL    |       |
+| CourseCode      | varchar(10) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table students add TTL varchar(20), drop TTL;/*TRICK QUESTION*/
+ERROR 1091 (42000): Can't DROP 'TTL'; check that column/key exists
+mysql> alter table students add TTL varchar(20)| drop TTL;/*TRICK QUESTION*/
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '| drop TTL' at line 1
+mysql> alter table students add TTL varchar(20);| drop TTL;/*TRICK QUESTION*/
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '| drop TTL' at line 1
+mysql> desc students
+    -> ;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| DOB             | varchar(20) | YES  |     | NULL    |       |
+| Dept            | varchar(20) | YES  |     | NULL    |       |
+| CIA1            | int         | YES  |     | NULL    |       |
+| CourseCode      | varchar(10) | YES  |     | NULL    |       |
+| TTL             | varchar(20) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.05 sec)
+
+mysql> drop ttl;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ttl' at line 1
+mysql> drop table ttl;
+ERROR 1051 (42S02): Unknown table 'dummydb.ttl'
+mysql> alter table students drop ttl;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| DOB             | varchar(20) | YES  |     | NULL    |       |
+| Dept            | varchar(20) | YES  |     | NULL    |       |
+| CIA1            | int         | YES  |     | NULL    |       |
+| CourseCode      | varchar(10) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table students modify DOB int;
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| DOB             | int         | YES  |     | NULL    |       |
+| Dept            | varchar(20) | YES  |     | NULL    |       |
+| CIA1            | int         | YES  |     | NULL    |       |
+| CourseCode      | varchar(10) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> notee;

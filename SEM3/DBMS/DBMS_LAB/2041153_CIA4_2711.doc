@@ -1,0 +1,601 @@
+mysql> Create database OldAgeHome153;
+Query OK, 1 row affected (0.06 sec)
+
+mysql> use oldagehome153;
+Database changed
+mysql> Create Table Homes(HomeId int Primary key,Name varchar(50),Contact bigint,Address Varchar(50) Default 'Bengaluru');
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> desc homes;
++---------+-------------+------+-----+-----------+-------+
+| Field   | Type        | Null | Key | Default   | Extra |
++---------+-------------+------+-----+-----------+-------+
+| HomeId  | int         | NO   | PRI | NULL      |       |
+| Name    | varchar(50) | YES  |     | NULL      |       |
+| Contact | bigint      | YES  |     | NULL      |       |
+| Address | varchar(50) | YES  |     | Bengaluru |       |
++---------+-------------+------+-----+-----------+-------+
+4 rows in set (0.07 sec)
+
+mysql> Insert into Homes Values
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> Insert into Homes(HomeId,Name,Contact) Values
+    -> (1,'Sunshine Old Age Home',9371438461),
+    -> (2,'Back Home Again',9164628261),
+    -> (3,'Ammucare Charitable Trust',9012481276),
+    -> (4,'Retro Salts',9447188023),
+    -> (5,'Sunset Retreat',9120934713);
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> Create Table Members(HomeID int Foreign Key references homes(HomeId),MemberId int Primary key Auto_increment,MemberName varchar(30),Age int,PhoneNo bigint);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Foreign Key references homes(HomeId),MemberId int Primary key Auto_increment,Mem' at line 1
+mysql> Create Table Members(HomeID int,MemberId int Primary key Auto_increment,MemberName varchar(30),Age int,PhoneNo bigint,Foreign key(HomeId) references Homes(HomeID));
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> desc members;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| HomeID     | int         | YES  | MUL | NULL    |                |
+| MemberId   | int         | NO   | PRI | NULL    | auto_increment |
+| MemberName | varchar(30) | YES  |     | NULL    |                |
+| Age        | int         | YES  |     | NULL    |                |
+| PhoneNo    | bigint      | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.01 sec)
+
+mysql> Insert into Members values
+    -> (1,1001,'Rex',86,9526482911);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> Insert into Members(HomeId,MemberName,Age,PhoneNo) values
+    -> (2,'Jane',90,9831173232),
+    -> (3,'Ustace',65,9001132173),
+    -> (4,'Edward',74,9761239021);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM HOMES; 
++--------+---------------------------+------------+-----------+
+| HomeId | Name                      | Contact    | Address   |
++--------+---------------------------+------------+-----------+
+|      1 | Sunshine Old Age Home     | 9371438461 | Bengaluru |
+|      2 | Back Home Again           | 9164628261 | Bengaluru |
+|      3 | Ammucare Charitable Trust | 9012481276 | Bengaluru |
+|      4 | Retro Salts               | 9447188023 | Bengaluru |
+|      5 | Sunset Retreat            | 9120934713 | Bengaluru |
++--------+---------------------------+------------+-----------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT * FROM MEMBERS; 
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
++--------+----------+------------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql> #VIEWS
+mysql> #CREATING VIEW 
+mysql> Create View NewHome As
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> Create View FewMem As
+    -> Select * From Members
+    -> Where Age < 85 WITH CHECK OPTION;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> Select * From FewMem ;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
++--------+----------+------------+------+------------+
+2 rows in set (0.01 sec)
+
+mysql> #UPDATING BASE TABLE THROUGH VIEW
+mysql> Insert into FewMem Values
+    -> (null,1005,Grace,88,9887621341);
+ERROR 1054 (42S22): Unknown column 'Grace' in 'field list'
+mysql> Insert into FewMem Values
+    -> (null,1005,'Grace',88,9887621341);
+ERROR 1369 (HY000): CHECK OPTION failed 'oldagehome153.fewmem'
+mysql> Select * From Members;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
++--------+----------+------------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql> drop view fewmem;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> Create View FewMem As
+    -> Select * From Members
+    -> Where Age < 85;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> Select * From FewMem ;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
++--------+----------+------------+------+------------+
+2 rows in set (0.00 sec)
+
+mysql> #UPDATING BASE TABLE THROUGH VIEW
+mysql> Insert into FewMem Values
+    -> (null,1005,'Grace',88,9887621341);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> Select * From Members;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
++--------+----------+------------+------+------------+
+5 rows in set (0.00 sec)
+
+mysql> Select * From FewMem ;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
++--------+----------+------------+------+------------+
+2 rows in set (0.00 sec)
+
+mysql> #UPDATING VIEW THROUGH BASE TABLE
+mysql> Insert into Members Values
+    -> (null,1006,'Amanda',81,9341223571),
+    -> (null,1007,'Jack',74,9398120352);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> Select * From Members;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
+|   NULL |     1007 | Jack       |   74 | 9398120352 |
++--------+----------+------------+------+------------+
+7 rows in set (0.00 sec)
+
+mysql> Select * From FewMem ;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
+|   NULL |     1007 | Jack       |   74 | 9398120352 |
++--------+----------+------------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql> Delete from Members where MemberId = 1007;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> Select * From Members;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
++--------+----------+------------+------+------------+
+6 rows in set (0.00 sec)
+
+mysql> Select * From FewMem ;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
++--------+----------+------------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> #CREATING VIEW BY JOINING TABLE
+mysql> Create View All As
+    -> Select Homes.HomeId,Homes.Name,Members.MemberID,Members.MemberName,Members.Age From Homes Natural Join Members;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'All As
+Select Homes.HomeId,Homes.Name,Members.MemberID,Members.MemberName,Member' at line 1
+mysql> Create View List As
+    -> Select Homes.HomeId,Homes.Name,Members.MemberID,Members.MemberName,Members.Age From Homes Natural Join Members;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> Select * from List;
++--------+---------------------------+----------+------------+------+
+| HomeId | Name                      | MemberID | MemberName | Age  |
++--------+---------------------------+----------+------------+------+
+|      1 | Sunshine Old Age Home     |     1001 | Rex        |   86 |
+|      2 | Back Home Again           |     1002 | Jane       |   90 |
+|      3 | Ammucare Charitable Trust |     1003 | Ustace     |   65 |
+|      4 | Retro Salts               |     1004 | Edward     |   74 |
++--------+---------------------------+----------+------------+------+
+4 rows in set (0.01 sec)
+
+mysql> Insert Into List Values
+    -> (5,'Salvation Old Age Home',1008,'Anne',99);
+ERROR 1394 (HY000): Can not insert into join view 'oldagehome153.list' without fields list
+mysql> Insert Into List(HomeId,Name,MemberID,MemberName,Age) Values
+    -> (5,'Salvation Old Age Home',1008,'Anne',99);
+ERROR 1393 (HY000): Can not modify more than one base table through a join view 'oldagehome153.list'
+mysql> Delete From List Where HomeID = 4;
+ERROR 1395 (HY000): Can not delete from join view 'oldagehome153.list'
+mysql> 
+mysql> 
+mysql> ^C
+mysql> #TCL
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM MEMBERS;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
++--------+----------+------------+------+------------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO MEMBERS(MemberName,Age,PhoneNo) Values
+    -> ('Bianca',82,9081628763);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO MEMBERS(MemberName,Age,PhoneNo) Values
+    -> ('Harry',91,9387132610);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM MEMBERS;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
+|   NULL |     1008 | Bianca     |   82 | 9081628763 |
+|   NULL |     1009 | Harry      |   91 | 9387132610 |
++--------+----------+------------+------+------------+
+8 rows in set (0.00 sec)
+
+mysql> Savepoint A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO MEMBERS(MemberName,Age,PhoneNo) Values
+    -> ('Brian',87,9098162964);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO MEMBERS(MemberName,Age,PhoneNo) Values
+    -> ('Olive',77,9648760858);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM MEMBERS;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
+|   NULL |     1008 | Bianca     |   82 | 9081628763 |
+|   NULL |     1009 | Harry      |   91 | 9387132610 |
+|   NULL |     1010 | Brian      |   87 | 9098162964 |
+|   NULL |     1011 | Olive      |   77 | 9648760858 |
++--------+----------+------------+------+------------+
+10 rows in set (0.00 sec)
+
+mysql> Savepoint B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> Delete From Members Where HomeID = 1;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Delete From Members Where HomeID = Null;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM MEMBERS;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
+|   NULL |     1008 | Bianca     |   82 | 9081628763 |
+|   NULL |     1009 | Harry      |   91 | 9387132610 |
+|   NULL |     1010 | Brian      |   87 | 9098162964 |
+|   NULL |     1011 | Olive      |   77 | 9648760858 |
++--------+----------+------------+------+------------+
+9 rows in set (0.03 sec)
+
+mysql> Delete From Members Where HomeID Null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Null' at line 1
+mysql> Delete From Members Where HomeID Is Null;
+Query OK, 6 rows affected (0.05 sec)
+
+mysql> SELECT * FROM MEMBERS;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
++--------+----------+------------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> Savepoint C;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> Rollback to B;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT * FROM MEMBERS;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
+|   NULL |     1008 | Bianca     |   82 | 9081628763 |
+|   NULL |     1009 | Harry      |   91 | 9387132610 |
+|   NULL |     1010 | Brian      |   87 | 9098162964 |
+|   NULL |     1011 | Olive      |   77 | 9648760858 |
++--------+----------+------------+------+------------+
+10 rows in set (0.00 sec)
+
+mysql> RollBack;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SELECT * FROM MEMBERS;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
++--------+----------+------------+------+------------+
+6 rows in set (0.02 sec)
+
+mysql> Commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> RollBack;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> Rollback to C;
+ERROR 1305 (42000): SAVEPOINT C does not exist
+mysql> 
+mysql> 
+mysql> #DCL
+mysql> #creating user
+mysql> Select user from mysql.user;
++------------------+
+| user             |
++------------------+
+| dev1             |
+| dev2             |
+| developer        |
+| int1             |
+| int2             |
+| intern           |
+| man1             |
+| man2             |
+| manager          |
+| mca              |
+| mitali           |
+| new              |
+| priyanshi        |
+| usr1             |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| root             |
++------------------+
+18 rows in set (0.01 sec)
+
+mysql> Create user test1 Identified by 'test1';
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> Create user test2 Identified by 'test2';
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show grants for test1;
++-----------------------------------+
+| Grants for test1@%                |
++-----------------------------------+
+| GRANT USAGE ON *.* TO `test1`@`%` |
++-----------------------------------+
+1 row in set (0.05 sec)
+
+mysql> Grant All on *.* to test1;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show grants for test1;
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for test1@%                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE, CREATE ROLE, DROP ROLE ON *.* TO `test1`@`%`                                                                                                                                                                                                                    |
+| GRANT APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTION_ADMIN,CLONE_ADMIN,CONNECTION_ADMIN,ENCRYPTION_KEY_ADMIN,FLUSH_OPTIMIZER_COSTS,FLUSH_STATUS,FLUSH_TABLES,FLUSH_USER_RESOURCES,GROUP_REPLICATION_ADMIN,INNODB_REDO_LOG_ARCHIVE,INNODB_REDO_LOG_ENABLE,PERSIST_RO_VARIABLES_ADMIN,REPLICATION_APPLIER,REPLICATION_SLAVE_ADMIN,RESOURCE_GROUP_ADMIN,RESOURCE_GROUP_USER,ROLE_ADMIN,SERVICE_CONNECTION_ADMIN,SESSION_VARIABLES_ADMIN,SET_USER_ID,SHOW_ROUTINE,SYSTEM_USER,SYSTEM_VARIABLES_ADMIN,TABLE_ENCRYPTION_ADMIN,XA_RECOVER_ADMIN ON *.* TO `test1`@`%` |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> Grant SELECT, INSERT, UPDATE, DELETE on *.* to test2;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show grants for test2;
++------------------------------------------------------------+
+| Grants for test2@%                                         |
++------------------------------------------------------------+
+| GRANT SELECT, INSERT, UPDATE, DELETE ON *.* TO `test2`@`%` |
++------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> Revoke Select On *.* From Test2;
+ERROR 1141 (42000): There is no such grant defined for user 'Test2' on host '%'
+mysql> Revoke Select On *.* From test2;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show grants for test2;
++----------------------------------------------------+
+| Grants for test2@%                                 |
++----------------------------------------------------+
+| GRANT INSERT, UPDATE, DELETE ON *.* TO `test2`@`%` |
++----------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> Revoke All On *.* From test1;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show grants for test1;
++-----------------------------------+
+| Grants for test1@%                |
++-----------------------------------+
+| GRANT USAGE ON *.* TO `test1`@`%` |
++-----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> Grant SELECT on *.* to test1 with grant option;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show grants for test1;
++------------------------------------------------------+
+| Grants for test1@%                                   |
++------------------------------------------------------+
+| GRANT SELECT ON *.* TO `test1`@`%` WITH GRANT OPTION |
++------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> System mysql -u test1 -p;
+mysql> System mysql -u test1 -p;
+mysql> #UNABLE TO CHANGE USER
+mysql> Select User();
++----------------+
+| User()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> #CHANGING PASSWORD
+mysql> ALTER USER test1 Identified by 'newpassword';
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> #SUBQUERIES
+mysql> SELECT * FROM HOMES;
++--------+---------------------------+------------+-----------+
+| HomeId | Name                      | Contact    | Address   |
++--------+---------------------------+------------+-----------+
+|      1 | Sunshine Old Age Home     | 9371438461 | Bengaluru |
+|      2 | Back Home Again           | 9164628261 | Bengaluru |
+|      3 | Ammucare Charitable Trust | 9012481276 | Bengaluru |
+|      4 | Retro Salts               | 9447188023 | Bengaluru |
+|      5 | Sunset Retreat            | 9120934713 | Bengaluru |
++--------+---------------------------+------------+-----------+
+5 rows in set (0.05 sec)
+
+mysql> SELECT * FROM MEMBERS;
++--------+----------+------------+------+------------+
+| HomeID | MemberId | MemberName | Age  | PhoneNo    |
++--------+----------+------------+------+------------+
+|      1 |     1001 | Rex        |   86 | 9526482911 |
+|      2 |     1002 | Jane       |   90 | 9831173232 |
+|      3 |     1003 | Ustace     |   65 | 9001132173 |
+|      4 |     1004 | Edward     |   74 | 9761239021 |
+|   NULL |     1005 | Grace      |   88 | 9887621341 |
+|   NULL |     1006 | Amanda     |   81 | 9341223571 |
++--------+----------+------------+------+------------+
+6 rows in set (0.05 sec)
+
+mysql> #INNER QUERY
+mysql> SELECT MemberId,Age From Members Where Age>80;
++----------+------+
+| MemberId | Age  |
++----------+------+
+|     1001 |   86 |
+|     1002 |   90 |
+|     1005 |   88 |
+|     1006 |   81 |
++----------+------+
+4 rows in set (0.03 sec)
+
+mysql> #WHOLE QUERY
+mysql> Select MemberId, MemberName, Age From Members Where(MemberId,Age) IN (SELECT MemberId,Age From Members Where Age>80);
++----------+------------+------+
+| MemberId | MemberName | Age  |
++----------+------------+------+
+|     1001 | Rex        |   86 |
+|     1002 | Jane       |   90 |
+|     1005 | Grace      |   88 |
+|     1006 | Amanda     |   81 |
++----------+------------+------+
+4 rows in set (0.00 sec)
+
+mysql> #INNER QUERY
+mysql> Select HomeID,Name From Homes Where HomeId<=3;
++--------+---------------------------+
+| HomeID | Name                      |
++--------+---------------------------+
+|      1 | Sunshine Old Age Home     |
+|      2 | Back Home Again           |
+|      3 | Ammucare Charitable Trust |
++--------+---------------------------+
+3 rows in set (0.00 sec)
+
+mysql> #WHOLE QUERY
+mysql> Select HomeID,Name,Contact Form Homes WHere(HomeID,Name) IN (Select HomeID,Name From Homes Where HomeId<=3;);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Homes WHere(HomeID,Name) IN (Select HomeID,Name From Homes Where HomeId<=3' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> Select HomeID,Name,Contact From Homes WHere(HomeID,Name) IN (Select HomeID,Name From Homes Where HomeId<=3;);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> Select HomeID,Name,Contact From Homes WHere(HomeID,Name) IN (Select HomeID,Name From Homes Where HomeId<=3);
++--------+---------------------------+------------+
+| HomeID | Name                      | Contact    |
++--------+---------------------------+------------+
+|      1 | Sunshine Old Age Home     | 9371438461 |
+|      2 | Back Home Again           | 9164628261 |
+|      3 | Ammucare Charitable Trust | 9012481276 |
++--------+---------------------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> Notee;

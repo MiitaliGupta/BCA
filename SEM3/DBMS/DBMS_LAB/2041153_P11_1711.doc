@@ -1,0 +1,141 @@
+mysql> use Zoo;
+Database changed
+mysql> Show tables;
++---------------+
+| Tables_in_zoo |
++---------------+
+| emp           |
+| emp1          |
+| employee      |
+| feed          |
+| food          |
+| newzoo        |
+| newzoolist    |
+| visit         |
+| visitors      |
+| zoo           |
++---------------+
+10 rows in set (0.23 sec)
+
+mysql> Show Index from Employee;
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table    | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employee |          0 | PRIMARY  |            1 | EmpID       | A         |          22 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employee |          0 | EmpID    |            1 | EmpID       | A         |          22 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employee |          1 | ZooId    |            1 | ZooId       | A         |           4 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+3 rows in set (0.08 sec)
+
+mysql> Show Index from Emp;
+Empty set (0.04 sec)
+
+mysql> Desc Emp;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| ZooId        | int         | YES  |     | NULL    |       |
+| EmpID        | int         | NO   |     | NULL    |       |
+| EmpName      | varchar(50) | YES  |     | NULL    |       |
+| Designation  | varchar(50) | YES  |     | NULL    |       |
+| Hire_Date    | date        | YES  |     | NULL    |       |
+| Salary       | int         | YES  |     | NULL    |       |
+| Status       | varchar(40) | YES  |     | NULL    |       |
+| DaysWorked   | int         | YES  |     | NULL    |       |
+| MonthsWorked | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+9 rows in set (0.03 sec)
+
+mysql> Select * from EMp;
++-------+-------+---------+------------------------+------------+--------+---------+------------+--------------+
+| ZooId | EmpID | EmpName | Designation            | Hire_Date  | Salary | Status  | DaysWorked | MonthsWorked |
++-------+-------+---------+------------------------+------------+--------+---------+------------+--------------+
+|     1 |  1001 | Alex    | Veterinarian           | 2020-04-01 |  85000 | On Duty |        524 |           17 |
+|     2 |  3242 | Aiden   | Zookeeper              | 2011-10-13 |  25000 | On Duty |       3617 |          119 |
+|     3 |  4387 | Ron     | Aquarist               | 2010-10-14 | 130000 | On Duty |       3981 |         NULL |
+|    20 |  1111 | Belle   | Development Director   | 2010-07-01 |  80000 | On Duty |       4100 |         NULL |
+|    21 |  2222 | Cane    | Finance Manager        | 2010-07-01 |  40000 | On Duty |       4100 |         NULL |
+|    22 |  3333 | Amanda  | Conservation Biologist | 2010-07-01 | 100000 | On Duty |       4100 |         NULL |
++-------+-------+---------+------------------------+------------+--------+---------+------------+--------------+
+6 rows in set (0.03 sec)
+
+mysql> Select * from EMp where ZooId = 22;
++-------+-------+---------+------------------------+------------+--------+---------+------------+--------------+
+| ZooId | EmpID | EmpName | Designation            | Hire_Date  | Salary | Status  | DaysWorked | MonthsWorked |
++-------+-------+---------+------------------------+------------+--------+---------+------------+--------------+
+|    22 |  3333 | Amanda  | Conservation Biologist | 2010-07-01 | 100000 | On Duty |       4100 |         NULL |
++-------+-------+---------+------------------------+------------+--------+---------+------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> Explain Select * from EMp where ZooId = 22;
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | EMp   | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    7 |    14.29 | Using where |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0.01 sec)
+
+mysql> CREATE INDEX IDX_ID ON EMP(ZooId);
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Show Index from Emp;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| emp   |          1 | IDX_ID   |            1 | ZooId       | A         |           6 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.01 sec)
+
+mysql> Select * from EMp where ZooId = 22;
++-------+-------+---------+------------------------+------------+--------+---------+------------+--------------+
+| ZooId | EmpID | EmpName | Designation            | Hire_Date  | Salary | Status  | DaysWorked | MonthsWorked |
++-------+-------+---------+------------------------+------------+--------+---------+------------+--------------+
+|    22 |  3333 | Amanda  | Conservation Biologist | 2010-07-01 | 100000 | On Duty |       4100 |         NULL |
++-------+-------+---------+------------------------+------------+--------+---------+------------+--------------+
+1 row in set (0.03 sec)
+
+mysql> Explain Select * from EMp where ZooId = 22;
++----+-------------+-------+------------+------+---------------+--------+---------+-------+------+----------+-------+
+| id | select_type | table | partitions | type | possible_keys | key    | key_len | ref   | rows | filtered | Extra |
++----+-------------+-------+------------+------+---------------+--------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | EMp   | NULL       | ref  | IDX_ID        | IDX_ID | 5       | const |    1 |   100.00 | NULL  |
++----+-------------+-------+------------+------+---------------+--------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> DROP INDEX IDX_ID on EMP;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Show Index from Emp;
+Empty set (0.00 sec)
+
+mysql> Explain Select * from EMp where ZooId = 22;
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | EMp   | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    7 |    14.29 | Using where |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> CREATE UNIQUE INDEX IDX_U on EMP(ZooID);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Show Index from Emp;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| emp   |          0 | IDX_U    |            1 | ZooId       | A         |           6 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.04 sec)
+
+mysql> Explain Select * from EMp where ZooId = 22;
++----+-------------+-------+------------+-------+---------------+-------+---------+-------+------+----------+-------+
+| id | select_type | table | partitions | type  | possible_keys | key   | key_len | ref   | rows | filtered | Extra |
++----+-------------+-------+------------+-------+---------------+-------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | EMp   | NULL       | const | IDX_U         | IDX_U | 5       | const |    1 |   100.00 | NULL  |
++----+-------------+-------+------------+-------+---------------+-------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0.04 sec)
+
+mysql> NOTEE;

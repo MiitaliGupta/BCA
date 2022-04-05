@@ -1,0 +1,65 @@
+mysql> SELECT HOST,USER FROM MySQL.user;
++-----------+------------------+
+| HOST      | USER             |
++-----------+------------------+
+| %         | mitali           |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | root             |
++-----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> #CREATING USER
+mysql> CREATE USER 'usr1'@'localhost' IDENTIFIED BY 'usr1' ;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> CREATE USER 'usr2'@'localhost' IDENTIFIED BY 'usr2' ;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE USER 'man1'@'localhost' IDENTIFIED BY 'man1' ;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE USER 'man2'@'localhost' IDENTIFIED BY 'man2' ;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE USER 'int1'@'localhost' IDENTIFIED BY 'int1' ;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE USER 'int2'@'localhost' IDENTIFIED BY 'int2' ;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> #CREATING ROLE
+mysql> CREATE ROLE 'manager'@'localhost' IDENTIFIED BY 'manager' ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IDENTIFIED BY 'manager'' at line 1
+mysql> CREATE ROLE 'manager'@'localhost';
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DROP ROLE manager
+    -> ;
+ERROR 1396 (HY000): Operation DROP ROLE failed for 'manager'@'%'
+mysql> DROP ROLE 'manager'@'localhost';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE ROLE 'manager'@'localhost' [IDENTIFIED BY manager] ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[IDENTIFIED BY manager]' at line 1
+mysql> CREATE ROLE 'manager'@'localhost' [IDENTIFIED BY 'manager'] ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[IDENTIFIED BY 'manager']' at line 1
+mysql> 
+mysql> 
+mysql> 
+mysql> CREATE ROLE 'manager'@'localhost';
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE ROLE 'intern'@'localhost';
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> #GRANTING ROLES
+mysql> GRANT manager to man1,man2;
+ERROR 3523 (HY000): Unknown authorization ID `man1`@`%`
+mysql> GRANT manager to 'man1'@'localhost','man2'@'localhost';
+ERROR 3523 (HY000): Unknown authorization ID `manager`@`%`
+mysql> GRANT 'manager'@'localhost' to 'man1'@'localhost','man2'@'localhost';
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> notee;

@@ -1,0 +1,802 @@
+mysql> SELECT ZooId,Name FROM Zoo WHERE Animal_Population > 500 GROUP BY State;
++-------+--------------------------------------+
+| ZooId | Name                                 |
++-------+--------------------------------------+
+|     1 | Alipore Zoological Gardens           |
+|     3 | Arignar Anna Zoological Park         |
+|     4 | Assam State Zoo-cum-Botanical Garden |
+|     5 | Bannerghatta National Park           |
+|     7 | Birsa Deer Park                      |
+|     8 | Bondla Wildlife Sanctuary            |
+|    10 | Chhatbir Zoo                         |
++-------+--------------------------------------+
+7 rows in set (0.03 sec)
+
+mysql> SELECT ZooId,Name,State,Animal_Population FROM Zoo WHERE Animal_Population > 500 GROUP BY State;
++-------+--------------------------------------+-------------+-------------------+
+| ZooId | Name                                 | State       | Animal_Population |
++-------+--------------------------------------+-------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal |              1266 |
+|     3 | Arignar Anna Zoological Park         | Tamil Nadu  |              2644 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       |               895 |
+|     5 | Bannerghatta National Park           | Karnataka   |              1300 |
+|     7 | Birsa Deer Park                      | Jharkhand   |              1450 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         |              3213 |
+|    10 | Chhatbir Zoo                         | Punjab      |              1432 |
++-------+--------------------------------------+-------------+-------------------+
+7 rows in set (0.00 sec)
+
+mysql> UPDATE Zoo SET Animal_population=1200 where Contact_No is NUll;
+Query OK, 3 rows affected (0.02 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> UPDATE Zoo SET Visitors_per_Year=1200000 where Contact_No is NUll;
+Query OK, 3 rows affected (0.03 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> UPDATE Zoo SET Contact_No=FLOOR(RAND()*(9876543210-6666666666+1))+6666666666 where ZooId IN(11,12,13);
+Query OK, 3 rows affected (0.02 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from zoo;
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+| ZooId | Name                                    | State       | City         | Contact_No | Animal_Population | Visitors_per_Year |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens              | West Bengal | Kolkata      | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park                 | Tamil Nadu  | Vellore      | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park            | Tamil Nadu  | Chennai      | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Assam       | Guwahati     | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park              | Karnataka   | Bengaluru    | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                         | Jharkhand   | Ranchi       | 6512480948 |              1450 |            800000 |
+|     8 | Bondla Wildlife Sanctuary               | Goa         | Ponda        | 8923561278 |              3213 |            100000 |
+|     9 | Pipli Mini Zoo                          | Haryana     | Pipli        | 4677569871 |               345 |             25000 |
+|    10 | Chhatbir Zoo                            | Punjab      | Zirakpur     | 5312674284 |              1432 |            125000 |
+|    11 | Chennai Snake Park Trust                | Tamil Nadu  | Chennai      | 8877598493 |              1200 |           1200000 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana     | Bahal        | 7318696946 |              1200 |           1200000 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Haryana     | Bhaur Saidan | 9713775775 |              1200 |           1200000 |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+12 rows in set (0.04 sec)
+
+mysql> UPDATE Zoo SET Animal_Population=FLOOR(RAND()*(3333-500+1))+500 where ZooId IN(11,12,13);
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> UPDATE Zoo SET Visitor_per_year=FLOOR(RAND()*(2500000-90000+1))+90000 where ZooId IN(11,12,13);
+ERROR 1054 (42S22): Unknown column 'Visitor_per_year' in 'field list'
+mysql> UPDATE Zoo SET Visitors_per_year=FLOOR(RAND()*(2500000-90000+1))+90000 where ZooId IN(11,12,13);
+Query OK, 3 rows affected (0.04 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from zoo;
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+| ZooId | Name                                    | State       | City         | Contact_No | Animal_Population | Visitors_per_Year |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens              | West Bengal | Kolkata      | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park                 | Tamil Nadu  | Vellore      | 9789323326 |               174 |            131619 |
+|     3 | Arignar Anna Zoological Park            | Tamil Nadu  | Chennai      | 4422751089 |              2644 |           2040000 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Assam       | Guwahati     | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park              | Karnataka   | Bengaluru    | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                         | Jharkhand   | Ranchi       | 6512480948 |              1450 |            800000 |
+|     8 | Bondla Wildlife Sanctuary               | Goa         | Ponda        | 8923561278 |              3213 |            100000 |
+|     9 | Pipli Mini Zoo                          | Haryana     | Pipli        | 4677569871 |               345 |             25000 |
+|    10 | Chhatbir Zoo                            | Punjab      | Zirakpur     | 5312674284 |              1432 |            125000 |
+|    11 | Chennai Snake Park Trust                | Tamil Nadu  | Chennai      | 8877598493 |               888 |            975764 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana     | Bahal        | 7318696946 |              2873 |           1318592 |
+|    13 | Crocodile Breeding Centre, Kurukshetra  | Haryana     | Bhaur Saidan | 9713775775 |              2699 |           1165670 |
++-------+-----------------------------------------+-------------+--------------+------------+-------------------+-------------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,Name FROM Zoo WHERE Animal_Population > 500 GROUP BY State;
++-------+-----------------------------------------+
+| ZooId | Name                                    |
++-------+-----------------------------------------+
+|     1 | Alipore Zoological Gardens              |
+|     3 | Arignar Anna Zoological Park            |
+|     4 | Assam State Zoo-cum-Botanical Garden    |
+|     5 | Bannerghatta National Park              |
+|     7 | Birsa Deer Park                         |
+|     8 | Bondla Wildlife Sanctuary               |
+|    10 | Chhatbir Zoo                            |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani |
++-------+-----------------------------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,Name,State,Animal_Population FROM Zoo WHERE Animal_Population > 500 GROUP BY State;
++-------+-----------------------------------------+-------------+-------------------+
+| ZooId | Name                                    | State       | Animal_Population |
++-------+-----------------------------------------+-------------+-------------------+
+|     1 | Alipore Zoological Gardens              | West Bengal |              1266 |
+|     3 | Arignar Anna Zoological Park            | Tamil Nadu  |              2644 |
+|     4 | Assam State Zoo-cum-Botanical Garden    | Assam       |               895 |
+|     5 | Bannerghatta National Park              | Karnataka   |              1300 |
+|     7 | Birsa Deer Park                         | Jharkhand   |              1450 |
+|     8 | Bondla Wildlife Sanctuary               | Goa         |              3213 |
+|    10 | Chhatbir Zoo                            | Punjab      |              1432 |
+|    12 | Chinkara Breeding Centre Kairu, Bhiwani | Haryana     |              2873 |
++-------+-----------------------------------------+-------------+-------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,Name,State,Animal_Population FROM Zoo GROUP BY State;
++-------+--------------------------------------+-------------+-------------------+
+| ZooId | Name                                 | State       | Animal_Population |
++-------+--------------------------------------+-------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal |              1266 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  |               174 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       |               895 |
+|     5 | Bannerghatta National Park           | Karnataka   |              1300 |
+|     7 | Birsa Deer Park                      | Jharkhand   |              1450 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         |              3213 |
+|     9 | Pipli Mini Zoo                       | Haryana     |               345 |
+|    10 | Chhatbir Zoo                         | Punjab      |              1432 |
++-------+--------------------------------------+-------------+-------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Zoo GROUP BY State;
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+| ZooId | Name                                 | State       | City      | Contact_No | Animal_Population | Visitors_per_Year |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+|     1 | Alipore Zoological Gardens           | West Bengal | Kolkata   | 3324791150 |              1266 |           3000000 |
+|     2 | Amirthi Zoological Park              | Tamil Nadu  | Vellore   | 9789323326 |               174 |            131619 |
+|     4 | Assam State Zoo-cum-Botanical Garden | Assam       | Guwahati  | 7002716702 |               895 |            450000 |
+|     5 | Bannerghatta National Park           | Karnataka   | Bengaluru | 8029776466 |              1300 |           1616130 |
+|     7 | Birsa Deer Park                      | Jharkhand   | Ranchi    | 6512480948 |              1450 |            800000 |
+|     8 | Bondla Wildlife Sanctuary            | Goa         | Ponda     | 8923561278 |              3213 |            100000 |
+|     9 | Pipli Mini Zoo                       | Haryana     | Pipli     | 4677569871 |               345 |             25000 |
+|    10 | Chhatbir Zoo                         | Punjab      | Zirakpur  | 5312674284 |              1432 |            125000 |
++-------+--------------------------------------+-------------+-----------+------------+-------------------+-------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Employee WHERE DaysWorked>1500 GROUP BY Designation ;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+10 rows in set (0.03 sec)
+
+mysql> SELECT * FROM Employee GROUP BY Designation ;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Visitors WHERE ExitTime<CURTIME() GROUP BY ZooID;
++-------+----------+---------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name    | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+---------+------------+-----------+----------+-----------+
+|     1 |     1008 | Justina | 2010-10-14 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     2 |     1013 | Harley  | 2010-10-14 | 09:00:00  | 06:00:00 | 03:00:00  |
++-------+----------+---------+------------+-----------+----------+-----------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT * FROM Visitors WHERE ExitTime='06:00:00' GROUP BY ZooID;
++-------+----------+---------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name    | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+---------+------------+-----------+----------+-----------+
+|     1 |     1008 | Justina | 2010-10-14 | 09:00:00  | 06:00:00 | 03:00:00  |
+|     2 |     1013 | Harley  | 2010-10-14 | 09:00:00  | 06:00:00 | 03:00:00  |
++-------+----------+---------+------------+-----------+----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Visitors GROUP BY ZooID;
++-------+----------+-------+------------+-----------+----------+-----------+
+| ZooId | TicketNo | Name  | VisitDate  | EntryTime | ExitTime | TimeSpent |
++-------+----------+-------+------------+-----------+----------+-----------+
+|     1 |     1001 | Chris | 2006-05-10 | 10:00:17  | 15:14:43 | 05:14:26  |
+|     2 |     1005 | Cami  | 2006-07-23 | 10:10:17  | 14:29:43 | 04:19:26  |
+|     3 |     1006 | Janet | 2021-08-15 | 02:41:50  | 16:29:43 | 13:47:53  |
+|     4 |     1007 | Zayn  | 2021-08-15 | 09:53:17  | 17:28:29 | 07:35:12  |
++-------+----------+-------+------------+-----------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Feed WHERE Genus LIKE '______%' GROUP BY Food_Type;
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Panthera     | leo       | Carnivore |
+|     1 | Hippopotamus | amphibius | Omnivore  |
+|     1 | Elephas      | maximus   | Herbivore |
++-------+--------------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type;
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Panthera     | leo       | Carnivore |
+|     1 | Hippopotamus | amphibius | Omnivore  |
+|     1 | Elephas      | maximus   | Herbivore |
++-------+--------------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Feed WHERE Species LIKE '_____' GROUP BY Food_Type;
++-------+---------------+---------+-----------+
+| ZooId | Genus         | Species | Food_type |
++-------+---------------+---------+-----------+
+|     1 | Canis         | lupus   | Carnivore |
+|     1 | Ceratotherium | simum   | Omnivore  |
+|     1 | Hippotragus   | niger   | Herbivore |
++-------+---------------+---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT STATE,COUNT(ZOOID) FROM ZOO GROUP BY STATE;
++-------------+--------------+
+| STATE       | COUNT(ZOOID) |
++-------------+--------------+
+| West Bengal |            1 |
+| Tamil Nadu  |            3 |
+| Assam       |            1 |
+| Karnataka   |            1 |
+| Jharkhand   |            1 |
+| Goa         |            1 |
+| Haryana     |            3 |
+| Punjab      |            1 |
++-------------+--------------+
+8 rows in set (0.04 sec)
+
+mysql> SELECT DESIGNATION,COUNT(NAME) FROM ZOO GROUP BY DESIGNATION;
+ERROR 1054 (42S22): Unknown column 'DESIGNATION' in 'field list'
+mysql> SELECT DESIGNATION,COUNT(NAME) FROM EMPLOYEE GROUP BY DESIGNATION;
++-------------------------+-------------+
+| DESIGNATION             | COUNT(NAME) |
++-------------------------+-------------+
+| Veterinarian            |           3 |
+| Zookeeper               |           3 |
+| Development Director    |           1 |
+| Aquarist                |           3 |
+| Chief Operating Officer |           1 |
+| Curator of Exhibits     |           2 |
+| Conservation Biologist  |           2 |
+| Finance Manager         |           2 |
+| Cheif Operating Officer |           1 |
+| Curator of Horticulture |           1 |
++-------------------------+-------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,COUNT(NAME) FROM VISITORS GROUP BY ZOOID;
++-------+-------------+
+| ZOOID | COUNT(NAME) |
++-------+-------------+
+|     1 |           6 |
+|     2 |           6 |
+|     3 |           1 |
+|     4 |           1 |
++-------+-------------+
+4 rows in set (0.03 sec)
+
+mysql> SELECT FOOD_TYPE,COUNT(Genus) FROM FEED GROUP BY FOOD_TYPE;
++-----------+--------------+
+| FOOD_TYPE | COUNT(Genus) |
++-----------+--------------+
+| Carnivore |            5 |
+| Omnivore  |            5 |
+| Herbivore |            5 |
++-----------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT STATE,SUM(Animal_Population) FROM ZOO GROUP BY STATE;
++-------------+------------------------+
+| STATE       | SUM(Animal_Population) |
++-------------+------------------------+
+| West Bengal |                   1266 |
+| Tamil Nadu  |                   3706 |
+| Assam       |                    895 |
+| Karnataka   |                   1300 |
+| Jharkhand   |                   1450 |
+| Goa         |                   3213 |
+| Haryana     |                   5917 |
+| Punjab      |                   1432 |
++-------------+------------------------+
+8 rows in set (0.04 sec)
+
+mysql> SELECT DESIGNATION,SUM(SALARY) as Total_Salary FROM EMPLOYEE GROUP BY DESIGNATION;
++-------------------------+--------------+
+| DESIGNATION             | Total_Salary |
++-------------------------+--------------+
+| Veterinarian            |       260000 |
+| Zookeeper               |        80000 |
+| Development Director    |        95431 |
+| Aquarist                |       300000 |
+| Chief Operating Officer |        35000 |
+| Curator of Exhibits     |        45000 |
+| Conservation Biologist  |       350000 |
+| Finance Manager         |        30000 |
+| Cheif Operating Officer |        30000 |
+| Curator of Horticulture |         NULL |
++-------------------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,SUM(TimeSpent) FROM VISITORS GROUP BY ZOOID;
++-------+----------------+
+| ZOOID | SUM(TimeSpent) |
++-------+----------------+
+|     1 |         201426 |
+|     2 |         191926 |
+|     3 |         134753 |
+|     4 |          73512 |
++-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,TIME_FORMAT(SUM(TimeSpent),"%h:%i") FROM VISITORS GROUP BY ZOOID;
++-------+-------------------------------------+
+| ZOOID | TIME_FORMAT(SUM(TimeSpent),"%h:%i") |
++-------+-------------------------------------+
+|     1 | 08:14                               |
+|     2 | 07:19                               |
+|     3 | 01:47                               |
+|     4 | 07:35                               |
++-------+-------------------------------------+
+4 rows in set (0.03 sec)
+
+mysql> SELECT ZOOID,TIME_FORMAT(SUM(TimeSpent),"%h:%i") AS Total_Time FROM VISITORS GROUP BY ZOOID;
++-------+------------+
+| ZOOID | Total_Time |
++-------+------------+
+|     1 | 08:14      |
+|     2 | 07:19      |
+|     3 | 01:47      |
+|     4 | 07:35      |
++-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT FOOD_TYPE,SUM(Genus) FROM FEED GROUP BY FOOD_TYPE;
++-----------+------------+
+| FOOD_TYPE | SUM(Genus) |
++-----------+------------+
+| Carnivore |          0 |
+| Omnivore  |          0 |
+| Herbivore |          0 |
++-----------+------------+
+3 rows in set, 15 warnings (0.03 sec)
+
+mysql> SELECT FOOD_TYPE,SUM(ASCII(Genus)) FROM FEED GROUP BY FOOD_TYPE;
++-----------+-------------------+
+| FOOD_TYPE | SUM(ASCII(Genus)) |
++-----------+-------------------+
+| Carnivore |               374 |
+| Omnivore  |               383 |
+| Herbivore |               346 |
++-----------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> #AVG
+mysql> SELECT STATE,AVG(Animal_Population) FROM ZOO GROUP BY STATE;
++-------------+------------------------+
+| STATE       | AVG(Animal_Population) |
++-------------+------------------------+
+| West Bengal |              1266.0000 |
+| Tamil Nadu  |              1235.3333 |
+| Assam       |               895.0000 |
+| Karnataka   |              1300.0000 |
+| Jharkhand   |              1450.0000 |
+| Goa         |              3213.0000 |
+| Haryana     |              1972.3333 |
+| Punjab      |              1432.0000 |
++-------------+------------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT STATE,ROUND(AVG(Animal_Population)) FROM ZOO GROUP BY STATE;
++-------------+-------------------------------+
+| STATE       | ROUND(AVG(Animal_Population)) |
++-------------+-------------------------------+
+| West Bengal |                          1266 |
+| Tamil Nadu  |                          1235 |
+| Assam       |                           895 |
+| Karnataka   |                          1300 |
+| Jharkhand   |                          1450 |
+| Goa         |                          3213 |
+| Haryana     |                          1972 |
+| Punjab      |                          1432 |
++-------------+-------------------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT DESIGNATION,FORMAT(AVG(SALARY),2) as Total_Salary FROM EMPLOYEE GROUP BY DESIGNATION;
++-------------------------+--------------+
+| DESIGNATION             | Total_Salary |
++-------------------------+--------------+
+| Veterinarian            | 86,666.67    |
+| Zookeeper               | 26,666.67    |
+| Development Director    | 95,431.00    |
+| Aquarist                | 100,000.00   |
+| Chief Operating Officer | 35,000.00    |
+| Curator of Exhibits     | 45,000.00    |
+| Conservation Biologist  | 175,000.00   |
+| Finance Manager         | 30,000.00    |
+| Cheif Operating Officer | 30,000.00    |
+| Curator of Horticulture | NULL         |
++-------------------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,TIME_FORMAT(AVG(TimeSpent),"%h:%i") AS Avg_Time FROM VISITORS GROUP BY ZOOID;
++-------+----------+
+| ZOOID | Avg_Time |
++-------+----------+
+|     1 | NULL     |
+|     2 | NULL     |
+|     3 | 01:47    |
+|     4 | 07:35    |
++-------+----------+
+4 rows in set, 2 warnings (0.00 sec)
+
+mysql> SELECT ZOOID,AVG(TimeSpent) AS Avg_Time FROM VISITORS GROUP BY ZOOID
+    -> ;
++-------+-------------+
+| ZOOID | Avg_Time    |
++-------+-------------+
+|     1 |  33571.0000 |
+|     2 |  31987.6667 |
+|     3 | 134753.0000 |
+|     4 |  73512.0000 |
++-------+-------------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT FOOD_TYPE,AVG(ASCII(Genus)) FROM FEED GROUP BY FOOD_TYPE;
++-----------+-------------------+
+| FOOD_TYPE | AVG(ASCII(Genus)) |
++-----------+-------------------+
+| Carnivore |           74.8000 |
+| Omnivore  |           76.6000 |
+| Herbivore |           69.2000 |
++-----------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT STATE,MAX(Animal_Population) FROM ZOO GROUP BY STATE;
++-------------+------------------------+
+| STATE       | MAX(Animal_Population) |
++-------------+------------------------+
+| West Bengal |                   1266 |
+| Tamil Nadu  |                   2644 |
+| Assam       |                    895 |
+| Karnataka   |                   1300 |
+| Jharkhand   |                   1450 |
+| Goa         |                   3213 |
+| Haryana     |                   2873 |
+| Punjab      |                   1432 |
++-------------+------------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT DESIGNATION,MAX(SALARY) as Total_Salary FROM EMPLOYEE GROUP BY DESIGNATION;
++-------------------------+--------------+
+| DESIGNATION             | Total_Salary |
++-------------------------+--------------+
+| Veterinarian            |        90000 |
+| Zookeeper               |        30000 |
+| Development Director    |        95431 |
+| Aquarist                |       130000 |
+| Chief Operating Officer |        35000 |
+| Curator of Exhibits     |        45000 |
+| Conservation Biologist  |       250000 |
+| Finance Manager         |        30000 |
+| Cheif Operating Officer |        30000 |
+| Curator of Horticulture |         NULL |
++-------------------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,MAX(TimeSpent) FROM VISITORS GROUP BY ZOOID;
++-------+----------------+
+| ZOOID | MAX(TimeSpent) |
++-------+----------------+
+|     1 | 05:14:26       |
+|     2 | 04:19:26       |
+|     3 | 13:47:53       |
+|     4 | 07:35:12       |
++-------+----------------+
+4 rows in set (0.02 sec)
+
+mysql> SELECT FOOD_TYPE,MAX(ASCII(Genus)) FROM FEED GROUP BY FOOD_TYPE;
++-----------+-------------------+
+| FOOD_TYPE | MAX(ASCII(Genus)) |
++-----------+-------------------+
+| Carnivore |                80 |
+| Omnivore  |                85 |
+| Herbivore |                72 |
++-----------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT STATE,MIN(Animal_Population) FROM ZOO GROUP BY STATE;
++-------------+------------------------+
+| STATE       | MIN(Animal_Population) |
++-------------+------------------------+
+| West Bengal |                   1266 |
+| Tamil Nadu  |                    174 |
+| Assam       |                    895 |
+| Karnataka   |                   1300 |
+| Jharkhand   |                   1450 |
+| Goa         |                   3213 |
+| Haryana     |                    345 |
+| Punjab      |                   1432 |
++-------------+------------------------+
+8 rows in set (0.03 sec)
+
+mysql> SELECT DESIGNATION,MIN(SALARY) as Total_Salary FROM EMPLOYEE GROUP BY DESIGNATION;
++-------------------------+--------------+
+| DESIGNATION             | Total_Salary |
++-------------------------+--------------+
+| Veterinarian            |        85000 |
+| Zookeeper               |        25000 |
+| Development Director    |        95431 |
+| Aquarist                |        45000 |
+| Chief Operating Officer |        35000 |
+| Curator of Exhibits     |        45000 |
+| Conservation Biologist  |       100000 |
+| Finance Manager         |        30000 |
+| Cheif Operating Officer |        30000 |
+| Curator of Horticulture |         NULL |
++-------------------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT ZOOID,MIN(TimeSpent) FROM VISITORS GROUP BY ZOOID;
++-------+----------------+
+| ZOOID | MIN(TimeSpent) |
++-------+----------------+
+|     1 | 03:00:00       |
+|     2 | 03:00:00       |
+|     3 | 13:47:53       |
+|     4 | 07:35:12       |
++-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT FOOD_TYPE,MIN(ASCII(Genus)) FROM FEED GROUP BY FOOD_TYPE;
++-----------+-------------------+
+| FOOD_TYPE | MIN(ASCII(Genus)) |
++-----------+-------------------+
+| Carnivore |                67 |
+| Omnivore  |                67 |
+| Herbivore |                65 |
++-----------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT State,SUM(Animal_population) FROM Zoo GROUP BY State HAVING SUM(Animal_Population)>3000;
++------------+------------------------+
+| State      | SUM(Animal_population) |
++------------+------------------------+
+| Tamil Nadu |                   3706 |
+| Goa        |                   3213 |
+| Haryana    |                   5917 |
++------------+------------------------+
+3 rows in set (0.02 sec)
+
+mysql> SELECT Name,Designation,Salary FROM Employee GROUP BY Designation HAVING Salary>80000;
++--------+------------------------+--------+
+| Name   | Designation            | Salary |
++--------+------------------------+--------+
+| Alex   | Veterinarian           |  85000 |
+| Rick   | Development Director   |  95431 |
+| Ron    | Aquarist               | 130000 |
+| Stella | Conservation Biologist | 250000 |
++--------+------------------------+--------+
+4 rows in set (0.04 sec)
+
+mysql> SELECT ZooId,Name,Designation,Salary FROM Employee GROUP BY Designation HAVING Salary>80000;
++-------+--------+------------------------+--------+
+| ZooId | Name   | Designation            | Salary |
++-------+--------+------------------------+--------+
+|     1 | Alex   | Veterinarian           |  85000 |
+|     2 | Rick   | Development Director   |  95431 |
+|     3 | Ron    | Aquarist               | 130000 |
+|     1 | Stella | Conservation Biologist | 250000 |
++-------+--------+------------------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,Name,Designation,SUM(Salary) FROM Employee GROUP BY Designation HAVING SUM(Salary)>80000;
++-------+--------+------------------------+-------------+
+| ZooId | Name   | Designation            | SUM(Salary) |
++-------+--------+------------------------+-------------+
+|     1 | Alex   | Veterinarian           |      260000 |
+|     2 | Rick   | Development Director   |       95431 |
+|     3 | Ron    | Aquarist               |      300000 |
+|     1 | Stella | Conservation Biologist |      350000 |
++-------+--------+------------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Designation,SUM(Salary) FROM Employee GROUP BY Designation HAVING SUM(Salary)>80000;
++------------------------+-------------+
+| Designation            | SUM(Salary) |
++------------------------+-------------+
+| Veterinarian           |      260000 |
+| Development Director   |       95431 |
+| Aquarist               |      300000 |
+| Conservation Biologist |      350000 |
++------------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,SUM(TimeSpent) FROM Visitors GROUP BY ZooId HAVING SUM(TimeSpent)>190000;
++-------+----------------+
+| ZooId | SUM(TimeSpent) |
++-------+----------------+
+|     1 |         201426 |
+|     2 |         191926 |
++-------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT ZooId,FORMAT(SUM(TimeSpent),"%h:%i") FROM Visitors GROUP BY ZooId HAVING SUM(TimeSpent)>190000;
++-------+--------------------------------+
+| ZooId | FORMAT(SUM(TimeSpent),"%h:%i") |
++-------+--------------------------------+
+|     1 | 201,426                        |
+|     2 | 191,926                        |
++-------+--------------------------------+
+2 rows in set, 2 warnings (0.03 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '_____';
+Empty set (0.01 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '______';
+Empty set (0.00 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type;
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Panthera     | leo       | Carnivore |
+|     1 | Hippopotamus | amphibius | Omnivore  |
+|     1 | Elephas      | maximus   | Herbivore |
++-------+--------------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '____%';
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Hippopotamus | amphibius | Omnivore  |
+|     1 | Elephas      | maximus   | Herbivore |
++-------+--------------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT State,SUM(Animal_population) FROM Zoo GROUP BY State HAVING SUM(Animal_Population)>3000 ORDER BY SUM(Animal_Population);
++------------+------------------------+
+| State      | SUM(Animal_population) |
++------------+------------------------+
+| Goa        |                   3213 |
+| Tamil Nadu |                   3706 |
+| Haryana    |                   5917 |
++------------+------------------------+
+3 rows in set (0.04 sec)
+
+mysql> SELECT State,SUM(Animal_population) FROM Zoo GROUP BY State HAVING SUM(Animal_Population)>3000 ORDER BY DESC SUM(Animal_Population);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DESC SUM(Animal_Population)' at line 1
+mysql> SELECT State,SUM(Animal_population) FROM Zoo GROUP BY State HAVING SUM(Animal_Population)>3000 ORDER BY SUM(Animal_Population) DESC;
++------------+------------------------+
+| State      | SUM(Animal_population) |
++------------+------------------------+
+| Haryana    |                   5917 |
+| Tamil Nadu |                   3706 |
+| Goa        |                   3213 |
++------------+------------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Designation,SUM(Salary) FROM Employee GROUP BY Designation HAVING SUM(Salary)>80000 ORDER BY SUM(Salary);
++------------------------+-------------+
+| Designation            | SUM(Salary) |
++------------------------+-------------+
+| Development Director   |       95431 |
+| Veterinarian           |      260000 |
+| Aquarist               |      300000 |
+| Conservation Biologist |      350000 |
++------------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Designation,SUM(Salary) FROM Employee GROUP BY Designation HAVING SUM(Salary)>80000 ORDER BY SUM(Salary) DESC;
++------------------------+-------------+
+| Designation            | SUM(Salary) |
++------------------------+-------------+
+| Conservation Biologist |      350000 |
+| Aquarist               |      300000 |
+| Veterinarian           |      260000 |
+| Development Director   |       95431 |
++------------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql>  SELECT ZooId,SUM(TimeSpent) FROM Visitors GROUP BY ZooId HAVING SUM(TimeSpent)>120000 ;
++-------+----------------+
+| ZooId | SUM(TimeSpent) |
++-------+----------------+
+|     1 |         201426 |
+|     2 |         191926 |
+|     3 |         134753 |
++-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql>  SELECT ZooId,SUM(TimeSpent) FROM Visitors GROUP BY ZooId HAVING SUM(TimeSpent)>120000 ORDER BY  SUM(TimeSpent);
++-------+----------------+
+| ZooId | SUM(TimeSpent) |
++-------+----------------+
+|     3 |         134753 |
+|     2 |         191926 |
+|     1 |         201426 |
++-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql>  SELECT ZooId,SUM(TimeSpent) FROM Visitors GROUP BY ZooId HAVING SUM(TimeSpent)>120000 ORDER BY  SUM(TimeSpent) DESC;
++-------+----------------+
+| ZooId | SUM(TimeSpent) |
++-------+----------------+
+|     1 |         201426 |
+|     2 |         191926 |
+|     3 |         134753 |
++-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '_____%';
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Hippopotamus | amphibius | Omnivore  |
+|     1 | Elephas      | maximus   | Herbivore |
++-------+--------------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '______%';
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Hippopotamus | amphibius | Omnivore  |
+|     1 | Elephas      | maximus   | Herbivore |
++-------+--------------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '_______%';
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Hippopotamus | amphibius | Omnivore  |
+|     1 | Elephas      | maximus   | Herbivore |
++-------+--------------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '________%';
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Hippopotamus | amphibius | Omnivore  |
++-------+--------------+-----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '____%';
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Hippopotamus | amphibius | Omnivore  |
+|     1 | Elephas      | maximus   | Herbivore |
++-------+--------------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '____%' ORDER BY GENUS;
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Elephas      | maximus   | Herbivore |
+|     1 | Hippopotamus | amphibius | Omnivore  |
++-------+--------------+-----------+-----------+
+2 rows in set (0.05 sec)
+
+mysql> SELECT * FROM Feed GROUP BY Food_Type HAVING  Species LIKE '____%' ORDER BY GENUS DESC;
++-------+--------------+-----------+-----------+
+| ZooId | Genus        | Species   | Food_type |
++-------+--------------+-----------+-----------+
+|     1 | Hippopotamus | amphibius | Omnivore  |
+|     1 | Elephas      | maximus   | Herbivore |
++-------+--------------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> NOTEE;

@@ -1,0 +1,481 @@
+mysql> show tables;
++---------------+
+| Tables_in_zoo |
++---------------+
+| emp           |
+| emp1          |
+| employee      |
+| feed          |
+| food          |
+| newzoo        |
+| visit         |
+| visitors      |
+| zoo           |
++---------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+21 rows in set (0.00 sec)
+
+mysql> #TRANSACTION
+mysql> START TRANSACTION
+    -> ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES
+    -> (4,9901,'Shez','Zookeeper','2009-11-24',25000,'On Duty',DATEDIFF(CURDATE(),'2009-11-24'),PERIOD_DIFF(202110,200911));
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SAVEPOINT B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES
+    -> (4,9902,'Evan','Conservation Biologist','2009-11-24',25000,'On Duty',DATEDIFF(CURDATE(),'2009-11-24'),PERIOD_DIFF(202110,200911));
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist  | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+23 rows in set (0.00 sec)
+
+mysql> DELETE FROM EMPLOYEE WHERE EmpId = 9902;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+22 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO B;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+22 rows in set (0.04 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES
+    -> (4,9902,'Evan','Conservation Biologist','2009-11-24',25000,'On Duty',DATEDIFF(CURDATE(),'2009-11-24'),PERIOD_DIFF(202110,200911));
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist  | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+23 rows in set (0.00 sec)
+
+mysql> SAVEPOINT C;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELETE FROM EMPLOYEE WHERE EmpId = 9902;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+22 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO C;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist  | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+23 rows in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> ROLLBACK TO A;
+ERROR 1305 (42000): SAVEPOINT A does not exist
+mysql> #SET TRANSACTION
+mysql> SET TRANSACTION READ ONLY;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DELETE FROM EMPLOYEE WHERE EmpId = 9902;
+ERROR 1792 (25006): Cannot execute statement in a READ ONLY transaction.
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist  | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+23 rows in set (0.00 sec)
+
+mysql> DELETE FROM EMPLOYEE WHERE EmpId = 9902;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> START TRANSACTION READ ONLY;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES
+    -> (4,9902,'Evan','Conservation Biologist','2009-11-24',25000,'On Duty',DATEDIFF(CURDATE(),'2009-11-24'),PERIOD_DIFF(202110,200911));
+ERROR 1792 (25006): Cannot execute statement in a READ ONLY transaction.
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+22 rows in set (0.04 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES
+    -> (4,9902,'Evan','Conservation Biologist','2009-11-24',25000,'On Duty',DATEDIFF(CURDATE(),'2009-11-24'),PERIOD_DIFF(202110,200911));
+ERROR 1792 (25006): Cannot execute statement in a READ ONLY transaction.
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET TRANSACTION READ WRITE;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES
+    -> (4,9902,'Evan','Conservation Biologist','2009-11-24',25000,'On Duty',DATEDIFF(CURDATE(),'2009-11-24'),PERIOD_DIFF(202110,200911));
+Query OK, 1 row affected (0.06 sec)
+
+mysql> ROLLBACK TO A;
+ERROR 1305 (42000): SAVEPOINT A does not exist
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> START TRANSACTION READ WRITE;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELETE FROM EMPLOYEE WHERE EmpId = 9902;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> ROLLBACK TO A;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist  | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+23 rows in set (0.00 sec)
+
+mysql> #AUTOCOMMIT
+mysql> 
+mysql> SET AUTOCOMMIT = 0;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> DELETE FROM EMPLOYEE WHERE EmpId = 9902;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+22 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
+|     3 |  9812 | Annie    | Conservation Biologist  | 2020-01-22 |  90000 | On Duty  |        647 |           21 |
+|     3 |  9814 | Gabriel  | Finance Manager         | 2012-03-31 |  45000 | On Duty  |       3500 |          115 |
+|     4 |  9901 | Shez     | Zookeeper               | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
+|     4 |  9902 | Evan     | Conservation Biologist  | 2009-11-24 |  25000 | On Duty  |       4358 |          143 |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+23 rows in set (0.00 sec)
+
+mysql> SET AUTOCOMMIT = 1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> NOTEE;

@@ -1,0 +1,264 @@
+mysql> use dummydb;
+Database changed
+mysql> show tables
+    -> ;
++-------------------+
+| Tables_in_dummydb |
++-------------------+
+| students          |
++-------------------+
+1 row in set (0.06 sec)
+
+mysql> desc students
+    -> ;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| DOB             | int         | YES  |     | NULL    |       |
+| Dept            | varchar(20) | YES  |     | NULL    |       |
+| CIA1            | int         | YES  |     | NULL    |       |
+| CourseCode      | varchar(10) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.03 sec)
+
+mysql> insert into students values(2041153, "Mitali Gupta", 2002, "Computer Science", 20, "BCA");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select *from students;
++-----------------+--------------+------+------------------+------+------------+
+| Register_Number | Name         | DOB  | Dept             | CIA1 | CourseCode |
++-----------------+--------------+------+------------------+------+------------+
+|         2041153 | Mitali Gupta | 2002 | Computer Science |   20 | BCA        |
++-----------------+--------------+------+------------------+------+------------+
+1 row in set (0.04 sec)
+
+mysql> alter table students rename column DOB to Birth_Year;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| Birth_Year      | int         | YES  |     | NULL    |       |
+| Dept            | varchar(20) | YES  |     | NULL    |       |
+| CIA1            | int         | YES  |     | NULL    |       |
+| CourseCode      | varchar(10) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> insert into students (Name,CourseCode) values("Sahana","CBZ");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from students;
++-----------------+--------------+------------+------------------+------+------------+
+| Register_Number | Name         | Birth_Year | Dept             | CIA1 | CourseCode |
++-----------------+--------------+------------+------------------+------+------------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        |
++-----------------+--------------+------------+------------------+------+------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into students values(Null, "Sheuli", 2001 , "Life Sciences", 17,NUll);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select *from students;
++-----------------+--------------+------------+------------------+------+------------+
+| Register_Number | Name         | Birth_Year | Dept             | CIA1 | CourseCode |
++-----------------+--------------+------------+------------------+------+------------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NULL       |
++-----------------+--------------+------------+------------------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into students values(Null, "Sheuli", 2001 , "Life Sciences", 17,"NUll");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select *from students;
++-----------------+--------------+------------+------------------+------+------------+
+| Register_Number | Name         | Birth_Year | Dept             | CIA1 | CourseCode |
++-----------------+--------------+------------+------------------+------+------------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NULL       |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NUll       |
++-----------------+--------------+------------+------------------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql> /*we can Enter anything for null keyword --> NULL/null/nUlL*/
+mysql> /*But when null is given bw double quotes it it is taken as inputt and not as keyword*/
+mysql> insert into students values("Sankalp");
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into students (Names) values("Sankalp");
+ERROR 1054 (42S22): Unknown column 'Names' in 'field list'
+mysql> insert into students (Name) values("Sankalp");
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select *from students;
++-----------------+--------------+------------+------------------+------+------------+
+| Register_Number | Name         | Birth_Year | Dept             | CIA1 | CourseCode |
++-----------------+--------------+------------+------------------+------+------------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NULL       |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NUll       |
+|            NULL | Sankalp      |       NULL | NULL             | NULL | NULL       |
++-----------------+--------------+------------+------------------+------+------------+
+5 rows in set (0.03 sec)
+
+mysql> alter table modify Name varchar(30) not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Name varchar(30) not null' at line 1
+mysql> alter table students add loc1 varchar(30);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table students add loc2 varchar(30) not null;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table students add loc3 int;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table students add loc4 int not null;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select *from students;
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+| Register_Number | Name         | Birth_Year | Dept             | CIA1 | CourseCode | loc1 | loc2 | loc3 | loc4 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        | NULL |      | NULL |    0 |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NULL       | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NUll       | NULL |      | NULL |    0 |
+|            NULL | Sankalp      |       NULL | NULL             | NULL | NULL       | NULL |      | NULL |    0 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+5 rows in set (0.00 sec)
+
+mysql> alter table students modify Dept varchar(20) not null;
+ERROR 1138 (22004): Invalid use of NULL value
+mysql> alter table students modify Name varchar(50) not null;
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from students;
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+| Register_Number | Name         | Birth_Year | Dept             | CIA1 | CourseCode | loc1 | loc2 | loc3 | loc4 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        | NULL |      | NULL |    0 |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NULL       | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NUll       | NULL |      | NULL |    0 |
+|            NULL | Sankalp      |       NULL | NULL             | NULL | NULL       | NULL |      | NULL |    0 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into students (Name, loc2 ,loc3) values ("Vidhi",LKO,56);
+ERROR 1054 (42S22): Unknown column 'LKO' in 'field list'
+mysql> insert into students (Name, loc2 ,loc3) values ("Vidhi","LKO",56);
+ERROR 1364 (HY000): Field 'loc4' doesn't have a default value
+mysql> select * from students;
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+| Register_Number | Name         | Birth_Year | Dept             | CIA1 | CourseCode | loc1 | loc2 | loc3 | loc4 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        | NULL |      | NULL |    0 |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NULL       | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NUll       | NULL |      | NULL |    0 |
+|            NULL | Sankalp      |       NULL | NULL             | NULL | NULL       | NULL |      | NULL |    0 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into students (Name, loc2 ,loc4) values ("Vidhi","LKO",56);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from students;
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+| Register_Number | Name         | Birth_Year | Dept             | CIA1 | CourseCode | loc1 | loc2 | loc3 | loc4 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        | NULL |      | NULL |    0 |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NULL       | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NUll       | NULL |      | NULL |    0 |
+|            NULL | Sankalp      |       NULL | NULL             | NULL | NULL       | NULL |      | NULL |    0 |
+|            NULL | Vidhi        |       NULL | NULL             | NULL | NULL       | NULL | LKO  | NULL |   56 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+6 rows in set (0.04 sec)
+
+mysql> insert into students (Name, loc1 ,loc4) values ("Vidhi","LKO",56);
+ERROR 1364 (HY000): Field 'loc2' doesn't have a default value
+mysql> /*columns with default null value cant take up any value*/
+mysql> alter table students modify birth_year int default 2002;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from students;
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+| Register_Number | Name         | birth_year | Dept             | CIA1 | CourseCode | loc1 | loc2 | loc3 | loc4 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        | NULL |      | NULL |    0 |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NULL       | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NUll       | NULL |      | NULL |    0 |
+|            NULL | Sankalp      |       NULL | NULL             | NULL | NULL       | NULL |      | NULL |    0 |
+|            NULL | Vidhi        |       NULL | NULL             | NULL | NULL       | NULL | LKO  | NULL |   56 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+6 rows in set (0.00 sec)
+
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | NO   |     | NULL    |       |
+| birth_year      | int         | YES  |     | 2002    |       |
+| Dept            | varchar(20) | YES  |     | NULL    |       |
+| CIA1            | int         | YES  |     | NULL    |       |
+| CourseCode      | varchar(10) | YES  |     | NULL    |       |
+| loc1            | varchar(30) | YES  |     | NULL    |       |
+| loc2            | varchar(30) | NO   |     | NULL    |       |
+| loc3            | int         | YES  |     | NULL    |       |
+| loc4            | int         | NO   |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+10 rows in set (0.03 sec)
+
+mysql> insert into students (Name) values("Sharmin");
+ERROR 1364 (HY000): Field 'loc2' doesn't have a default value
+mysql> alter table students modify loc2 int default 0 ;
+ERROR 1366 (HY000): Incorrect integer value: '' for column 'loc2' at row 1
+mysql> alter table students modify loc2 int default "nUlL" ;
+ERROR 1067 (42000): Invalid default value for 'loc2'
+mysql> alter table students modify loc2 varchar(30) default "nUlL" ;
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into students (Name) values("Sharmin");
+ERROR 1364 (HY000): Field 'loc4' doesn't have a default value
+mysql> alter table students modify loc4 int default 1 ;
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into students (Name) values("Sharmin");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from students;
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+| Register_Number | Name         | birth_year | Dept             | CIA1 | CourseCode | loc1 | loc2 | loc3 | loc4 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+|         2041153 | Mitali Gupta |       2002 | Computer Science |   20 | BCA        | NULL |      | NULL |    0 |
+|            NULL | Sahana       |       NULL | NULL             | NULL | CBZ        | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NULL       | NULL |      | NULL |    0 |
+|            NULL | Sheuli       |       2001 | Life Sciences    |   17 | NUll       | NULL |      | NULL |    0 |
+|            NULL | Sankalp      |       NULL | NULL             | NULL | NULL       | NULL |      | NULL |    0 |
+|            NULL | Vidhi        |       NULL | NULL             | NULL | NULL       | NULL | LKO  | NULL |   56 |
+|            NULL | Sharmin      |       2002 | NULL             | NULL | NULL       | NULL | nUlL | NULL |    1 |
++-----------------+--------------+------------+------------------+------+------------+------+------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> notee;

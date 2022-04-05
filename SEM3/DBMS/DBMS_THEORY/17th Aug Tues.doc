@@ -1,0 +1,316 @@
+mysql> desc feed;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| Genus     | varchar(50)  | YES  |     | NULL    |       |
+| Species   | varchar(50)  | NO   | PRI | NULL    |       |
+| Food_Type | varchar(100) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table feed drop primary key ;
+Query OK, 0 rows affected (0.18 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc feed;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| Genus     | varchar(50)  | YES  |     | NULL    |       |
+| Species   | varchar(50)  | NO   |     | NULL    |       |
+| Food_Type | varchar(100) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc visitor;
++-----------+-------------+------+-----+----------+----------------+
+| Field     | Type        | Null | Key | Default  | Extra          |
++-----------+-------------+------+-----+----------+----------------+
+| ZooId     | int         | NO   | PRI | NULL     |                |
+| TicketNo  | int         | NO   | UNI | NULL     | auto_increment |
+| Name      | varchar(50) | YES  |     | NULL     |                |
+| VisitDate | date        | YES  |     | NULL     |                |
+| EntryTime | time        | YES  |     | 09:00:00 |                |
++-----------+-------------+------+-----+----------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table visitor drop primary key ;
+ERROR 1553 (HY000): Cannot drop index 'PRIMARY': needed in a foreign key constraint
+mysql> alter table visitor drop primary key foreign key ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key' at line 1
+mysql> desc zoo;
++-------------------+-------------+------+-----+---------+----------------+
+| Field             | Type        | Null | Key | Default | Extra          |
++-------------------+-------------+------+-----+---------+----------------+
+| ZooId             | int         | NO   | PRI | NULL    | auto_increment |
+| Name              | varchar(50) | NO   | UNI | NULL    |                |
+| State             | varchar(50) | YES  |     | NULL    |                |
+| City              | varchar(50) | YES  |     | NULL    |                |
+| Contact_No        | bigint      | YES  |     | NULL    |                |
+| Animal_Population | int         | YES  |     | NULL    |                |
+| Visitors_per_Year | int         | YES  |     | NULL    |                |
++-------------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.03 sec)
+
+mysql> alter table zoo  add foreign key(contact_no) references visitor(ticket);
+ERROR 3734 (HY000): Failed to add the foreign key constraint. Missing column 'ticket' for constraint 'zoo_ibfk_1' in the referenced table 'visitor'
+mysql> /*DATATYPE SHOULD BE SAME*/
+mysql> alter table zoo  add foreign key(visitors_per_year) references visitor(ticket);
+ERROR 3734 (HY000): Failed to add the foreign key constraint. Missing column 'ticket' for constraint 'zoo_ibfk_1' in the referenced table 'visitor'
+mysql> alter table zoo  add foreign key(contact_no) references visitor(ticketNo);
+ERROR 3780 (HY000): Referencing column 'contact_no' and referenced column 'ticketNo' in foreign key constraint 'zoo_ibfk_1' are incompatible.
+mysql> /*DATATYPE SHOULD BE SAME*/
+mysql> alter table zoo  add foreign key(visitors_per_year) references visitor(ticketNo);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`zoo`.`#sql-19fc_8`, CONSTRAINT `zoo_ibfk_1` FOREIGN KEY (`Visitors_per_Year`) REFERENCES `visitor` (`TicketNo`))
+mysql> create table dummy(ZooId int, Name varchar(50));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> alter table dummy add foreign key(ZooId) references zoo(ZooId);
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  | MUL | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table dummy drop foreign key ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> alter table dummy drop foreign key ZooId ;
+ERROR 1091 (42000): Can't DROP 'ZooId'; check that column/key exists
+mysql> show create table dummy;
++-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                   |
++-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| dummy | CREATE TABLE `dummy` (
+  `ZooId` int DEFAULT NULL,
+  `Name` varchar(50) DEFAULT NULL,
+  KEY `ZooId` (`ZooId`),
+  CONSTRAINT `dummy_ibfk_1` FOREIGN KEY (`ZooId`) REFERENCES `zoo` (`ZooId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> alter table dummy drop foreign key dummy_ibfk_1 ;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  | MUL | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql> alter table dummy drop foreign key ZooId ;
+ERROR 1091 (42000): Can't DROP 'ZooId'; check that column/key exists
+mysql> alter table dummy drop key ZooId ;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  |     | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.05 sec)
+
+mysql> alter table dummy add foreign key(ZooId) references zoo(ZooId) constraint fkid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'constraint fkid' at line 1
+mysql> alter table dummy add foreign key(ZooId) references zoo(ZooId);
+Query OK, 0 rows affected (0.18 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  | MUL | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> show create table dummy;
++-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                   |
++-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| dummy | CREATE TABLE `dummy` (
+  `ZooId` int DEFAULT NULL,
+  `Name` varchar(50) DEFAULT NULL,
+  KEY `ZooId` (`ZooId`),
+  CONSTRAINT `dummy_ibfk_1` FOREIGN KEY (`ZooId`) REFERENCES `zoo` (`ZooId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> alter table dummy drop index dummy_ibfk_1 ;
+ERROR 1091 (42000): Can't DROP 'dummy_ibfk_1'; check that column/key exists
+mysql> alter table dummy drop constraint dummy_ibfk_1 ;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  | MUL | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.04 sec)
+
+mysql> alter table dummy drop key ZooId ;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  |     | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table dummy add constraint fkid foreign key(ZooId) references zoo(ZooId) ;
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table dummy drop constaint fkid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fkid' at line 1
+mysql> show create table dummy;
++-------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                          |
++-------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| dummy | CREATE TABLE `dummy` (
+  `ZooId` int DEFAULT NULL,
+  `Name` varchar(50) DEFAULT NULL,
+  KEY `fkid` (`ZooId`),
+  CONSTRAINT `fkid` FOREIGN KEY (`ZooId`) REFERENCES `zoo` (`ZooId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.05 sec)
+
+mysql> alter table dummy drop index ZooId ;
+ERROR 1091 (42000): Can't DROP 'ZooId'; check that column/key exists
+mysql> alter table dummy drop index fkid ;
+ERROR 1553 (HY000): Cannot drop index 'fkid': needed in a foreign key constraint
+mysql> desc table dummy;
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------+
+| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------+
+|  1 | SIMPLE      | dummy | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    1 |   100.00 | NULL  |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------+
+1 row in set, 1 warning (0.04 sec)
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  | MUL | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> alter table dummy drop key fkid ;
+ERROR 1553 (HY000): Cannot drop index 'fkid': needed in a foreign key constraint
+mysql> alter table dummy drop foreign key fkid ;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table dummy drop index fkid ;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  |     | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> alter table dummy add constraint fkid foreign key(ZooId) references zoo(ZooId);
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table dummy drop foreign key fkid ;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table dummy drop constraint fkid ;
+ERROR 3940 (HY000): Constraint 'fkid' does not exist.
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  | MUL | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table dummy drop key fkid ;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table dummy add constraint fkid foreign key(ZooId) references zoo(ZooId) ;
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  | MUL | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.03 sec)
+
+mysql> alter table dummy drop foreign key fkid , drop key fkid;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  |     | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table dummy add constraint fkid foreign key(ZooId) references zoo(ZooId) ;
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  | MUL | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table dummy drop foreign key fkid , drop index fkid;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dummy;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ZooId | int         | YES  |     | NULL    |       |
+| Name  | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.03 sec)
+
+mysql> notee

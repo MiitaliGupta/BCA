@@ -1,0 +1,293 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dummydb            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> /*dummydb is a dummy database*/
+mysql> use dummydb;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_dummydb |
++-------------------+
+| students          |
++-------------------+
+1 row in set (0.01 sec)
+
+mysql> desc students;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Register_Number | int         | YES  |     | NULL    |       |
+| Name            | varchar(50) | YES  |     | NULL    |       |
+| DOB             | int         | YES  |     | NULL    |       |
+| Dept            | varchar(20) | YES  |     | NULL    |       |
+| CIA1            | int         | YES  |     | NULL    |       |
+| CourseCode      | varchar(10) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.03 sec)
+
+mysql> create dummydb2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dummydb2' at line 1
+mysql> create database dummydb2;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dummydb            |
+| dummydb2           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.01 sec)
+
+mysql> use dummydb2;
+Database changed
+mysql> create table EMP;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table EMP(empName varchar(50) empId int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empId int)' at line 1
+mysql> create table EMP(empName varchar(50),empId int);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_dummydb2 |
++--------------------+
+| emp                |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> desc emp
+    -> ;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| empName | varchar(50) | YES  |     | NULL    |       |
+| empId   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.03 sec)
+
+mysql> create table Emp2 as select empName, empId from emp;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++--------------------+
+| Tables_in_dummydb2 |
++--------------------+
+| emp                |
+| emp2               |
++--------------------+
+2 rows in set (0.03 sec)
+
+mysql> desc emp2;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| empName | varchar(50) | YES  |     | NULL    |       |
+| empId   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.03 sec)
+
+mysql> alter table emp rename to Employee;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_dummydb2 |
++--------------------+
+| emp2               |
+| employee           |
++--------------------+
+2 rows in set (0.04 sec)
+
+mysql> alter table employee rename empname to Name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to Name' at line 1
+mysql> 
+mysql> 
+mysql> alter table employee rename column empname to Name, rename column empId to Id;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Name  | varchar(50) | YES  |     | NULL    |       |
+| Id    | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.04 sec)
+
+mysql> alter table Employee add Designation varchar(30);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Id          | int         | YES  |     | NULL    |       |
+| Designation | varchar(30) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table Employee drop Designation ;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table Employee add Designation varchar(30), add Random int;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Id          | int         | YES  |     | NULL    |       |
+| Designation | varchar(30) | YES  |     | NULL    |       |
+| Random      | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> alter table Employee drop Random ;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Id          | int         | YES  |     | NULL    |       |
+| Designation | varchar(30) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table Employee modify Id long;
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Name        | varchar(50) | YES  |     | NULL    |       |
+| Id          | mediumtext  | YES  |     | NULL    |       |
+| Designation | varchar(30) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> truncate emp2;
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_dummydb2 |
++--------------------+
+| emp2               |
+| employee           |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> desc emp2;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| empName | varchar(50) | YES  |     | NULL    |       |
+| empId   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.03 sec)
+
+mysql> select * from emp2;
+Empty set (0.00 sec)
+
+mysql> /*TRUNCATE COMMAND DELETES DATA INSIDE THE TABLE BUT NOT THE TABLE ITSELF*/
+mysql> 
+mysql> delete employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> delete table employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table employee' at line 1
+mysql> delete from table employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table employee' at line 1
+mysql> delete from employee;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_dummydb2 |
++--------------------+
+| emp2               |
+| employee           |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> /*DELETE COMMAND DELETES DATA INSIDE THE TABLE BUT NOT THE TABLE ITSELF*/
+mysql> 
+mysql> drop emp2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'emp2' at line 1
+mysql> drop table emp2;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_dummydb2 |
++--------------------+
+| employee           |
++--------------------+
+1 row in set (0.03 sec)
+
+mysql> show datbases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'datbases' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dummydb            |
+| dummydb2           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.04 sec)
+
+mysql> drop dummydb2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dummydb2' at line 1
+mysql> drop database dummydb2;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dummydb            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> notee;

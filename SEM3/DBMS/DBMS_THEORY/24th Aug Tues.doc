@@ -1,0 +1,551 @@
+mysql> select count(city) from city;
+ERROR 1054 (42S22): Unknown column 'city' in 'field list'
+mysql> select count(name) from city;
++-------------+
+| count(name) |
++-------------+
+|        4079 |
++-------------+
+1 row in set (0.06 sec)
+
+mysql> select count(countrycode) from city;
++--------------------+
+| count(countrycode) |
++--------------------+
+|               4079 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(distinct countrycode) from city;
++-----------------------------+
+| count(distinct countrycode) |
++-----------------------------+
+|                         232 |
++-----------------------------+
+1 row in set (0.04 sec)
+
+mysql> select distinct count(countrycode) from city;
++--------------------+
+| count(countrycode) |
++--------------------+
+|               4079 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(distinct countrycode=AFG) from city;
+ERROR 1054 (42S22): Unknown column 'AFG' in 'field list'
+mysql> select count(countrycode=AFG) from city;
+ERROR 1054 (42S22): Unknown column 'AFG' in 'field list'
+mysql> select name,count(distinct countrycode=AFG) from city;
+ERROR 1054 (42S22): Unknown column 'AFG' in 'field list'
+mysql> select name,count(distinct countrycode) from city;
++-------+-----------------------------+
+| name  | count(distinct countrycode) |
++-------+-----------------------------+
+| Kabul |                         232 |
++-------+-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(name),count( countrycode) from city;
++-------------+---------------------+
+| count(name) | count( countrycode) |
++-------------+---------------------+
+|        4079 |                4079 |
++-------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(name),count(distinct countrycode) from city;
++-------------+-----------------------------+
+| count(name) | count(distinct countrycode) |
++-------------+-----------------------------+
+|        4079 |                         232 |
++-------------+-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(name) groupby(distinct countrycode) from city;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(distinct countrycode) from city' at line 1
+mysql> select count(name) groupby(countrycode) from city;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(countrycode) from city' at line 1
+mysql> select count(name) groupby countrycode from city;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'countrycode from city' at line 1
+mysql> select count(name) group by countrycode from city;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from city' at line 1
+mysql> select count(name) from city group by countrycode;
++-------------+
+| count(name) |
++-------------+
+|           1 |
+|           4 |
+|           5 |
+|           2 |
+|           1 |
+|           1 |
+|           1 |
+|           5 |
+|          57 |
+|           3 |
+|           2 |
+|           1 |
+|          14 |
+|           6 |
+|           4 |
+|           1 |
+|           9 |
+|           4 |
+|           3 |
+|          24 |
+|          10 |
+|           1 |
+|           1 |
+|           3 |
+|          16 |
+|           2 |
+|           2 |
+|           8 |
+|         250 |
+|           1 |
+|           1 |
+|           1 |
+|           2 |
+|           1 |
+|          49 |
+|           2 |
+|           5 |
+|          29 |
+|         363 |
+|           5 |
+|           7 |
+|          18 |
+|           2 |
+|           1 |
+|          38 |
+|           1 |
+|           1 |
+|           1 |
+|          14 |
+|           1 |
+|           1 |
+|           2 |
+|          10 |
+|          93 |
+|           1 |
+|           1 |
+|           5 |
+|           6 |
+|          18 |
+|          15 |
+|          37 |
+|           1 |
+|           1 |
+|          59 |
+|           2 |
+|           7 |
+|           7 |
+|           1 |
+|           1 |
+|          40 |
+|           1 |
+|           2 |
+|           1 |
+|          81 |
+|           5 |
+|           5 |
+|           1 |
+|           1 |
+|           2 |
+|           2 |
+|           1 |
+|           1 |
+|           8 |
+|           1 |
+|           1 |
+|           4 |
+|           1 |
+|           2 |
+|           1 |
+|           2 |
+|           3 |
+|           4 |
+|           4 |
+|           9 |
+|          85 |
+|         341 |
+|           2 |
+|          67 |
+|          15 |
+|           1 |
+|          14 |
+|          58 |
+|           3 |
+|           5 |
+|         248 |
+|          21 |
+|           8 |
+|           2 |
+|           3 |
+|           2 |
+|           1 |
+|          70 |
+|           3 |
+|           2 |
+|           2 |
+|           1 |
+|           4 |
+|           1 |
+|           2 |
+|           7 |
+|           1 |
+|           5 |
+|           1 |
+|           3 |
+|           1 |
+|          22 |
+|           2 |
+|           4 |
+|           5 |
+|           1 |
+|         173 |
+|           1 |
+|           1 |
+|           1 |
+|           2 |
+|          16 |
+|           1 |
+|           1 |
+|          12 |
+|           2 |
+|           1 |
+|           1 |
+|           3 |
+|           2 |
+|          18 |
+|           1 |
+|           1 |
+|           1 |
+|           3 |
+|           1 |
+|          64 |
+|           4 |
+|           1 |
+|          28 |
+|           5 |
+|           5 |
+|           2 |
+|           9 |
+|           5 |
+|          59 |
+|           2 |
+|           1 |
+|          22 |
+|         136 |
+|           1 |
+|           1 |
+|          44 |
+|           9 |
+|          13 |
+|           5 |
+|           5 |
+|           6 |
+|           2 |
+|           1 |
+|           1 |
+|          29 |
+|         189 |
+|           1 |
+|          24 |
+|          12 |
+|           9 |
+|           1 |
+|           1 |
+|           1 |
+|           1 |
+|           1 |
+|           7 |
+|           2 |
+|           3 |
+|           1 |
+|           1 |
+|           1 |
+|           3 |
+|           2 |
+|          15 |
+|           1 |
+|           1 |
+|          11 |
+|           1 |
+|           2 |
+|           1 |
+|          12 |
+|           2 |
+|           1 |
+|           4 |
+|           1 |
+|           1 |
+|           2 |
+|           8 |
+|          62 |
+|           1 |
+|          42 |
+|          10 |
+|           1 |
+|          57 |
+|           1 |
+|         274 |
+|          17 |
+|           1 |
+|           1 |
+|          41 |
+|           1 |
+|           1 |
+|          22 |
+|           1 |
+|           1 |
+|           1 |
+|           6 |
+|           8 |
+|          44 |
+|           7 |
+|           6 |
++-------------+
+232 rows in set (0.01 sec)
+
+mysql> select count(name),countrycode from city group by countrycode;
++-------------+-------------+
+| count(name) | countrycode |
++-------------+-------------+
+|           1 | ABW         |
+|           4 | AFG         |
+|           5 | AGO         |
+|           2 | AIA         |
+|           1 | ALB         |
+|           1 | AND         |
+|           1 | ANT         |
+|           5 | ARE         |
+|          57 | ARG         |
+|           3 | ARM         |
+|           2 | ASM         |
+|           1 | ATG         |
+|          14 | AUS         |
+|           6 | AUT         |
+|           4 | AZE         |
+|           1 | BDI         |
+|           9 | BEL         |
+|           4 | BEN         |
+|           3 | BFA         |
+|          24 | BGD         |
+|          10 | BGR         |
+|           1 | BHR         |
+|           1 | BHS         |
+|           3 | BIH         |
+|          16 | BLR         |
+|           2 | BLZ         |
+|           2 | BMU         |
+|           8 | BOL         |
+|         250 | BRA         |
+|           1 | BRB         |
+|           1 | BRN         |
+|           1 | BTN         |
+|           2 | BWA         |
+|           1 | CAF         |
+|          49 | CAN         |
+|           2 | CCK         |
+|           5 | CHE         |
+|          29 | CHL         |
+|         363 | CHN         |
+|           5 | CIV         |
+|           7 | CMR         |
+|          18 | COD         |
+|           2 | COG         |
+|           1 | COK         |
+|          38 | COL         |
+|           1 | COM         |
+|           1 | CPV         |
+|           1 | CRI         |
+|          14 | CUB         |
+|           1 | CXR         |
+|           1 | CYM         |
+|           2 | CYP         |
+|          10 | CZE         |
+|          93 | DEU         |
+|           1 | DJI         |
+|           1 | DMA         |
+|           5 | DNK         |
+|           6 | DOM         |
+|          18 | DZA         |
+|          15 | ECU         |
+|          37 | EGY         |
+|           1 | ERI         |
+|           1 | ESH         |
+|          59 | ESP         |
+|           2 | EST         |
+|           7 | ETH         |
+|           7 | FIN         |
+|           1 | FJI         |
+|           1 | FLK         |
+|          40 | FRA         |
+|           1 | FRO         |
+|           2 | FSM         |
+|           1 | GAB         |
+|          81 | GBR         |
+|           5 | GEO         |
+|           5 | GHA         |
+|           1 | GIB         |
+|           1 | GIN         |
+|           2 | GLP         |
+|           2 | GMB         |
+|           1 | GNB         |
+|           1 | GNQ         |
+|           8 | GRC         |
+|           1 | GRD         |
+|           1 | GRL         |
+|           4 | GTM         |
+|           1 | GUF         |
+|           2 | GUM         |
+|           1 | GUY         |
+|           2 | HKG         |
+|           3 | HND         |
+|           4 | HRV         |
+|           4 | HTI         |
+|           9 | HUN         |
+|          85 | IDN         |
+|         341 | IND         |
+|           2 | IRL         |
+|          67 | IRN         |
+|          15 | IRQ         |
+|           1 | ISL         |
+|          14 | ISR         |
+|          58 | ITA         |
+|           3 | JAM         |
+|           5 | JOR         |
+|         248 | JPN         |
+|          21 | KAZ         |
+|           8 | KEN         |
+|           2 | KGZ         |
+|           3 | KHM         |
+|           2 | KIR         |
+|           1 | KNA         |
+|          70 | KOR         |
+|           3 | KWT         |
+|           2 | LAO         |
+|           2 | LBN         |
+|           1 | LBR         |
+|           4 | LBY         |
+|           1 | LCA         |
+|           2 | LIE         |
+|           7 | LKA         |
+|           1 | LSO         |
+|           5 | LTU         |
+|           1 | LUX         |
+|           3 | LVA         |
+|           1 | MAC         |
+|          22 | MAR         |
+|           2 | MCO         |
+|           4 | MDA         |
+|           5 | MDG         |
+|           1 | MDV         |
+|         173 | MEX         |
+|           1 | MHL         |
+|           1 | MKD         |
+|           1 | MLI         |
+|           2 | MLT         |
+|          16 | MMR         |
+|           1 | MNG         |
+|           1 | MNP         |
+|          12 | MOZ         |
+|           2 | MRT         |
+|           1 | MSR         |
+|           1 | MTQ         |
+|           3 | MUS         |
+|           2 | MWI         |
+|          18 | MYS         |
+|           1 | MYT         |
+|           1 | NAM         |
+|           1 | NCL         |
+|           3 | NER         |
+|           1 | NFK         |
+|          64 | NGA         |
+|           4 | NIC         |
+|           1 | NIU         |
+|          28 | NLD         |
+|           5 | NOR         |
+|           5 | NPL         |
+|           2 | NRU         |
+|           9 | NZL         |
+|           5 | OMN         |
+|          59 | PAK         |
+|           2 | PAN         |
+|           1 | PCN         |
+|          22 | PER         |
+|         136 | PHL         |
+|           1 | PLW         |
+|           1 | PNG         |
+|          44 | POL         |
+|           9 | PRI         |
+|          13 | PRK         |
+|           5 | PRT         |
+|           5 | PRY         |
+|           6 | PSE         |
+|           2 | PYF         |
+|           1 | QAT         |
+|           1 | REU         |
+|          29 | ROM         |
+|         189 | RUS         |
+|           1 | RWA         |
+|          24 | SAU         |
+|          12 | SDN         |
+|           9 | SEN         |
+|           1 | SGP         |
+|           1 | SHN         |
+|           1 | SJM         |
+|           1 | SLB         |
+|           1 | SLE         |
+|           7 | SLV         |
+|           2 | SMR         |
+|           3 | SOM         |
+|           1 | SPM         |
+|           1 | STP         |
+|           1 | SUR         |
+|           3 | SVK         |
+|           2 | SVN         |
+|          15 | SWE         |
+|           1 | SWZ         |
+|           1 | SYC         |
+|          11 | SYR         |
+|           1 | TCA         |
+|           2 | TCD         |
+|           1 | TGO         |
+|          12 | THA         |
+|           2 | TJK         |
+|           1 | TKL         |
+|           4 | TKM         |
+|           1 | TMP         |
+|           1 | TON         |
+|           2 | TTO         |
+|           8 | TUN         |
+|          62 | TUR         |
+|           1 | TUV         |
+|          42 | TWN         |
+|          10 | TZA         |
+|           1 | UGA         |
+|          57 | UKR         |
+|           1 | URY         |
+|         274 | USA         |
+|          17 | UZB         |
+|           1 | VAT         |
+|           1 | VCT         |
+|          41 | VEN         |
+|           1 | VGB         |
+|           1 | VIR         |
+|          22 | VNM         |
+|           1 | VUT         |
+|           1 | WLF         |
+|           1 | WSM         |
+|           6 | YEM         |
+|           8 | YUG         |
+|          44 | ZAF         |
+|           7 | ZMB         |
+|           6 | ZWE         |
++-------------+-------------+
+232 rows in set (0.01 sec)
+
+mysql> notee;

@@ -1,0 +1,112 @@
+mysql> SELECT * FROM EMPLOYEE;
+ERROR 1046 (3D000): No database selected
+mysql> use zoo;
+Database changed
+mysql> SELECT * FROM EMPLOYEE;
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+| ZooId | EmpID | Name     | Designation             | Hire_Date  | Salary | Status   | DaysWorked | MonthsWorked |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+|     1 |  1001 | Alex     | Veterinarian            | 2020-04-01 |  85000 | On Duty  |        524 |           17 |
+|     2 |  3242 | Aiden    | Zookeeper               | 2011-10-13 |  25000 | On Duty  |       3617 |          119 |
+|     3 |  3243 | Dan      | Zookeeper               | 2021-09-07 |  30000 | On Duty  |          0 |            0 |
+|     2 |  3435 | Rick     | Development Director    | 2015-09-01 |  95431 | On Duty  |       2198 |         NULL |
+|     3 |  4387 | Ron      | Aquarist                | 2010-10-14 | 130000 | On Duty  |       3981 |         NULL |
+|     1 |  4533 | Ray      | Zookeeper               | 2019-05-07 |  25000 | On Duty  |        854 |         NULL |
+|     1 |  4643 | Josefine | Chief Operating Officer | 2004-06-04 |  35000 | On Duty  |       6304 |         NULL |
+|     1 |  4862 | Norine   | Curator of Exhibits     | 2010-08-12 |   NULL | On Duty  |       4044 |         NULL |
+|     1 |  5446 | Stella   | Conservation Biologist  | 2016-03-09 | 250000 | Off Duty |       2008 |         NULL |
+|     3 |  5465 | Rebecca  | Curator of Exhibits     | 2021-09-07 |  45000 | On Duty  |          0 |         NULL |
+|     1 |  5642 | Bianca   | Aquarist                | 2018-11-15 | 125000 | Off Duty |       1027 |         NULL |
+|     1 |  6432 | Val      | Finance Manager         | 2011-10-13 |   NULL | On Duty  |       3617 |         NULL |
+|     2 |  6512 | Mitchel  | Veterinarian            | 2009-10-27 |  85000 | On Duty  |       4333 |         NULL |
+|     2 |  7956 | Sarah    | Cheif Operating Officer | 2009-01-12 |  30000 | On Duty  |       4621 |         NULL |
+|     2 |  8932 | Frank    | Conservation Biologist  | 2020-12-09 | 100000 | Off Duty |        272 |         NULL |
+|     2 |  8945 | Rex      | Finance Manager         | 2008-02-01 |  30000 | On Duty  |       4967 |         NULL |
+|     1 |  8975 | Samual   | Curator of Horticulture | 2010-07-01 |   NULL | On Duty  |       4086 |         NULL |
+|     2 |  8979 | Anna     | Aquarist                | 2010-03-08 |  45000 | On Duty  |       4201 |         NULL |
+|     3 |  9743 | Maddison | Veterinarian            | 2012-05-22 |  90000 | On Duty  |       3395 |         NULL |
++-------+-------+----------+-------------------------+------------+--------+----------+------------+--------------+
+19 rows in set (0.01 sec)
+
+mysql> SELECT Name,Salary FROM EMPLOYEE WHERE Salary>80000
+    -> ;
++----------+--------+
+| Name     | Salary |
++----------+--------+
+| Alex     |  85000 |
+| Rick     |  95431 |
+| Ron      | 130000 |
+| Stella   | 250000 |
+| Bianca   | 125000 |
+| Mitchel  |  85000 |
+| Frank    | 100000 |
+| Maddison |  90000 |
++----------+--------+
+8 rows in set (0.01 sec)
+
+mysql> SELECT COUNT(DISTINCT Designation) FROM EMPLOYEE;
++-----------------------------+
+| COUNT(DISTINCT Designation) |
++-----------------------------+
+|                          10 |
++-----------------------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT AVG(Salary) FROM EMPLYEE;
+ERROR 1146 (42S02): Table 'zoo.emplyee' doesn't exist
+mysql> SELECT AVG(Salary) FROM EMPLOYEE;
++-------------+
+| AVG(Salary) |
++-------------+
+|  76589.4375 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MIN(Salary),NAME,DESIGNATION FROM EMPLOYEE;
++-------------+------+--------------+
+| MIN(Salary) | NAME | DESIGNATION  |
++-------------+------+--------------+
+|       25000 | Alex | Veterinarian |
++-------------+------+--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT SUM(Salary) FROM EMPLOYEE;
++-------------+
+| SUM(Salary) |
++-------------+
+|     1225431 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(salary), Designation FROM EMPLOYEE;
++---------------+--------------+
+| COUNT(salary) | Designation  |
++---------------+--------------+
+|            16 | Veterinarian |
++---------------+--------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT COUNT(salary), Designation FROM EMPLOYEE GROUP BY DESIGNATION;
++---------------+-------------------------+
+| COUNT(salary) | Designation             |
++---------------+-------------------------+
+|             3 | Veterinarian            |
+|             3 | Zookeeper               |
+|             1 | Development Director    |
+|             3 | Aquarist                |
+|             1 | Chief Operating Officer |
+|             1 | Curator of Exhibits     |
+|             2 | Conservation Biologist  |
+|             1 | Finance Manager         |
+|             1 | Cheif Operating Officer |
+|             0 | Curator of Horticulture |
++---------------+-------------------------+
+10 rows in set (0.00 sec)
+
+mysql> #THE GROUP BY STATEMENT IN SQL IS USED TO ARRANGE IDENTICAL DATA INTO GROUPS WITH THE HELP OF SOME FUNCTIONS,ie,IF A PARTICULAR COLUMN HAS THE SAME VALUES IN DIFFERENT ROWS THEN IT WILL ARRANGE THESE ROWS IN A GROUP
+mysql> #HERE WE CAN SEE THAT WHEN COUNT IS USED WITHOUT GROUP BY THE TOTAL COUNT IS GIVEN WITH THE FIRST ENTRY IN THE DESIGNATION COLUMN WHEREAS WE WANTED THE COUNT OF EMPLOYEES IN EACH DESIGNATION
+mysql> 
+mysql> 
+mysql> 
+mysql> #WHERE CLAUSE IS USED TO FILTER THE RECORDS FROM THE TABLE BASED ON THE SPECIFIED CONDITION. HAVING CLAUSE IS USED TO FILTER RECORDS FROM THE GROUPS BASED ON THE SPECIFIED CONDITION.
+mysql> NOTEE;

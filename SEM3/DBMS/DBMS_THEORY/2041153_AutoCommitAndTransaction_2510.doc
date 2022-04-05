@@ -1,0 +1,388 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dummydb            |
+| hospitals          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
+| zoo                |
++--------------------+
+9 rows in set (0.04 sec)
+
+mysql> use dummydb;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_dummydb |
++-------------------+
+| cs_faculty        |
+| cs_faculty1       |
+| customers         |
+| marks             |
+| marks1            |
+| marks2            |
+| marks3            |
+| orders            |
+| students          |
++-------------------+
+9 rows in set (0.05 sec)
+
+mysql> create table Random(A int, B varchar(50) DEFAULT 'Random Data', C int default 5);
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> INSERT INTO RANDOM VALUES
+    -> (1),(2),(3),(4);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO RANDOM(A) VALUES
+    -> (1),(2),(3),(4);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
++------+-------------+------+
+4 rows in set (0.02 sec)
+
+mysql> SET AUTOCOMMIT = 0;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> #NOW THE CHANGES WONT BE SAVED AUTOMATICALLY TILL AUTOCOMMIT IS SET TO 1
+mysql> INSERT INTO RANDOM(A) VALUES
+    -> (5),(6);
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SET SAVEPOINT A;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'A' at line 1
+mysql> SAVEPOIN T A;\
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SAVEPOIN T A' at line 1
+mysql> SAVEPOIN T A;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SAVEPOIN T A' at line 1
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
++------+-------------+------+
+6 rows in set (0.02 sec)
+
+mysql> DELETE FROM RANDOM WHERE A IN(6);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
++------+-------------+------+
+5 rows in set (0.00 sec)
+
+mysql> SAVEPOINT B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELETE FROM RANDOM WHERE A IN(1,2);
+Query OK, 2 rows affected (0.00 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
++------+-------------+------+
+3 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO SAVEPOINT B;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
++------+-------------+------+
+5 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
++------+-------------+------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO RANDOM(A) VALUES
+    -> (5),(6),(7),(8);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SET AUTOCOMMIT = 1;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
+|    7 | Random Data |    5 |
+|    8 | Random Data |    5 |
++------+-------------+------+
+8 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
+|    7 | Random Data |    5 |
+|    8 | Random Data |    5 |
++------+-------------+------+
+8 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> #TRANSACTION
+mysql> 
+mysql> START TRANSACTION
+    -> ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> #NOW THE CHANGES WONT BE SAVED AUTOMATICALLY UNTILL WE USE 'COMMIT' KEYWORD
+mysql> INSERT INTO RANDOM(A) VALUES
+    -> (9),(10);
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
+|    7 | Random Data |    5 |
+|    8 | Random Data |    5 |
+|    9 | Random Data |    5 |
+|   10 | Random Data |    5 |
++------+-------------+------+
+10 rows in set (0.00 sec)
+
+mysql> DELETE FROM RANDOM WHERE A IN(1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SAVEPOINT B;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELETE FROM RANDOM WHERE A IN(2);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
+|    7 | Random Data |    5 |
+|    8 | Random Data |    5 |
+|    9 | Random Data |    5 |
+|   10 | Random Data |    5 |
++------+-------------+------+
+8 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
+|    7 | Random Data |    5 |
+|    8 | Random Data |    5 |
+|    9 | Random Data |    5 |
+|   10 | Random Data |    5 |
++------+-------------+------+
+10 rows in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
+|    7 | Random Data |    5 |
+|    8 | Random Data |    5 |
+|    9 | Random Data |    5 |
+|   10 | Random Data |    5 |
++------+-------------+------+
+10 rows in set (0.00 sec)
+
+mysql> #TRANSACTION WITH READ ONLY AND READ WRITE MODES
+mysql> SET TRANSACTION TO READ ONLY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TO READ ONLY' at line 1
+mysql> SET TRANSACTION READ ONLY;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELETE FROM RANDOM WHERE A IN(1);
+ERROR 1792 (25006): Cannot execute statement in a READ ONLY transaction.
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    1 | Random Data |    5 |
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
+|    7 | Random Data |    5 |
+|    8 | Random Data |    5 |
+|    9 | Random Data |    5 |
+|   10 | Random Data |    5 |
++------+-------------+------+
+10 rows in set (0.00 sec)
+
+mysql> DELETE FROM RANDOM WHERE A IN(1);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> SET TRANSACTION READ WRITE;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET TRANSACTION READ WRITE;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO RANDOM(A) VALUES
+    -> (11),(12);
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
+|    7 | Random Data |    5 |
+|    8 | Random Data |    5 |
+|    9 | Random Data |    5 |
+|   10 | Random Data |    5 |
+|   11 | Random Data |    5 |
+|   12 | Random Data |    5 |
++------+-------------+------+
+11 rows in set (0.00 sec)
+
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO RANDOM(A) VALUES
+    -> (12),(13);
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> ROLLBACK TO SAVEPOINT A;
+ERROR 1305 (42000): SAVEPOINT A does not exist
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM RANDOM;
++------+-------------+------+
+| A    | B           | C    |
++------+-------------+------+
+|    2 | Random Data |    5 |
+|    3 | Random Data |    5 |
+|    4 | Random Data |    5 |
+|    5 | Random Data |    5 |
+|    6 | Random Data |    5 |
+|    7 | Random Data |    5 |
+|    8 | Random Data |    5 |
+|    9 | Random Data |    5 |
+|   10 | Random Data |    5 |
+|   11 | Random Data |    5 |
+|   12 | Random Data |    5 |
+|   12 | Random Data |    5 |
+|   13 | Random Data |    5 |
++------+-------------+------+
+13 rows in set (0.00 sec)
+
+mysql> NOTEE;
+
+
+
