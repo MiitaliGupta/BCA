@@ -1,0 +1,19 @@
+christ id
+
+https://docs.google.com/document/d/1f_nfQl3kEq83QdlVRyt7bHiczZIzZiTsFYNGScrfXuw/edit
+https://www.youtube.com/playlist?list=PLhQjrBD2T382_R182iC2gNZI9HzWFMC_8
+https://www.youtube.com/playlist?list=PLxCzCOWd7aiFAN6I8CuViBuCdJgiOkT2Y
+
+dzz
+
+https://learntodroid.com/how-to-use-git-and-github-in-android-studio/
+https://www.youtube.com/watch?v=mXjZQX3UzOs
+https://material.io/design/color/the-color-system.html#color-usage-and-palettes
+https://material.io/design
+https://www.oversec.io/
+https://www.geeksforgeeks.org/asymmetric-encryption-cryptography-in-java/
+https://developer.android.com/oauth2callback?state=%7B%22csrf_token%22%3A+%22f32305f5b7907bbba8e5dfeef834032cf4f3e35e8a5dc4f913ed876fa8b91528%22%2C+%22return_url%22%3A+%22https%3A%2F%2Fdeveloper.android.com%2Fstudio%2Fbuild%2Fshrink-code%3Fauthuser%3D2%22%7D&code=4%2F0AX4XfWixREEiMm30o7gNAvKYn-owyAeaSVvx9_dA4d9-klr3XR3x4GRf1vRCMVmtTnn43g&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdeveloperprofiles+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdeveloperprofiles.award+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgoogledevelopers&authuser=0&prompt=none
+
+mitali2103
+
+https://roadmap.sh/

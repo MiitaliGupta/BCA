@@ -1,0 +1,24 @@
+
+CUSTOMER DETAILS
+
+
+NAME		:	sara
+CONTACT NO.	:	9876543210
+ANIMAL		:	Rabbit
+BREED		:	English Spot
+
+
+NAME		:	Yeshashwani
+CONTACT NO.	:	9341836280
+ANIMAL		:	Dog
+BREED		:	German Sheperd
+
+NAME		:	sankalp
+CONTACT NO.	:	7544880090
+ANIMAL		:	Dog
+BREED		:	German Sheperd
+
+NAME		:	Sejal 5
+CONTACT NO.	:	6397296248
+ANIMAL		:	Dog
+BREED		:	Labrador
