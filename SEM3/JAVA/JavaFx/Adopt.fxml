@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1042.0" prefWidth="1862.0" style="-fx-background-color: e1c699 e1c699;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="43.0" layoutY="47.0" prefHeight="956.0" prefWidth="561.0" style="-fx-background-color: black;">
+         <children>
+            <Text fill="WHITE" layoutX="172.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Breeds">
+               <font>
+                  <Font size="70.0" />
+               </font>
+            </Text>
+            <RadioButton layoutX="144.0" layoutY="250.0" mnemonicParsing="false" text="Husky" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </RadioButton>
+            <RadioButton layoutX="144.0" layoutY="340.0" mnemonicParsing="false" text="Labrador" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </RadioButton>
+            <RadioButton layoutX="144.0" layoutY="433.0" mnemonicParsing="false" text="Retriever" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </RadioButton>
+            <RadioButton layoutX="144.0" layoutY="620.0" mnemonicParsing="false" text="Akita" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </RadioButton>
+            <RadioButton layoutX="144.0" layoutY="528.0" mnemonicParsing="false" text="Corgi" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </RadioButton>
+            <RadioButton layoutX="144.0" layoutY="711.0" mnemonicParsing="false" text="Indian Mastif" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </RadioButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="656.0" layoutY="46.0" prefHeight="956.0" prefWidth="561.0" style="-fx-background-color: black;">
+         <children>
+            <ImageView fitHeight="783.0" fitWidth="561.0" layoutX="17.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Blog%20Cover%20Welcome%20(3).png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="78.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Animal Alcove">
+               <font>
+                  <Font size="70.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="1264.0" layoutY="45.0" prefHeight="962.0" prefWidth="561.0" style="-fx-background-color: black;">
+         <children>
+            <Text fill="WHITE" layoutX="175.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Details">
+               <font>
+                  <Font size="70.0" />
+               </font>
+            </Text>
+            <TextField layoutX="56.0" layoutY="289.0" prefHeight="62.0" prefWidth="452.0" promptText="Name">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </TextField>
+            <TextField layoutX="56.0" layoutY="380.0" prefHeight="62.0" prefWidth="452.0" promptText="Contact Number">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </TextField>
+            <TextArea layoutX="55.0" layoutY="510.0" prefHeight="129.0" prefWidth="455.0" promptText="Address">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </TextArea>
+            <CheckBox layoutX="80.0" layoutY="786.0" mnemonicParsing="false" text="Do you agree to all the Terms &amp; Conditions ?" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </CheckBox>
+            <Button layoutX="182.0" layoutY="838.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="199.0" text="Adopt">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
